@@ -21,12 +21,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/create-saas-app-ai-chat.git"
+    "url": "https://github.com/A1X6/create-saas-app-ai-chat.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/create-saas-app-ai-chat/issues"
+    "url": "https://github.com/A1X6/create-saas-app-ai-chat/issues"
   },
-  "homepage": "https://github.com/yourusername/create-saas-app-ai-chat#readme",
+  "homepage": "https://github.com/A1X6/create-saas-app-ai-chat#readme",
   "files": [
     "template",
     "index.js",
