@@ -1,6 +1,6 @@
 {
   "name": "create-saas-app-ai-chat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create a production-ready personal SaaS with Next.js, Supabase, and Stripe",
   "main": "index.js",
   "bin": {
