@@ -4,7 +4,7 @@
   "description": "Create a production-ready personal SaaS with Next.js, Supabase, and Stripe",
   "main": "index.js",
   "bin": {
-    "create-saas-app-ai-chat": "./index.js"
+    "create-saas-app-ai-chat": "index.js"
   },
   "keywords": [
     "nextjs",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/A1X6/create-saas-app-ai-chat.git"
+    "url": "git+https://github.com/A1X6/create-saas-app-ai-chat.git"
   },
   "bugs": {
     "url": "https://github.com/A1X6/create-saas-app-ai-chat/issues"
