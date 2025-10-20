@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//e/Projects/saas-template/**)",
+      "Bash(test -f .npmignore)",
+      "Bash(test -f template/.env.example)",
+      "Bash(rm -rf node_modules .next .git .claude)",
+      "Bash(rm -f .env.local pnpm-lock.yaml)",
+      "Bash(rm -rf template/docs/screenshots template/docs/videos)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

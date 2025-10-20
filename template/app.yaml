@@ -1,0 +1,73 @@
+# Google Cloud App Engine Configuration
+# This file configures the deployment to Google App Engine
+#
+# Deploy with: gcloud app deploy
+#
+# Note: For production deployments, use Cloud Run for better performance and cost efficiency
+# This configuration is provided for App Engine Standard Environment
+
+runtime: nodejs20
+
+# Instance configuration
+instance_class: F2
+
+# Automatic scaling configuration
+automatic_scaling:
+  min_instances: 0
+  max_instances: 10
+  target_cpu_utilization: 0.65
+  target_throughput_utilization: 0.65
+
+# Environment variables
+# IMPORTANT: Set these in Google Cloud Console or via gcloud command
+# DO NOT commit sensitive values to version control
+env_variables:
+  NODE_ENV: "production"
+  # NEXT_PUBLIC_SUPABASE_URL: "set-via-console"
+  # NEXT_PUBLIC_SUPABASE_ANON_KEY: "set-via-console"
+  # SUPABASE_SERVICE_ROLE_KEY: "set-via-console"
+  # DATABASE_URL: "set-via-console"
+  # STRIPE_SECRET_KEY: "set-via-console"
+  # NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: "set-via-console"
+  # STRIPE_WEBHOOK_SECRET: "set-via-console"
+  # NEXT_PUBLIC_BASE_URL: "https://your-project-id.appspot.com"
+  # RESEND_API_KEY: "set-via-console"
+  # RESEND_FROM_EMAIL: "set-via-console"
+  # RESEND_TO_EMAIL: "set-via-console"
+  # OPENROUTER_API_KEY: "set-via-console"
+  # AI_TEMPERATURE: "0.7"
+  # CRON_SECRET: "set-via-console"
+  SETUP_COMPLETE: "true"
+
+# Build command
+build:
+  - pnpm install
+  - pnpm build
+
+# Handlers for static files (optional optimization)
+handlers:
+  # Serve static files from _next/static with long cache
+  - url: /_next/static
+    static_dir: .next/static
+    secure: always
+    expiration: 1y
+
+  # All other requests go to Next.js
+  - url: /.*
+    script: auto
+    secure: always
+
+# Skip files to reduce deployment size
+skip_files:
+  - ^(.*/)?#.*#$
+  - ^(.*/)?.*~$
+  - ^(.*/)?.*\.py[co]$
+  - ^(.*/)?.*/RCS/.*$
+  - ^(.*/)?\..*$
+  - ^(.*/)?.*\.md$
+  - ^(.*/)?docs/.*$
+  - ^(.*/)?node_modules/(@types|typescript|eslint|prettier)/.*$
+  - ^(.*/)?\.git/.*$
+  - ^(.*/)?\.github/.*$
+  - ^(.*/)?\.vscode/.*$
+  - ^(.*/)?\.idea/.*$

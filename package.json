@@ -1,0 +1,43 @@
+{
+  "name": "create-saas-app-ai-chat",
+  "version": "1.0.0",
+  "description": "Create a production-ready personal SaaS with Next.js, Supabase, and Stripe",
+  "main": "index.js",
+  "bin": {
+    "create-saas-app-ai-chat": "./index.js"
+  },
+  "keywords": [
+    "nextjs",
+    "saas",
+    "template",
+    "supabase",
+    "stripe",
+    "starter",
+    "boilerplate",
+    "personal-saas",
+    "subscription"
+  ],
+  "author": "A1X6",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/create-saas-app-ai-chat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/create-saas-app-ai-chat/issues"
+  },
+  "homepage": "https://github.com/yourusername/create-saas-app-ai-chat#readme",
+  "files": [
+    "template",
+    "index.js",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "fs-extra": "^11.2.0",
+    "ora": "^5.4.1"
+  }
+}

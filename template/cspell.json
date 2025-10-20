@@ -1,0 +1,7 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": ["culori", "oklch"],
+  "flagWords": [],
+  "ignorePaths": ["node_modules/**", "dist/**", ".git/**"]
+}

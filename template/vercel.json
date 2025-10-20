@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/reset-yearly-credits",
+      "schedule": "0 0 1 * *"
+    },
+    {
+      "path": "/api/cron/reset-free-tokens",
+      "schedule": "0 0 1 * *"
+    }
+  ]
+}
