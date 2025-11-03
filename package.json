@@ -1,6 +1,6 @@
 {
   "name": "create-saas-app-ai-chat",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Create a production-ready AI SaaS with Next.js, Supabase, Stripe, and OpenRouter - 15+ AI models included",
   "main": "index.js",
   "bin": {
