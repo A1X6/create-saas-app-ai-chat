@@ -1,8 +1,8 @@
 import { stripe } from '@/lib/payments/stripe-client';
-import { PricingHero } from './pricing-hero';
-import { FeatureComparison } from './feature-comparison';
-import { FAQSection } from './faq-section';
-import { PricingFinalCTA } from './final-cta';
+import { PricingHero } from '@/components/pricing/pricing-hero';
+import { FeatureComparison } from '@/components/pricing/feature-comparison';
+import { FAQSection } from '@/components/pricing/faq-section';
+import { PricingFinalCTA } from '@/components/pricing/final-cta';
 import type Stripe from 'stripe';
 import type { Metadata } from 'next';
 

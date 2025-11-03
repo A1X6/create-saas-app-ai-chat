@@ -19,7 +19,7 @@ import content from "./mission-vision-values-content.json";
 
 export function MissionVisionValues() {
   // Icon mapping
-  const iconMap: Record<string, React.ComponentType<any>> = {
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
     Lightbulb,
     Users,
     Award,
@@ -39,7 +39,10 @@ export function MissionVisionValues() {
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-16 space-y-4">
-            <Badge variant="outline" className="px-4 py-2 bg-background/60 backdrop-blur-sm border-primary/20">
+            <Badge
+              variant="outline"
+              className="px-4 py-2 bg-background/60 backdrop-blur-sm border-primary/20"
+            >
               {content.sectionBadge}
             </Badge>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
@@ -57,7 +60,10 @@ export function MissionVisionValues() {
           <BlurFade delay={0.2}>
             <Tabs defaultValue="mission" className="mb-16">
               <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
-                <TabsTrigger value="mission" className="flex items-center gap-2">
+                <TabsTrigger
+                  value="mission"
+                  className="flex items-center gap-2"
+                >
                   <Target className="w-4 h-4" />
                   {content.tabs.mission.label}
                 </TabsTrigger>
@@ -74,10 +80,15 @@ export function MissionVisionValues() {
                       <div className="p-3 rounded-xl bg-primary/10">
                         <Target className="h-8 w-8 text-primary" />
                       </div>
-                      <h3 className="text-2xl font-bold">{content.tabs.mission.title}</h3>
+                      <h3 className="text-2xl font-bold">
+                        {content.tabs.mission.title}
+                      </h3>
                     </div>
                     {content.tabs.mission.paragraphs.map((paragraph, index) => (
-                      <p key={index} className="text-lg text-muted-foreground leading-relaxed">
+                      <p
+                        key={index}
+                        className="text-lg text-muted-foreground leading-relaxed"
+                      >
                         {paragraph}
                       </p>
                     ))}
@@ -92,10 +103,15 @@ export function MissionVisionValues() {
                       <div className="p-3 rounded-xl bg-primary/10">
                         <Eye className="h-8 w-8 text-primary" />
                       </div>
-                      <h3 className="text-2xl font-bold">{content.tabs.vision.title}</h3>
+                      <h3 className="text-2xl font-bold">
+                        {content.tabs.vision.title}
+                      </h3>
                     </div>
                     {content.tabs.vision.paragraphs.map((paragraph, index) => (
-                      <p key={index} className="text-lg text-muted-foreground leading-relaxed">
+                      <p
+                        key={index}
+                        className="text-lg text-muted-foreground leading-relaxed"
+                      >
                         {paragraph}
                       </p>
                     ))}
@@ -108,7 +124,9 @@ export function MissionVisionValues() {
           {/* Core Values */}
           <div className="space-y-8">
             <div className="text-center">
-              <h3 className="text-3xl font-bold mb-4">{content.values.sectionTitle}</h3>
+              <h3 className="text-3xl font-bold mb-4">
+                {content.values.sectionTitle}
+              </h3>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                 {content.values.sectionDescription}
               </p>

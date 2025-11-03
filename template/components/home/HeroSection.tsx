@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import VariableProximity from '@/components/VariableProximity';
+import VariableProximity from '@/components/home/VariableProximity';
 
 export function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);

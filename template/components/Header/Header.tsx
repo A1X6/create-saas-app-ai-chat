@@ -5,7 +5,7 @@ import Link from "next/link";
 import { GalleryVerticalEnd, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 import {
   Sheet,
   SheetContent,
@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/sheet";
 import { signOutAction } from "@/lib/actions/auth-actions";
 import { createClient } from "@/lib/supabase/client";
-import content from "./Header/content.json";
+import content from "./content.json";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -25,7 +25,9 @@ export default function Header() {
   useEffect(() => {
     const checkAuth = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       setIsLoggedIn(!!user);
       setIsLoading(false);
     };
@@ -34,7 +36,9 @@ export default function Header() {
 
     // Listen for auth state changes
     const supabase = createClient();
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsLoggedIn(!!session?.user);
     });
 
@@ -55,9 +59,14 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <Link
+            href="/"
+            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          >
             <GalleryVerticalEnd className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg hidden sm:inline-block">{'{{APP_NAME}}'}</span>
+            <span className="font-bold text-lg hidden sm:inline-block">
+              {"{{APP_NAME}}"}
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -88,7 +97,9 @@ export default function Header() {
                     <Button asChild variant="ghost">
                       <Link href="/dashboard">{content.auth.dashboard}</Link>
                     </Button>
-                    <Button onClick={handleLogout}>{content.auth.logout}</Button>
+                    <Button onClick={handleLogout}>
+                      {content.auth.logout}
+                    </Button>
                   </>
                 ) : (
                   <>
@@ -116,10 +127,14 @@ export default function Header() {
               <div className="flex items-center justify-between mb-4">
                 <Link href="/" className="flex items-center gap-2">
                   <GalleryVerticalEnd className="h-6 w-6 text-primary" />
-                  <span className="text-lg font-semibold">{'{{APP_NAME}}'}</span>
+                  <span className="text-lg font-semibold">
+                    {"{{APP_NAME}}"}
+                  </span>
                 </Link>
                 <SheetHeader>
-                  <SheetTitle className="sr-only">{content.mobile.menuTitle}</SheetTitle>
+                  <SheetTitle className="sr-only">
+                    {content.mobile.menuTitle}
+                  </SheetTitle>
                 </SheetHeader>
               </div>
               <div className="flex flex-col gap-4 mt-2">
@@ -147,11 +162,16 @@ export default function Header() {
                       {isLoggedIn ? (
                         <>
                           <Button asChild variant="ghost">
-                            <Link href="/dashboard" onClick={() => setOpen(false)}>
+                            <Link
+                              href="/dashboard"
+                              onClick={() => setOpen(false)}
+                            >
                               {content.auth.dashboard}
                             </Link>
                           </Button>
-                          <Button onClick={handleLogout}>{content.auth.logout}</Button>
+                          <Button onClick={handleLogout}>
+                            {content.auth.logout}
+                          </Button>
                         </>
                       ) : (
                         <>

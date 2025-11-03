@@ -1,5 +1,5 @@
 import { getActivityLogs, getUser } from '@/lib/db/queries';
-import { AccountPageClient } from './account-client';
+import { AccountPageClient } from '@/components/account/account-client';
 import type { Metadata } from 'next';
 
 // Force dynamic rendering

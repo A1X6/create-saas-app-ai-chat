@@ -1,6 +1,6 @@
 'use client';
 
-import Plasma from '@/components/Plasma';
+import Plasma from '@/components/home/Plasma';
 
 export function PlasmaBackground() {
   return (

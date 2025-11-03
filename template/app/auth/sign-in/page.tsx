@@ -1,4 +1,4 @@
-import { LoginForm } from '@/app/auth/sign-in/login-form';
+import { LoginForm } from '@/components/auth/sign-in/login-form';
 import type { Metadata } from 'next';
 
 // Static Site Generation - Auth pages can be pre-rendered

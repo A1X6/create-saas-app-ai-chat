@@ -14,7 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { forgotPasswordAction } from '@/lib/actions/auth-actions';
 import { toast } from 'sonner';
-import content from './content.json';
+import content from '@/components/auth/forgot-password/content.json';
 
 export default function ForgotPasswordPage() {
   const [state, formAction, isPending] = useActionState(forgotPasswordAction, null);

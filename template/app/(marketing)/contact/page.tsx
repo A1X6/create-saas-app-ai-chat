@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { ContactHero } from "./contact-hero";
-import { ContactOptionsCards } from "./contact-options-cards";
-import { ContactFormSection } from "./contact-form-section";
-import { FAQSection } from "./faq-section";
-import { SocialSection } from "./social-section";
-import { FinalCTA } from "./final-cta";
+import { ContactHero } from "@/components/contact/contact-hero";
+import { ContactOptionsCards } from "@/components/contact/contact-options-cards";
+import { ContactFormSection } from "@/components/contact/contact-form-section";
+import { FAQSection } from "@/components/contact/faq-section";
+import { SocialSection } from "@/components/contact/social-section";
+import { FinalCTA } from "@/components/contact/final-cta";
 
 export const dynamic = 'force-static';
 

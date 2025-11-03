@@ -1,7 +1,7 @@
 "use client";
 
 import { Twitter, Linkedin, Github, MessageCircle, Share2 } from "lucide-react";
-import SpotlightCard from "@/components/SpotlightCard";
+import SpotlightCard from "@/components/home/SpotlightCard";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { Badge } from "@/components/ui/badge";
@@ -41,7 +41,10 @@ export function SocialSection() {
         <div className="max-w-4xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-16 space-y-4">
-            <Badge variant="outline" className="px-4 py-2 bg-background/60 backdrop-blur-sm border-primary/20">
+            <Badge
+              variant="outline"
+              className="px-4 py-2 bg-background/60 backdrop-blur-sm border-primary/20"
+            >
               <Share2 className="w-4 h-4 mr-2 text-primary" />
               Connect With Us
             </Badge>
@@ -64,12 +67,16 @@ export function SocialSection() {
             <SpotlightCard className="p-8">
               <div className="flex items-center gap-3 mb-6 justify-center">
                 <h3 className="text-2xl font-bold">Connect With Us</h3>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                <Badge
+                  variant="secondary"
+                  className="bg-primary/10 text-primary border-primary/20"
+                >
                   Remote-First
                 </Badge>
               </div>
               <p className="text-muted-foreground mb-8 text-center">
-                Follow us on social media for updates, tips, and community discussions
+                Follow us on social media for updates, tips, and community
+                discussions
               </p>
 
               <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
@@ -89,7 +96,8 @@ export function SocialSection() {
 
               <div className="mt-8 pt-6 border-t border-border text-center">
                 <p className="text-sm text-muted-foreground">
-                  <strong>Remote-first company</strong> serving clients worldwide
+                  <strong>Remote-first company</strong> serving clients
+                  worldwide
                 </p>
               </div>
             </SpotlightCard>

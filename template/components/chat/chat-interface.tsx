@@ -7,8 +7,8 @@ import { Send, Loader2, Sparkles, User as UserIcon } from "lucide-react";
 import {
   ArtifactCard,
   ArtifactCardSkeleton,
-} from "@/app/(protected)/dashboard/chat/artifact-card";
-import { ArtifactDrawer } from "@/app/(protected)/dashboard/chat/artifact-drawer";
+} from "@/components/chat/artifact-card";
+import { ArtifactDrawer } from "@/components/chat/artifact-drawer";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -122,8 +122,6 @@ export function ChatbotElevenLabs({ user, conversationId }: ChatbotProps) {
 
   const isTrialing = user.subscriptionStatus === "trialing";
   const hasActiveSubscription = user.subscriptionStatus === "active";
-  const isUnsubscribed =
-    !user.subscriptionStatus || (!isTrialing && !hasActiveSubscription);
   const availableModels = AI_MODELS; // All users can access all models (all are paid)
 
   // Get orb colors from CSS variables

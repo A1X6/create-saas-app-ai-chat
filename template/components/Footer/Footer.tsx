@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import content from "./Footer/content.json";
+import content from "./content.json";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();

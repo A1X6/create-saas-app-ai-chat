@@ -30,7 +30,7 @@ import {
   saveProfitMargin,
 } from '@/lib/actions/stripe-actions';
 import { calculateAICredits } from '@/lib/utils/stripe-utils';
-import { ProductForm } from './product-form';
+import { ProductForm } from '@/components/setup/stripe/product-form';
 
 type StripeStatus = {
   connected: boolean;

@@ -1,7 +1,13 @@
 "use client";
 
-import { Mail, MessageSquare, ArrowRight, Sparkles, LucideIcon } from "lucide-react";
-import SpotlightCard from "@/components/SpotlightCard";
+import {
+  Mail,
+  MessageSquare,
+  ArrowRight,
+  Sparkles,
+  LucideIcon,
+} from "lucide-react";
+import SpotlightCard from "@/components/home/SpotlightCard";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import { Badge } from "@/components/ui/badge";
@@ -26,7 +32,10 @@ export function ContactOptionsCards() {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
-          <Badge variant="outline" className="px-4 py-2 bg-background/60 backdrop-blur-sm border-primary/20">
+          <Badge
+            variant="outline"
+            className="px-4 py-2 bg-background/60 backdrop-blur-sm border-primary/20"
+          >
             <Sparkles className="w-4 h-4 mr-2 text-primary" />
             {content.badge.text}
           </Badge>

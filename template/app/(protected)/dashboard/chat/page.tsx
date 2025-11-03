@@ -1,11 +1,11 @@
-import { ChatbotElevenLabs } from "@/app/(protected)/dashboard/chat/chat-interface";
+import { ChatbotElevenLabs } from "@/components/chat/chat-interface";
 import { getUser } from "@/lib/db/queries";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import { LowCreditWarning } from "@/app/(protected)/dashboard/low-credit-warning";
+import { LowCreditWarning } from "@/components/dashboard/low-credit-warning";
 import type { Metadata } from "next";
 
 // Force dynamic rendering

@@ -32,14 +32,13 @@ export const metadata: Metadata = {
 import {
   CreditCard,
   User as UserIcon,
-  TrendingUp,
   Activity as ActivityIcon,
   ArrowRight,
   Zap,
   MessageSquare,
   Settings,
   Clock,
-  CheckCircle2,
+
   AlertCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -52,10 +51,10 @@ import {
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
-import { UsageChartsLazy } from "@/app/(protected)/dashboard/usage-charts-lazy";
-import { LowCreditWarning } from "@/app/(protected)/dashboard/low-credit-warning";
-import { UpgradeCard } from "@/app/(protected)/dashboard/upgrade-card";
-import content from "./page-content.json";
+import { UsageChartsLazy } from "@/components/dashboard/usage-charts-lazy";
+import { LowCreditWarning } from "@/components/dashboard/low-credit-warning";
+import { UpgradeCard } from "@/components/dashboard/upgrade-card";
+import content from "@/components/dashboard/page-content.json";
 
 type User = {
   id: string;

@@ -8,7 +8,7 @@ import {
   FieldGroup,
 } from '@/components/ui/field';
 import type { Metadata } from 'next';
-import content from './content.json';
+import content from '@/components/auth/error/content.json';
 
 export const metadata: Metadata = {
   title: content.metadata.title,

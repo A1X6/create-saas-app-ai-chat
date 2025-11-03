@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { AboutHero } from "./about-hero";
-import { MissionVisionValues } from "./mission-vision-values";
-import { StatsSection } from "./stats-section";
-import { FinalCTA } from "./final-cta";
+import { AboutHero } from "@/components/about/about-hero";
+import { MissionVisionValues } from "@/components/about/mission-vision-values";
+import { StatsSection } from "@/components/about/stats-section";
+import { FinalCTA } from "@/components/about/final-cta";
 
 export const dynamic = 'force-static';
 

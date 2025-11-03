@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Flex } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 const robotoFlex = Roboto_Flex({

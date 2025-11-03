@@ -19,7 +19,7 @@ import content from "./stats-section-content.json";
 
 export function StatsSection() {
   // Icon mapping
-  const iconMap: Record<string, React.ComponentType<any>> = {
+  const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
     TrendingUp,
     Users,
     Sparkles,
@@ -41,7 +41,10 @@ export function StatsSection() {
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
           <div className="text-center mb-16 space-y-4">
-            <Badge variant="outline" className="px-4 py-2 bg-background/60 backdrop-blur-sm border-primary/20">
+            <Badge
+              variant="outline"
+              className="px-4 py-2 bg-background/60 backdrop-blur-sm border-primary/20"
+            >
               {content.sectionBadge}
             </Badge>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
@@ -79,11 +82,17 @@ export function StatsSection() {
                         <span className="text-4xl font-bold text-foreground">
                           {stat.value >= 1000000 ? (
                             <>
-                              <NumberTicker value={Math.floor(stat.value / 1000000)} />M
+                              <NumberTicker
+                                value={Math.floor(stat.value / 1000000)}
+                              />
+                              M
                             </>
                           ) : stat.value >= 1000 ? (
                             <>
-                              <NumberTicker value={Math.floor(stat.value / 1000)} />K
+                              <NumberTicker
+                                value={Math.floor(stat.value / 1000)}
+                              />
+                              K
                             </>
                           ) : (
                             <NumberTicker value={stat.value} />
@@ -116,11 +125,14 @@ export function StatsSection() {
                   {content.featuredCallout.heading}
                 </AnimatedGradientText>
                 <p className="text-xl text-muted-foreground">
-                  {content.featuredCallout.description} {'{{APP_NAME}}'}
+                  {content.featuredCallout.description} {"{{APP_NAME}}"}
                 </p>
                 <div className="flex items-center justify-center gap-1 pt-4">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-8 h-8 fill-primary text-primary" />
+                    <Star
+                      key={i}
+                      className="w-8 h-8 fill-primary text-primary"
+                    />
                   ))}
                 </div>
                 <p className="text-sm text-muted-foreground">

@@ -13,7 +13,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { signOutAction } from "@/lib/actions/auth-actions";
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 import content from "./dashboard-header-content.json";
 
 export function DashboardHeader() {

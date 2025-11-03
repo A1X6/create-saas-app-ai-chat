@@ -1,4 +1,4 @@
-import { PlasmaBackground } from "@/components/PlasmaBackground";
+import { PlasmaBackground } from "@/components/home/PlasmaBackground";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { AnimatedGradientText } from "@/components/magicui/animated-gradient-text";
@@ -20,14 +20,14 @@ import {
   BookmarkPlus,
   Brain,
 } from "lucide-react";
-import SpotlightCard from "@/components/SpotlightCard";
-import { HeroSection } from "@/components/HeroSection";
+import SpotlightCard from "@/components/home/SpotlightCard";
+import { HeroSection } from "@/components/home/HeroSection";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import content from './content.json';
+import content from "@/components/home/content.json";
 
 // Static Site Generation for optimal performance and SEO
 export const dynamic = "force-static";
@@ -496,7 +496,7 @@ export default function HomePage() {
                 </TextAnimate>
               </h2>
               <p className="text-xl text-muted-foreground">
-                {'Everything you need to know about {{APP_NAME}}'}
+                {"Everything you need to know about {{APP_NAME}}"}
               </p>
             </div>
 
@@ -548,7 +548,7 @@ export default function HomePage() {
                   {/* Description */}
                   <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
                     Join thousands of professionals who are already mastering AI
-                    prompt engineering with {'{{APP_NAME}}'}.
+                    prompt engineering with {"{{APP_NAME}}"}.
                   </p>
 
                   {/* CTA Buttons */}

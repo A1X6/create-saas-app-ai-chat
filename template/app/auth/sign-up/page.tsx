@@ -1,4 +1,4 @@
-import { SignupForm } from '@/app/auth/sign-up/signup-form';
+import { SignupForm } from '@/components/auth/sign-up/signup-form';
 import type { Metadata } from 'next';
 
 // Static Site Generation - Auth pages can be pre-rendered

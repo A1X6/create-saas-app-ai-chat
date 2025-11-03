@@ -14,7 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { updatePasswordAction } from '@/lib/actions/auth-actions';
 import { toast } from 'sonner';
-import content from './content.json';
+import content from '@/components/auth/update-password/content.json';
 
 export default function UpdatePasswordPage() {
   const [state, formAction, isPending] = useActionState(updatePasswordAction, null);

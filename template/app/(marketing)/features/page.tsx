@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { HeroSection } from "./hero-section";
-import { FeatureGrid } from "./feature-grid";
-import { DetailedFeatures } from "./detailed-features";
-import { FAQSection } from "./faq-section";
-import { CTASection } from "./cta-section";
-import { ParticlesBackground } from "./particles-background";
+import { HeroSection } from "@/components/features/hero-section";
+import { FeatureGrid } from "@/components/features/feature-grid";
+import { DetailedFeatures } from "@/components/features/detailed-features";
+import { FAQSection } from "@/components/features/faq-section";
+import { CTASection } from "@/components/features/cta-section";
+import { ParticlesBackground } from "@/components/features/particles-background";
 
 export const dynamic = "force-static";
 

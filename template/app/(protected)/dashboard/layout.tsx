@@ -1,5 +1,5 @@
-import { DashboardSidebar } from "@/app/(protected)/dashboard/dashboard-sidebar";
-import { DashboardHeader } from "@/app/(protected)/dashboard/dashboard-header";
+import { DashboardSidebar } from "@/components/dashboard/dashboard-sidebar";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { getUserConversations, getUser } from "@/lib/db/queries";
 import type { Metadata } from "next";
