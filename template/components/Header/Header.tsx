@@ -38,9 +38,12 @@ export default function Header() {
     const supabase = createClient();
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsLoggedIn(!!session?.user);
-    });
+    } = supabase.auth.onAuthStateChange(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (_event: any, session: any) => {
+        setIsLoggedIn(!!session?.user);
+      }
+    );
 
     return () => {
       subscription.unsubscribe();

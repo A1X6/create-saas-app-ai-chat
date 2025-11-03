@@ -39,6 +39,3 @@ next-env.d.ts
 
 # drizzle
 *.db
-
-# setup wizard
-.setup-complete

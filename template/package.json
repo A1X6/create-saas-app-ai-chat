@@ -16,7 +16,7 @@
     "prompts:convert": "tsx scripts/convert-prompts.ts"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^0.9.3",
+    "@neondatabase/serverless": "^0.10.0",
     "@playwright/test": "^1.56.1",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
