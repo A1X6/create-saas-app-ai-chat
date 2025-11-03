@@ -13,6 +13,7 @@ import { getModelById } from "@/lib/ai/models";
 import { manageContext } from "@/lib/ai/context-manager";
 import { getFirstPrompt } from "@/lib/prompts";
 import { detectArtifact } from "@/lib/ai/artifact-detector";
+import { acquireLock, releaseLock } from "@/lib/utils/request-lock";
 import { z } from "zod";
 import actionMessages from "./messages.json";
 
@@ -41,6 +42,16 @@ export async function sendChatAction(formData: FormData) {
       return {
         success: false,
         message: actionMessages.chat.send.errors.notLoggedIn,
+      };
+    }
+
+    // Acquire lock to prevent concurrent requests from the same user
+    // This prevents race conditions in credit deduction
+    const lockAcquired = acquireLock(user.id);
+    if (!lockAcquired) {
+      return {
+        success: false,
+        message: "Please wait for your current request to complete before sending another message.",
       };
     }
 
@@ -107,6 +118,7 @@ export async function sendChatAction(formData: FormData) {
     // Enforce access restrictions based on subscription status
     if (isUnsubscribed) {
       // UNSUBSCRIBED USERS (no subscription at all)
+      releaseLock(user.id);
       return {
         success: false,
         message: actionMessages.chat.send.errors.noSubscription,
@@ -114,6 +126,7 @@ export async function sendChatAction(formData: FormData) {
     } else if (isTrialing) {
       // TRIAL USERS - check credits
       if (!hasCredits) {
+        releaseLock(user.id);
         return {
           success: false,
           message: actionMessages.chat.send.errors.trialDepleted,
@@ -128,6 +141,7 @@ export async function sendChatAction(formData: FormData) {
     } else if (hasActiveSubscription) {
       // ACTIVE PAID SUBSCRIPTION - check credits
       if (!hasCredits) {
+        releaseLock(user.id);
         return {
           success: false,
           message: actionMessages.chat.send.errors.noCredits,
@@ -159,8 +173,10 @@ export async function sendChatAction(formData: FormData) {
       );
 
       if (!deductionSuccessful) {
-        // Another request consumed the credits before this one completed
-        // This can happen with concurrent requests
+        // Deduction failed - insufficient credits
+        // This shouldn't happen since we checked before, but could occur
+        // if credits were consumed by another process (though lock prevents this)
+        releaseLock(user.id);
         return {
           success: false,
           message: actionMessages.chat.send.errors.insufficientCredits
@@ -215,6 +231,9 @@ export async function sendChatAction(formData: FormData) {
     const updatedUser = await getUser();
     const creditsRemaining = updatedUser?.aiCreditsBalance || 0;
 
+    // Release lock before returning
+    releaseLock(user.id);
+
     // Return response with artifact detection info
     return {
       success: true,
@@ -230,6 +249,13 @@ export async function sendChatAction(formData: FormData) {
       isNewConversation,
     };
   } catch (error) {
+    // IMPORTANT: Release lock even on error
+    // Get user ID from the current scope (user might be undefined if auth failed)
+    const user = await getUser();
+    if (user) {
+      releaseLock(user.id);
+    }
+
     if (error instanceof z.ZodError) {
       return {
         success: false,
