@@ -7,37 +7,45 @@ import {
   integer,
   numeric,
   boolean,
+  check,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 // User Profiles (extends Supabase auth.users)
-export const userProfiles = pgTable("user_profiles", {
-  id: uuid("id").primaryKey(), // References auth.users(id)
-  name: varchar("name", { length: 100 }),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+export const userProfiles = pgTable(
+  "user_profiles",
+  {
+    id: uuid("id").primaryKey(), // References auth.users(id)
+    name: varchar("name", { length: 100 }),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
 
-  // Stripe fields (per-user subscriptions)
-  stripeCustomerId: text("stripe_customer_id").unique(),
-  stripeSubscriptionId: text("stripe_subscription_id").unique(),
-  stripeProductId: text("stripe_product_id"),
-  planName: varchar("plan_name", { length: 50 }),
-  subscriptionStatus: varchar("subscription_status", { length: 20 }),
+    // Stripe fields (per-user subscriptions)
+    stripeCustomerId: text("stripe_customer_id").unique(),
+    stripeSubscriptionId: text("stripe_subscription_id").unique(),
+    stripeProductId: text("stripe_product_id"),
+    planName: varchar("plan_name", { length: 50 }),
+    subscriptionStatus: varchar("subscription_status", { length: 20 }),
 
-  // AI Credits (monetary balance in USD for paid subscriptions)
-  aiCreditsBalance: numeric("ai_credits_balance", { precision: 10, scale: 6 })
-    .notNull()
-    .default("0.000000"),
-  aiCreditsAllocated: numeric("ai_credits_allocated", {
-    precision: 10,
-    scale: 6,
-  })
-    .notNull()
-    .default("0.000000"),
-  aiCreditsUsed: numeric("ai_credits_used", { precision: 10, scale: 6 })
-    .notNull()
-    .default("0.000000"),
-});
+    // AI Credits (monetary balance in USD for paid subscriptions)
+    aiCreditsBalance: numeric("ai_credits_balance", { precision: 10, scale: 6 })
+      .notNull()
+      .default("0.000000"),
+    aiCreditsAllocated: numeric("ai_credits_allocated", {
+      precision: 10,
+      scale: 6,
+    })
+      .notNull()
+      .default("0.000000"),
+    aiCreditsUsed: numeric("ai_credits_used", { precision: 10, scale: 6 })
+      .notNull()
+      .default("0.000000"),
+  },
+  (table) => [
+    // Ensure credits can never go negative
+    check("check_credits_non_negative", sql`${table.aiCreditsBalance} >= 0`),
+  ]
+);
 
 // Activity Logs (per-user activity tracking)
 export const activityLogs = pgTable("activity_logs", {

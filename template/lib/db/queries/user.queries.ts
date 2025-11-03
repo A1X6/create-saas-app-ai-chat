@@ -1,8 +1,7 @@
-import { eq } from 'drizzle-orm';
-import { cache } from 'react';
-import { db } from '../index';
-import { userProfiles } from '../schema';
-import { createClient } from '@/lib/supabase/server';
+import { eq } from "drizzle-orm";
+import { db } from "../index";
+import { userProfiles } from "../schema";
+import { createClient } from "@/lib/supabase/server";
 
 /**
  * User Profile Queries
@@ -16,9 +15,10 @@ import { createClient } from '@/lib/supabase/server';
 
 /**
  * Get current authenticated user from Supabase with profile data
- * Uses React cache to prevent duplicate queries in the same request
+ * Note: Cache removed to ensure fresh credit balance data on each call
+ * This prevents stale data issues after credit deductions
  */
-export const getUser = cache(async () => {
+export async function getUser() {
   const supabase = await createClient();
   const {
     data: { user },
@@ -45,11 +45,17 @@ export const getUser = cache(async () => {
     stripeProductId: profile?.stripeProductId || null,
     planName: profile?.planName || null,
     subscriptionStatus: profile?.subscriptionStatus || null,
-    aiCreditsBalance: profile?.aiCreditsBalance ? parseFloat(profile.aiCreditsBalance) : 0,
-    aiCreditsAllocated: profile?.aiCreditsAllocated ? parseFloat(profile.aiCreditsAllocated) : 0,
-    aiCreditsUsed: profile?.aiCreditsUsed ? parseFloat(profile.aiCreditsUsed) : 0,
+    aiCreditsBalance: profile?.aiCreditsBalance
+      ? parseFloat(profile.aiCreditsBalance)
+      : 0,
+    aiCreditsAllocated: profile?.aiCreditsAllocated
+      ? parseFloat(profile.aiCreditsAllocated)
+      : 0,
+    aiCreditsUsed: profile?.aiCreditsUsed
+      ? parseFloat(profile.aiCreditsUsed)
+      : 0,
   };
-});
+}
 
 /**
  * Get or create user profile
@@ -71,7 +77,7 @@ export async function getOrCreateUserProfile(userId: string, email: string) {
     .insert(userProfiles)
     .values({
       id: userId,
-      name: email.split('@')[0], // Default name from email
+      name: email.split("@")[0], // Default name from email
     })
     .returning();
 
@@ -95,7 +101,10 @@ export async function getUserByStripeCustomerId(customerId: string) {
 /**
  * Update user profile information (name, etc.)
  */
-export async function updateUserProfile(userId: string, data: { name?: string }) {
+export async function updateUserProfile(
+  userId: string,
+  data: { name?: string }
+) {
   await db
     .update(userProfiles)
     .set({

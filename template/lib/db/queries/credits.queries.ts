@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm';
-import { db } from '../index';
-import { userProfiles } from '../schema';
+import { eq, sql } from "drizzle-orm";
+import { db } from "../index";
+import { userProfiles } from "../schema";
 
 /**
  * AI Credits Queries
@@ -15,27 +15,32 @@ import { userProfiles } from '../schema';
 /**
  * Deduct AI credits after API usage
  * Called after each paid AI model request with actual cost
+ *
+ * Uses atomic SQL operations to prevent race conditions when multiple
+ * requests try to deduct credits concurrently for the same user.
+ *
+ * Returns true if deduction was successful, false if insufficient credits.
  */
-export async function deductAICredits(userId: string, costInDollars: number) {
-  const [profile] = await db
-    .select()
-    .from(userProfiles)
-    .where(eq(userProfiles.id, userId))
-    .limit(1);
-
-  if (!profile) return;
-
-  const currentBalance = parseFloat(profile.aiCreditsBalance || '0');
-  const currentUsed = parseFloat(profile.aiCreditsUsed || '0');
-
-  await db
+export async function deductAICredits(
+  userId: string,
+  costInDollars: number
+): Promise<boolean> {
+  // Use atomic database-level arithmetic with WHERE clause to prevent negative balance
+  // This ensures credits are deducted correctly even with concurrent requests
+  const result = await db
     .update(userProfiles)
     .set({
-      aiCreditsBalance: (currentBalance - costInDollars).toFixed(6),
-      aiCreditsUsed: (currentUsed + costInDollars).toFixed(6),
+      aiCreditsBalance: sql`${userProfiles.aiCreditsBalance} - ${costInDollars}`,
+      aiCreditsUsed: sql`${userProfiles.aiCreditsUsed} + ${costInDollars}`,
       updatedAt: new Date(),
     })
-    .where(eq(userProfiles.id, userId));
+    .where(
+      sql`${userProfiles.id} = ${userId} AND ${userProfiles.aiCreditsBalance} >= ${costInDollars}`
+    )
+    .returning();
+
+  // If no rows were updated, it means insufficient credits
+  return result.length > 0;
 }
 
 /**
@@ -67,18 +72,18 @@ export async function resetAICredits(userId: string, creditsAmount?: number) {
 
   if (!profile) return;
 
-  const allocated = creditsAmount !== undefined
-    ? creditsAmount
-    : parseFloat(profile.aiCreditsAllocated || '0');
+  const allocated =
+    creditsAmount !== undefined
+      ? creditsAmount
+      : parseFloat(profile.aiCreditsAllocated || "0");
 
   await db
     .update(userProfiles)
     .set({
       aiCreditsBalance: allocated.toFixed(6),
       aiCreditsAllocated: allocated.toFixed(6),
-      aiCreditsUsed: '0.000000', // Reset usage counter on new billing cycle
+      aiCreditsUsed: "0.000000", // Reset usage counter on new billing cycle
       updatedAt: new Date(),
     })
     .where(eq(userProfiles.id, userId));
 }
-

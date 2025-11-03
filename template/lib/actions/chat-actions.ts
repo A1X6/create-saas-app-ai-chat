@@ -150,19 +150,24 @@ export async function sendChatAction(formData: FormData) {
     );
 
     // Deduct credits for all users (trial and paid)
+    // This is done atomically at the database level to prevent race conditions
     if (response.costInDollars > 0) {
-      const newBalance = creditsBalance - response.costInDollars;
-      if (newBalance < 0) {
+      // Attempt atomic deduction - will fail if insufficient credits
+      const deductionSuccessful = await deductAICredits(
+        user.id,
+        response.costInDollars
+      );
+
+      if (!deductionSuccessful) {
+        // Another request consumed the credits before this one completed
+        // This can happen with concurrent requests
         return {
           success: false,
           message: actionMessages.chat.send.errors.insufficientCredits
-            .replace('{{cost}}', response.costInDollars.toFixed(4))
-            .replace('{{balance}}', creditsBalance.toFixed(2)),
+            .replace("{{cost}}", response.costInDollars.toFixed(4))
+            .replace("{{balance}}", creditsBalance.toFixed(2)),
         };
       }
-
-      // Deduct actual API cost from user credits
-      await deductAICredits(user.id, response.costInDollars);
     }
 
     // Only save messages AFTER AI responds successfully
@@ -206,8 +211,9 @@ export async function sendChatAction(formData: FormData) {
       modelToUse
     );
 
-    // Calculate remaining credits
-    const creditsRemaining = creditsBalance - response.costInDollars;
+    // Get fresh credit balance after deduction to return accurate value
+    const updatedUser = await getUser();
+    const creditsRemaining = updatedUser?.aiCreditsBalance || 0;
 
     // Return response with artifact detection info
     return {
