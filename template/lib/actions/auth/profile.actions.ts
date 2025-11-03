@@ -3,6 +3,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { updateUserProfile, logActivity } from '@/lib/db/queries';
 import { ActivityType } from '@/lib/db/schema';
+import messages from '../messages.json';
 
 /**
  * Profile Management Actions
@@ -30,12 +31,12 @@ export async function updateProfileAction(
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: 'Not authenticated' };
+    return { error: messages.auth.profile.update.errors.notAuthenticated };
   }
 
   // Update user profile in database
   await updateUserProfile(user.id, { name });
   await logActivity(user.id, ActivityType.UPDATE_ACCOUNT);
 
-  return { success: 'Profile updated successfully!' };
+  return { success: messages.auth.profile.update.success };
 }

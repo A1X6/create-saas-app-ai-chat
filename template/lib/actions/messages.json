@@ -1,0 +1,223 @@
+{
+  "auth": {
+    "signIn": {
+      "success": "Signed in successfully"
+    },
+    "signUp": {
+      "errors": {
+        "failed": "Failed to create user account"
+      }
+    },
+    "password": {
+      "forgot": {
+        "success": "Password reset email sent. Please check your inbox."
+      },
+      "change": {
+        "success": "Password updated successfully!",
+        "errors": {
+          "allFieldsRequired": "All fields are required",
+          "passwordsDoNotMatch": "New passwords do not match",
+          "passwordTooShort": "Password must be at least 8 characters",
+          "notAuthenticated": "Not authenticated",
+          "currentPasswordIncorrect": "Current password is incorrect"
+        }
+      }
+    },
+    "profile": {
+      "update": {
+        "success": "Profile updated successfully!",
+        "errors": {
+          "notAuthenticated": "Not authenticated"
+        }
+      }
+    }
+  },
+  "chat": {
+    "send": {
+      "errors": {
+        "notLoggedIn": "You must be logged in to use the chatbot",
+        "noSubscription": "You need an active subscription to use {{APP_NAME}}. Please subscribe to get started with your trial.",
+        "trialDepleted": "Your $1 trial credit is depleted. Upgrade your plan now to continue using {{APP_NAME}}.",
+        "noCredits": "You have no credits remaining. Please upgrade your plan to add more credits.",
+        "insufficientCredits": "This request costs ${{cost}} but you only have ${{balance}} remaining. Please upgrade your plan.",
+        "failed": "Failed to send message. Please try again."
+      }
+    }
+  },
+  "conversation": {
+    "delete": {
+      "success": "Conversation deleted successfully",
+      "errors": {
+        "notLoggedIn": "You must be logged in to delete conversations",
+        "failed": "Failed to delete conversation"
+      }
+    }
+  },
+  "contact": {
+    "submit": {
+      "success": "Thank you for your message! We will get back to you soon.",
+      "errors": {
+        "failed": "Something went wrong. Please try again later."
+      }
+    }
+  },
+  "subscription": {
+    "endTrial": {
+      "errors": {
+        "notLoggedIn": "You must be logged in to upgrade",
+        "noSubscription": "No subscription found",
+        "notOnTrial": "You are not on a trial subscription",
+        "failed": "Failed to upgrade subscription. Please try again or contact support."
+      }
+    }
+  },
+  "database": {
+    "connection": {
+      "success": "Database connection successful"
+    },
+    "tables": {
+      "check": {
+        "success": "All required tables exist",
+        "errors": {
+          "missingTables": "Missing tables: {{tables}}"
+        }
+      }
+    },
+    "counts": {
+      "success": "Table counts retrieved successfully"
+    },
+    "schema": {
+      "push": {
+        "success": "Schema pushed successfully to database",
+        "errors": {
+          "noDatabaseUrl": "DATABASE_URL environment variable is not set. Please configure it in the environment page.",
+          "failed": "Failed to push schema"
+        }
+      },
+      "verify": {
+        "success": "Schema is valid and complete",
+        "errors": {
+          "issuesFound": "Found {{count}} schema issue(s)",
+          "failed": "Schema verification failed",
+          "missingColumns": "Missing columns in user_profiles: {{columns}}"
+        }
+      }
+    }
+  },
+  "environment": {
+    "validation": {
+      "supabase": {
+        "success": "Supabase connection successful",
+        "errors": {
+          "allFieldsRequired": "All Supabase fields are required",
+          "connectionFailed": "Supabase connection failed: {{error}}"
+        }
+      },
+      "stripe": {
+        "success": "Stripe connection successful",
+        "errors": {
+          "secretKeyRequired": "Stripe secret key is required"
+        }
+      },
+      "resend": {
+        "success": "Resend configuration is valid",
+        "errors": {
+          "allFieldsRequired": "All Resend fields are required",
+          "invalidKeyFormat": "Invalid Resend API key format",
+          "invalidFromEmail": "Invalid from email format",
+          "invalidToEmail": "Invalid to email format"
+        }
+      },
+      "openrouter": {
+        "success": "OpenRouter connection successful",
+        "errors": {
+          "allFieldsRequired": "All OpenRouter fields are required",
+          "invalidTemperature": "AI Temperature must be between 0.0 and 2.0",
+          "invalidApiKey": "OpenRouter API key is invalid"
+        }
+      }
+    },
+    "save": {
+      "success": "Configuration saved successfully! Please restart your development server.",
+      "errors": {
+        "supabaseIncomplete": "Supabase configuration is incomplete",
+        "stripeIncomplete": "Stripe configuration is incomplete",
+        "resendIncomplete": "Resend configuration is incomplete",
+        "openrouterIncomplete": "OpenRouter configuration is incomplete"
+      }
+    }
+  },
+  "finalize": {
+    "complete": {
+      "success": "Setup completed successfully! You can now start building your application."
+    }
+  },
+  "prompts": {
+    "list": {
+      "errors": {
+        "markdownDirNotFound": "Prompts markdown directory not found"
+      },
+      "markdown": {
+        "success": "Found {{count}} markdown file(s)"
+      },
+      "json": {
+        "success": "Found {{count}} JSON file(s)",
+        "empty": "No JSON files generated yet"
+      }
+    },
+    "convert": {
+      "success": "Converted {{count}} file(s) and updated index",
+      "errors": {
+        "markdownDirNotFound": "Markdown directory not found. Please upload markdown files first.",
+        "noMarkdownFiles": "No markdown files found to convert"
+      },
+      "output": {
+        "converted": "✓ Converted {{mdFile}} → {{jsonFile}}",
+        "failed": "✗ Failed to convert {{mdFile}}: {{error}}",
+        "indexUpdated": "✓ Updated index.ts with {{count}} prompt(s)",
+        "indexFailed": "✗ Failed to update index.ts: {{error}}"
+      }
+    },
+    "upload": {
+      "success": "Successfully uploaded {{count}} file(s)",
+      "errors": {
+        "noFiles": "No files provided",
+        "noValidFiles": "No valid .md files were uploaded"
+      }
+    },
+    "status": {
+      "success": "{{markdownCount}} markdown, {{jsonCount}} JSON files"
+    }
+  },
+  "stripe": {
+    "products": {
+      "list": {
+        "success": "Found {{count}} products"
+      }
+    },
+    "sync": {
+      "success": "Products synced successfully to Stripe",
+      "dryRun": "Dry run completed - no changes made",
+      "errors": {
+        "noSecretKey": "STRIPE_SECRET_KEY environment variable is not set. Please configure it in the environment page.",
+        "failed": "Failed to sync products"
+      }
+    },
+    "connection": {
+      "success": "Stripe connection verified"
+    },
+    "userProducts": {
+      "sync": {
+        "success": "Archived {{archived}} existing product(s), created {{created}} and updated {{updated}} product(s) in Stripe"
+      }
+    },
+    "profitMargin": {
+      "save": {
+        "success": "Profit margin set to ${{amount}}/user/month",
+        "errors": {
+          "noEnvFile": "Please configure environment variables first (Environment page)"
+        }
+      }
+    }
+  }
+}

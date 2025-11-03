@@ -1,0 +1,98 @@
+{
+  "heading": "AI Prompts Configuration",
+  "description": "Upload markdown prompt files and convert them to JSON format for AI models.",
+  "alert": {
+    "title": "How It Works",
+    "description": "Upload your .md files using the dropzone below, then click \"Convert to JSON\" to generate the corresponding JSON files automatically."
+  },
+  "upload": {
+    "title": "Upload Markdown Files",
+    "description": "Drag and drop or click to upload .md files",
+    "dropzone": {
+      "heading": "Drop your markdown files here",
+      "description": "or click to browse and select files",
+      "uploading": "Uploading files...",
+      "badge": "Only .md files are accepted"
+    }
+  },
+  "status": {
+    "title": "Prompt Files Status",
+    "description": "Markdown and JSON file counts",
+    "badges": {
+      "ready": "Ready",
+      "pending": "Pending"
+    },
+    "messages": {
+      "checking": "Checking prompts..."
+    },
+    "markdown": {
+      "title": "Markdown Files",
+      "description": "Source prompt files in prompts/markdown/",
+      "badge": "{{count}} files"
+    },
+    "json": {
+      "title": "JSON Files",
+      "description": "Generated files in prompts/json/",
+      "badge": "{{count}} files"
+    }
+  },
+  "fileList": {
+    "title": "Available Files",
+    "description": "List of markdown and JSON files",
+    "markdown": "Markdown Files:",
+    "json": "JSON Files:"
+  },
+  "guide": {
+    "title": "Quick Guide",
+    "description": "Step-by-step instructions",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Upload Markdown Files",
+        "description": "Drag and drop your .md files into the upload zone above, or click to browse"
+      },
+      {
+        "number": "2",
+        "title": "Convert to JSON",
+        "description": "After uploading, click \"Convert to JSON\" to generate the JSON files"
+      },
+      {
+        "number": "3",
+        "title": "Verify & Continue",
+        "description": "Check the status shows JSON files generated, then proceed to Stripe configuration"
+      }
+    ]
+  },
+  "buttons": {
+    "refresh": {
+      "default": "Refresh Status",
+      "loading": "Checking..."
+    },
+    "convert": {
+      "default": "Convert to JSON",
+      "loading": "Converting..."
+    }
+  },
+  "toasts": {
+    "checking": {
+      "title": "Checking prompts status...",
+      "description": "Scanning markdown and JSON files"
+    },
+    "uploading": {
+      "title": "Uploading files...",
+      "description": "Uploading {{count}} file(s)"
+    },
+    "converting": {
+      "title": "Converting prompts...",
+      "description": "Generating JSON files from markdown"
+    },
+    "converted": {
+      "title": "Prompts converted!",
+      "description": "JSON files generated successfully"
+    }
+  },
+  "navigation": {
+    "back": "Back",
+    "next": "Next: Stripe"
+  }
+}

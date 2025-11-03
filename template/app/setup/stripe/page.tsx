@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
@@ -21,14 +20,11 @@ import {
   Plus,
   Trash2,
   Edit,
-  Save,
-  X as XIcon,
 } from 'lucide-react';
 import { useState, useEffect, useTransition } from 'react';
 import { toast } from 'sonner';
 import {
   listStripeProducts,
-  syncStripeProducts,
   syncUserProducts,
   verifyStripeConnection,
   saveProfitMargin,
@@ -38,8 +34,8 @@ import { ProductForm } from './product-form';
 
 type StripeStatus = {
   connected: boolean;
-  account?: any;
-  products: any[];
+  account?: { id?: string; name?: string | null; email?: string | null; country?: string | null; type?: string };
+  products: { id: string; name: string; description?: string | null; active: boolean; metadata?: Record<string, string | null> }[];
   productsCount: number;
 };
 
@@ -222,7 +218,7 @@ export default function StripePage() {
         <AlertTitle>Product Configuration</AlertTitle>
         <AlertDescription>
           Create your subscription products below. Add pricing tiers, features, and AI token limits.
-          Click "Sync to Stripe" to create/update products in your Stripe account.
+          Click &quot;Sync to Stripe&quot; to create/update products in your Stripe account.
         </AlertDescription>
       </Alert>
 
@@ -256,7 +252,7 @@ export default function StripePage() {
           {products.length === 0 && !isAddingProduct ? (
             <div className="text-center py-8 text-muted-foreground">
               <p>No products configured yet.</p>
-              <p className="text-sm">Click "Add Product" to create your first subscription plan.</p>
+              <p className="text-sm">Click &quot;Add Product&quot; to create your first subscription plan.</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -420,7 +416,7 @@ export default function StripePage() {
             </div>
           ) : status.productsCount > 0 ? (
             <div className="space-y-3">
-              {status.products.map((product: any) => (
+              {status.products.map((product) => (
                 <div
                   key={product.id}
                   className="flex items-center justify-between p-4 border rounded-lg"
@@ -449,7 +445,7 @@ export default function StripePage() {
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-muted-foreground">
-                No products found in Stripe. Click "Sync Products" to create them from your configuration.
+                No products found in Stripe. Click &quot;Sync Products&quot; to create them from your configuration.
               </p>
             </div>
           )}

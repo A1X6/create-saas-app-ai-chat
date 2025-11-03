@@ -1,34 +1,40 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Roboto_Flex } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
+const robotoFlex = Roboto_Flex({
+  subsets: ["latin"],
+  variable: "--font-roboto-flex",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'),
   title: {
-    default: "SaaS Complete - Personal SaaS Starter",
-    template: "%s | SaaS Complete"
+    default: "{{APP_NAME}} - {{APP_TAGLINE}}",
+    template: "%s | {{APP_NAME}}"
   },
   description:
-    "Production-ready personal SaaS starter with Supabase Auth, Drizzle ORM, Stripe subscriptions, and activity logging. Build your SaaS faster with built-in authentication, payments, and AI chat.",
+    "{{APP_DESCRIPTION}}",
   keywords: [
-    "SaaS starter",
-    "Next.js template",
-    "Supabase Auth",
-    "Stripe subscriptions",
-    "AI chatbot",
-    "Drizzle ORM",
-    "TypeScript",
-    "shadcn/ui",
-    "personal SaaS",
-    "indie hacker"
+    "AI SaaS",
+    "AI chat",
+    "multi-model AI",
+    "Claude",
+    "Gemini",
+    "OpenRouter",
+    "AI platform",
+    "AI subscription",
+    "AI credits",
+    "AI analytics"
   ],
-  authors: [{ name: "SaaS Complete" }],
-  creator: "SaaS Complete",
-  publisher: "SaaS Complete",
+  authors: [{ name: "{{APP_AUTHOR}}" }],
+  creator: "{{APP_AUTHOR}}",
+  publisher: "{{APP_AUTHOR}}",
+  applicationName: "{{APP_NAME}}",
   formatDetection: {
     email: false,
     address: false,
@@ -38,17 +44,25 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    title: "SaaS Complete - Personal SaaS Starter",
+    title: "{{APP_NAME}} - {{APP_TAGLINE}}",
     description:
-      "Production-ready personal SaaS starter with Supabase Auth, Drizzle ORM, Stripe subscriptions, and activity logging",
-    siteName: "SaaS Complete",
+      "{{APP_DESCRIPTION}}",
+    siteName: "{{APP_NAME}}",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "{{APP_NAME}} - {{APP_TAGLINE}}",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SaaS Complete - Personal SaaS Starter",
+    title: "{{APP_NAME}} - {{APP_TAGLINE}}",
     description:
-      "Production-ready personal SaaS starter with Supabase Auth, Drizzle ORM, Stripe subscriptions, and activity logging",
-    creator: "@saascomplete",
+      "{{APP_DESCRIPTION}}",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
@@ -61,6 +75,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export default async function RootLayout({
@@ -72,7 +89,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} ${robotoFlex.variable}`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

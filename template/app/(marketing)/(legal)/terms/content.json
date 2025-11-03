@@ -1,0 +1,52 @@
+{
+  "metadata": {
+    "title": "Terms of Service - {{APP_NAME}}",
+    "description": "Read the {{APP_NAME}} terms of service to understand the rules, regulations, and agreements for using our AI prompt engineering platform.",
+    "keywords": [
+      "terms of service",
+      "terms and conditions",
+      "user agreement",
+      "service terms",
+      "usage policy",
+      "legal terms"
+    ],
+    "lastUpdated": "10/18/2025"
+  },
+  "heading": "Terms of Service",
+  "sections": [
+    {
+      "title": "Acceptance of Terms",
+      "content": "By accessing and using this service, you accept and agree to be bound by the terms and provision of this agreement."
+    },
+    {
+      "title": "Use of Service",
+      "intro": "You agree to use the service only for lawful purposes and in accordance with these Terms.",
+      "content": "You agree not to:",
+      "items": [
+        "Use the service in any way that violates any applicable law or regulation",
+        "Engage in any conduct that restricts or inhibits anyone's use of the service",
+        "Attempt to gain unauthorized access to any portion of the service"
+      ]
+    },
+    {
+      "title": "Subscriptions and Payments",
+      "content": "Some parts of the service are billed on a subscription basis. You will be billed in advance on a recurring and periodic basis (monthly or yearly)."
+    },
+    {
+      "title": "Termination",
+      "content": "We may terminate or suspend your account and bar access to the service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever."
+    },
+    {
+      "title": "Limitation of Liability",
+      "content": "In no event shall we be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses."
+    },
+    {
+      "title": "Changes to Terms",
+      "content": "We reserve the right to modify or replace these Terms at any time. We will provide notice of any changes by posting the new Terms on this page."
+    },
+    {
+      "title": "Contact Us",
+      "content": "If you have any questions about these Terms, please contact us."
+    }
+  ]
+}

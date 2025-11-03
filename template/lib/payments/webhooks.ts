@@ -83,15 +83,17 @@ export async function handleSubscriptionChange(
             // 1. Trial → Active conversion (first payment made)
             // 2. New active subscription without trial
             // 3. Subscription updates/plan changes
+            // 4. Early upgrade during trial (user pays before trial ends)
             console.log(
               `Setting AI credits to $${fullCredits} for user ${userProfile.id} (active subscription)`
             );
             await resetAICredits(userProfile.id, fullCredits);
           } else if (isTrialing) {
-            // Trial users: No credits allocated
+            // Trial users: Allocate $1 trial credit
             console.log(
-              `User ${userProfile.id} is on trial - no credits allocated (can use free models only)`
+              `User ${userProfile.id} is on trial - allocating $1.00 trial credit`
             );
+            await resetAICredits(userProfile.id, 1.00);
           }
         }
       } catch (error) {
@@ -172,10 +174,11 @@ export async function handleCheckoutCompleted(
           const isTrialing = subscription.status === 'trialing';
 
           if (isTrialing) {
-            // Trial users: No credits allocated, can only use free models
+            // Trial users: Allocate $1 trial credit
             console.log(
-              `User ${userId} is on trial - no credits allocated (can use free models only)`
+              `User ${userId} is on trial - allocating $1.00 trial credit`
             );
+            await resetAICredits(userId, 1.00);
           } else {
             // Paid subscription: Allocate full credits
             console.log(

@@ -1,39 +1,56 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import useSWR, { mutate as globalMutate } from 'swr';
-import { Send, Loader2, Sparkles, User as UserIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Progress } from '@/components/ui/progress';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import useSWR, { mutate as globalMutate } from "swr";
+import { Send, Loader2, Sparkles, User as UserIcon } from "lucide-react";
+import {
+  ArtifactCard,
+  ArtifactCardSkeleton,
+} from "@/app/(protected)/dashboard/chat/artifact-card";
+import { ArtifactDrawer } from "@/app/(protected)/dashboard/chat/artifact-drawer";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Progress } from "@/components/ui/progress";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { OrbLazy } from '@/components/ui/orb-lazy';
-import { ShimmeringText } from '@/components/ui/shimmering-text';
-import { Conversation, ConversationContent, ConversationEmptyState } from '@/components/ui/conversation';
-import { Response } from '@/components/ui/response';
-import { sendChatAction } from '@/lib/actions/chat-actions';
-import { toast } from 'sonner';
-import { AI_MODELS, FREE_MODELS, getDefaultModel, type AIModel } from '@/lib/ai/models';
-import { formatHex, oklch } from 'culori';
+} from "@/components/ui/select";
+import { OrbLazy } from "@/components/ui/orb-lazy";
+import { ShimmeringText } from "@/components/ui/shimmering-text";
+import {
+  Conversation,
+  ConversationContent,
+  ConversationEmptyState,
+} from "@/components/ui/conversation";
+import { Response } from "@/components/ui/response";
+import { sendChatAction } from "@/lib/actions/chat-actions";
+import { toast } from "sonner";
+import { AI_MODELS, getDefaultModel, type AIModel } from "@/lib/ai/models";
+import { formatHex, oklch } from "culori";
+import { cn } from "@/lib/utils";
+import { useIsDesktop } from "@/hooks/use-is-desktop";
 
 interface MessageType {
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
+  isArtifact?: boolean;
+  messageId?: string; // ID of the message (for artifacts)
 }
 
 interface DbMessage {
-  role: 'user' | 'assistant';
+  id: string;
+  role: "user" | "assistant";
   content: string;
+  isArtifact?: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface ChatbotProps {
@@ -45,73 +62,95 @@ interface ChatbotProps {
     aiCreditsBalance: number;
     aiCreditsAllocated: number;
     aiCreditsUsed: number;
-    freeTokensUsed: number;
-    freeTokensLimit: number;
   };
   conversationId: string | null;
 }
 
-// Fetcher function for SWR
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function ChatbotElevenLabs({ user, conversationId }: ChatbotProps) {
   const router = useRouter();
+  const isDesktop = useIsDesktop(); // Detect screen size for responsive rendering
   const [messages, setMessages] = useState<MessageType[]>([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedModel, setSelectedModel] = useState<AIModel>(getDefaultModel());
-  const [orbColors, setOrbColors] = useState<[string, string]>(['#CADCFC', '#A0B9D1']);
-  const [currentConversationId, setCurrentConversationId] = useState<string | null>(conversationId);
-  const lastLoadedConversationId = useRef<string | null>(null);
-  const [isNewConversationStreaming, setIsNewConversationStreaming] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [selectedModel, setSelectedModel] =
+    useState<AIModel>(getDefaultModel());
+  const [orbColors, setOrbColors] = useState<[string, string]>([
+    "#CADCFC",
+    "#A0B9D1",
+  ]);
+  const [isTransitioning, setIsTransitioning] = useState(false); // Track conversation transitions
 
-  // Use SWR for conversation data fetching
-  const { data: conversationData, isLoading: isLoadingConversation, error } = useSWR(
-    conversationId ? `/api/conversations/${conversationId}` : null,
+  // Track conversation state
+  const activeConversationId = useRef<string | null>(conversationId);
+  const streamIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const fullMessageRef = useRef<string>(""); // Store full message for streaming
+
+  // Artifact state
+  const [artifactDrawerOpen, setArtifactDrawerOpen] = useState(false);
+  const [currentArtifact, setCurrentArtifact] = useState<{
+    id: string;
+    title: string;
+    content: string;
+    updatedAt: Date;
+  } | null>(null);
+  const [artifacts, setArtifacts] = useState<
+    Map<string, { id: string; title: string; content: string; updatedAt: Date }>
+  >(new Map());
+
+  // Fetch conversation data - don't fetch while streaming or for temp IDs
+  const isTempId = conversationId?.startsWith("temp-");
+  const shouldFetch = conversationId && !isTempId && !isStreaming;
+
+  const { data: conversationData, isLoading: isLoadingConversation } = useSWR(
+    shouldFetch ? `/api/conversations/${conversationId}` : null,
     fetcher,
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      dedupingInterval: 2000, // Prevent duplicate requests within 2 seconds
+      dedupingInterval: 2000,
     }
   );
 
-  // Calculate credits usage percentage
-  const creditsUsagePercentage = user.aiCreditsAllocated > 0
-    ? (user.aiCreditsUsed / user.aiCreditsAllocated) * 100
-    : 0;
+  // Calculate credits and subscription status
+  const creditsUsagePercentage =
+    user.aiCreditsAllocated > 0
+      ? (user.aiCreditsUsed / user.aiCreditsAllocated) * 100
+      : 0;
+
+  const isTrialing = user.subscriptionStatus === "trialing";
+  const hasActiveSubscription = user.subscriptionStatus === "active";
+  const isUnsubscribed =
+    !user.subscriptionStatus || (!isTrialing && !hasActiveSubscription);
+  const availableModels = AI_MODELS; // All users can access all models (all are paid)
 
   // Get orb colors from CSS variables
   useEffect(() => {
     const getColors = () => {
       const style = getComputedStyle(document.documentElement);
-      const primaryValue = style.getPropertyValue('--primary').trim();
-      const accentValue = style.getPropertyValue('--accent').trim();
+      const primaryValue = style.getPropertyValue("--primary").trim();
+      const accentValue = style.getPropertyValue("--accent").trim();
 
-      // Convert oklch to hex
-      let primaryHex = '#CADCFC'; // Fallback
-      let accentHex = '#A0B9D1'; // Fallback
+      let primaryHex = "#CADCFC";
+      let accentHex = "#A0B9D1";
 
       if (primaryValue) {
         try {
           const primaryColor = oklch(primaryValue);
-          if (primaryColor) {
-            primaryHex = formatHex(primaryColor);
-          }
+          if (primaryColor) primaryHex = formatHex(primaryColor);
         } catch (e) {
-          console.warn('Failed to convert primary color:', e);
+          console.warn("Failed to convert primary color:", e);
         }
       }
 
       if (accentValue) {
         try {
           const accentColor = oklch(accentValue);
-          if (accentColor) {
-            accentHex = formatHex(accentColor);
-          }
+          if (accentColor) accentHex = formatHex(accentColor);
         } catch (e) {
-          console.warn('Failed to convert accent color:', e);
+          console.warn("Failed to convert accent color:", e);
         }
       }
 
@@ -119,53 +158,130 @@ export function ChatbotElevenLabs({ user, conversationId }: ChatbotProps) {
     };
 
     getColors();
-
-    // Listen for theme changes
     const observer = new MutationObserver(getColors);
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class'],
+      attributeFilter: ["class"],
     });
 
     return () => observer.disconnect();
   }, []);
 
-  // Sync conversation data from SWR to local state
-  // Only load messages when switching to a different conversation
+  // Handle conversation changes - IMMEDIATE cleanup of streaming
   useEffect(() => {
-    setCurrentConversationId(conversationId);
+    // Conversation changed - stop streaming and complete the message if needed
+    if (conversationId !== activeConversationId.current) {
+      // If streaming, complete the message immediately
+      if (streamIntervalRef.current && fullMessageRef.current) {
+        clearInterval(streamIntervalRef.current);
+        streamIntervalRef.current = null;
 
-    // Check if we're switching to a different conversation
-    const isSwitchingConversation = conversationId !== lastLoadedConversationId.current;
+        // Show full message immediately
+        setMessages((prev) => {
+          const newMessages = [...prev];
+          if (
+            newMessages.length > 0 &&
+            newMessages[newMessages.length - 1].role === "assistant"
+          ) {
+            newMessages[newMessages.length - 1] = {
+              role: "assistant",
+              content: fullMessageRef.current,
+            };
+          }
+          return newMessages;
+        });
 
-    if (!conversationId) {
-      // New chat - clear messages
-      setMessages([]);
-      lastLoadedConversationId.current = null;
-      setIsNewConversationStreaming(false);
-      setIsStreaming(false);
-    } else if (isSwitchingConversation && conversationData?.messages && !isStreaming) {
-      // Only load from server when switching conversations AND not currently streaming
-      // This prevents overwriting the streaming message with the full message
-      const loadedMessages = conversationData.messages.map((msg: DbMessage) => ({
-        role: msg.role,
-        content: msg.content,
-      }));
+        setIsStreaming(false);
+        fullMessageRef.current = "";
+      }
+
+      // Close artifact panel when switching conversations
+      setArtifactDrawerOpen(false);
+      setCurrentArtifact(null);
+
+      // Update active conversation
+      activeConversationId.current = conversationId;
+
+      // Clear messages immediately when changing to ANY conversation (except temp IDs)
+      if (!isTempId) {
+        setMessages([]);
+
+        // Set transitioning only for real conversations that need loading
+        if (conversationId) {
+          setIsTransitioning(true);
+        } else {
+          setIsTransitioning(false); // New chat, no loading needed
+        }
+      }
+    }
+  }, [conversationId, isTempId]);
+
+  // Load messages when conversation data is available
+  useEffect(() => {
+    // Load messages from server for real conversations when data arrives
+    if (
+      conversationId &&
+      !isTempId &&
+      conversationData?.messages &&
+      conversationId === activeConversationId.current
+    ) {
+      const loadedMessages = conversationData.messages.map(
+        (msg: DbMessage) => ({
+          role: msg.role,
+          content: msg.content,
+          isArtifact: msg.isArtifact,
+          messageId: msg.id,
+        })
+      );
       setMessages(loadedMessages);
-      lastLoadedConversationId.current = conversationId;
-      // Reset streaming flags when switching conversations
-      setIsNewConversationStreaming(false);
-      setIsStreaming(false);
-    }
-  }, [conversationId, conversationData, isStreaming]);
+      setIsTransitioning(false); // Done loading
 
-  // Handle SWR errors
-  useEffect(() => {
-    if (error) {
-      console.error('Failed to load conversation:', error);
-      toast.error('Failed to load conversation');
+      // Extract artifacts directly from messages
+      const artifactMessages = conversationData.messages.filter(
+        (msg: DbMessage) => msg.isArtifact && msg.role === "assistant"
+      );
+
+      if (artifactMessages.length > 0) {
+        const newArtifacts = new Map<
+          string,
+          { id: string; title: string; content: string; updatedAt: Date }
+        >(
+          artifactMessages.map((msg: DbMessage) => {
+            // Extract title from first non-empty line
+            const title =
+              msg.content
+                .split("\n")
+                .find((l: string) => l.trim())
+                ?.trim()
+                .substring(0, 100) || "Untitled Artifact";
+
+            return [
+              msg.id,
+              {
+                id: msg.id,
+                title,
+                content: msg.content,
+                updatedAt: new Date(msg.createdAt),
+              },
+            ];
+          })
+        );
+        setArtifacts(newArtifacts);
+      }
     }
-  }, [error]);
+  }, [conversationData, conversationId, isTempId]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (streamIntervalRef.current) {
+        clearInterval(streamIntervalRef.current);
+        streamIntervalRef.current = null;
+      }
+    };
+  }, []);
+
+  // All models are now paid - no model switching needed
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -173,126 +289,168 @@ export function ChatbotElevenLabs({ user, conversationId }: ChatbotProps) {
     if (!input.trim() || isLoading || isStreaming) return;
 
     const userMessage = input.trim();
-    setInput('');
+    setInput("");
     setIsLoading(true);
 
-    // Add user message to UI
-    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
+    // Check if new conversation
+    const isNewConversation = !conversationId;
+    let tempId: string | null = null;
+
+    // FIX 1: Change URL BEFORE adding messages to prevent flickering
+    if (isNewConversation) {
+      tempId = `temp-${Date.now()}`;
+      activeConversationId.current = tempId;
+      router.push(`/dashboard/chat?conversation=${tempId}`, { scroll: false });
+    }
+
+    // Add user message immediately AFTER URL change
+    setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
 
     try {
-      // Prepare form data
+      // Prepare request
       const formData = new FormData();
-      formData.append('message', userMessage);
-      formData.append('history', JSON.stringify(messages));
-      formData.append('model', selectedModel.id);
+      formData.append("message", userMessage);
+      formData.append("history", JSON.stringify(messages));
+      formData.append("model", selectedModel.id);
 
-      // Include conversationId if continuing a conversation
-      if (currentConversationId) {
-        formData.append('conversationId', currentConversationId);
+      // Only include real conversation IDs
+      if (conversationId && !conversationId.startsWith("temp-")) {
+        formData.append("conversationId", conversationId);
       }
 
-      // Send chat message
+      // Send to server
       const result = await sendChatAction(formData);
 
       if (!result.success) {
         toast.error(result.message);
-        // Remove user message on error
         setMessages((prev) => prev.slice(0, -1));
         setIsLoading(false);
-        setIsNewConversationStreaming(false);
-        setIsStreaming(false);
-      } else {
-        // Stop loading immediately when response is received
-        setIsLoading(false);
 
-        // If new conversation, update URL with conversation ID
-        const isNewConversation = !currentConversationId;
-        if (isNewConversation && result.conversationId) {
-          // Mark that we're streaming a new conversation
-          setIsNewConversationStreaming(true);
-
-          setCurrentConversationId(result.conversationId);
-          router.push(`/dashboard/chat?conversation=${result.conversationId}`, { scroll: false });
-
-          // Revalidate conversations list in sidebar
-          globalMutate('/api/conversations');
+        // Go back to clean chat on error
+        if (isNewConversation) {
+          activeConversationId.current = null;
+          router.replace("/dashboard/chat", { scroll: false });
         }
-
-        // Mark that we're streaming (prevents loading messages from SWR)
-        setIsStreaming(true);
-
-        // Add empty assistant message that will be streamed
-        setMessages((prev) => [...prev, { role: 'assistant', content: '' }]);
-
-        // Stream the response letter by letter
-        const fullMessage = result.message;
-        let currentIndex = 0;
-
-        const streamInterval = setInterval(() => {
-          if (currentIndex < fullMessage.length) {
-            const chunk = fullMessage.slice(0, currentIndex + 1);
-            setMessages((prev) => {
-              const newMessages = [...prev];
-              newMessages[newMessages.length - 1] = {
-                role: 'assistant',
-                content: chunk,
-              };
-              return newMessages;
-            });
-            currentIndex++;
-          } else {
-            clearInterval(streamInterval);
-            // Streaming complete
-            setIsNewConversationStreaming(false);
-            setIsStreaming(false);
-          }
-        }, 20); // 20ms per character for smooth streaming
+        return;
       }
+
+      setIsLoading(false);
+
+      // Update to real conversation ID
+      if (isNewConversation && result.conversationId) {
+        activeConversationId.current = result.conversationId;
+        router.replace(
+          `/dashboard/chat?conversation=${result.conversationId}`,
+          { scroll: false }
+        );
+        globalMutate("/api/conversations");
+      }
+
+      // Handle artifact response (AI-detected artifact)
+      if (result.isArtifact && result.messageId && result.artifactTitle) {
+        // Add message with artifact metadata
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: result.message,
+            isArtifact: true,
+            messageId: result.messageId,
+          },
+        ]);
+
+        // Store artifact data
+        const artifact = {
+          id: result.messageId,
+          title: result.artifactTitle,
+          content: result.message,
+          updatedAt: new Date(),
+        };
+        setArtifacts((prev) => new Map(prev).set(result.messageId, artifact));
+
+        // Do NOT auto-open - user must click the artifact card manually
+
+        return;
+      }
+
+      // Stream normal message
+      setIsStreaming(true);
+      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+      // Clear any existing interval
+      if (streamIntervalRef.current) {
+        clearInterval(streamIntervalRef.current);
+      }
+
+      const fullMessage = result.message;
+      fullMessageRef.current = fullMessage; // Store for interruption handling
+      let currentIndex = 0;
+
+      streamIntervalRef.current = setInterval(() => {
+        if (currentIndex < fullMessage.length) {
+          const chunk = fullMessage.slice(0, currentIndex + 1);
+          setMessages((prev) => {
+            const newMessages = [...prev];
+            newMessages[newMessages.length - 1] = {
+              role: "assistant",
+              content: chunk,
+            };
+            return newMessages;
+          });
+          currentIndex++;
+        } else {
+          // Streaming complete
+          if (streamIntervalRef.current) {
+            clearInterval(streamIntervalRef.current);
+            streamIntervalRef.current = null;
+          }
+          setIsStreaming(false);
+          fullMessageRef.current = "";
+        }
+      }, 20);
     } catch (error) {
-      console.error('Chat error:', error);
-      toast.error('Failed to send message');
-      // Remove user message on error
+      console.error("Chat error:", error);
+      toast.error("Failed to send message");
       setMessages((prev) => prev.slice(0, -1));
       setIsLoading(false);
-      setIsNewConversationStreaming(false);
       setIsStreaming(false);
+
+      if (isNewConversation) {
+        activeConversationId.current = null;
+        router.replace("/dashboard/chat", { scroll: false });
+      }
     }
   }
 
-  // Check subscription status
-  const isTrialing = user.subscriptionStatus === 'trialing';
-  const hasActiveSubscription = user.subscriptionStatus === 'active';
-  const isUnsubscribed = !user.subscriptionStatus || (!isTrialing && !hasActiveSubscription);
-
-  const freeTokensPercentage = user.freeTokensLimit > 0
-    ? (user.freeTokensUsed / user.freeTokensLimit) * 100
-    : 0;
-
-  // Filter models based on subscription status
-  // Only ACTIVE paid subscribers can use paid models (they have AI credits)
-  // Trial users can only use free models (unlimited)
-  // Unsubscribed users can only use free models (with token limits)
-  const availableModels = hasActiveSubscription ? AI_MODELS : FREE_MODELS;
-
-  // Ensure selected model is available for user's subscription
-  // If user doesn't have active subscription and selected model is paid, switch to free model
-  useEffect(() => {
-    if (!hasActiveSubscription && selectedModel.type === 'paid') {
-      const freeModel = FREE_MODELS[0] || AI_MODELS[0];
-      setSelectedModel(freeModel);
-
-      if (isTrialing) {
-        toast.info('Trial users can only use free models. Upgrade to a paid plan to access paid models with AI credits.');
-      } else {
-        toast.info('Subscribe to a paid plan to access paid models with AI credits.');
-      }
+  // Artifact handlers
+  function handleOpenArtifact(artifactId: string) {
+    const artifact = artifacts.get(artifactId);
+    if (artifact) {
+      setCurrentArtifact(artifact);
+      setArtifactDrawerOpen(true);
     }
-  }, [hasActiveSubscription, isTrialing, selectedModel]);
+  }
+
+  // Better display logic - prioritize messages over loading states
+  const hasMessages = messages.length > 0;
+  const showLoading =
+    (isLoadingConversation || isTransitioning) &&
+    !isStreaming &&
+    !hasMessages &&
+    !isTempId &&
+    !isLoading;
+  const showEmpty =
+    !hasMessages &&
+    !isLoading &&
+    !isStreaming &&
+    !isTempId &&
+    !isLoadingConversation &&
+    !isTransitioning;
 
   return (
     <div className="flex flex-col h-full gap-4">
-      {/* AI Credits Alert for Active Paid Subscribers */}
-      {hasActiveSubscription && user.aiCreditsAllocated > 0 && (
+      {/* AI Credits Usage - Show for both trial and paid users */}
+      {(hasActiveSubscription || isTrialing) && user.aiCreditsAllocated > 0 && (
         <Alert>
           <Sparkles className="h-4 w-4" />
           <AlertDescription>
@@ -300,48 +458,14 @@ export function ChatbotElevenLabs({ user, conversationId }: ChatbotProps) {
               <div className="flex items-center justify-between text-sm">
                 <span>AI Credits Used</span>
                 <span className="font-medium">
-                  ${user.aiCreditsUsed.toFixed(2)} / ${user.aiCreditsAllocated.toFixed(2)}
+                  {creditsUsagePercentage.toFixed(1)}%
                 </span>
               </div>
               <Progress value={creditsUsagePercentage} className="h-2" />
               <p className="text-xs text-muted-foreground">
-                Free models: unlimited • Paid models: use credits
-              </p>
-            </div>
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {/* Trial Users Alert */}
-      {isTrialing && (
-        <Alert>
-          <Sparkles className="h-4 w-4" />
-          <AlertDescription>
-            <div className="space-y-2">
-              <p className="text-sm font-medium">Trial Period - Free Models Only</p>
-              <p className="text-xs text-muted-foreground">
-                Unlimited access to free models. Upgrade to a paid plan to unlock paid models with AI credits.
-              </p>
-            </div>
-          </AlertDescription>
-        </Alert>
-      )}
-
-      {/* Free Tokens Alert for Unsubscribed Users */}
-      {isUnsubscribed && (
-        <Alert>
-          <Sparkles className="h-4 w-4" />
-          <AlertDescription>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <span>Free Tokens Used</span>
-                <span className="font-medium">
-                  {freeTokensPercentage.toFixed(1)}%
-                </span>
-              </div>
-              <Progress value={freeTokensPercentage} className="h-2" />
-              <p className="text-xs text-muted-foreground">
-                Free tier: limited to free models only. Subscribe to get unlimited access.
+                {isTrialing
+                  ? "Trial credit - All AI models available. Upgrade for full plan credits."
+                  : "All AI models use credits based on actual usage cost."}
               </p>
             </div>
           </AlertDescription>
@@ -366,7 +490,7 @@ export function ChatbotElevenLabs({ user, conversationId }: ChatbotProps) {
               <SelectContent>
                 {availableModels.map((model) => (
                   <SelectItem key={model.id} value={model.id}>
-                    {model.name} {model.type === 'free' && '(Free)'}
+                    {model.name} {model.type === "free" && "(Free)"}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -375,117 +499,173 @@ export function ChatbotElevenLabs({ user, conversationId }: ChatbotProps) {
         </CardContent>
       </Card>
 
-      {/* Messages Area */}
-      <Card className="flex-1 flex flex-col overflow-hidden">
-        <Conversation className="flex-1">
-          <ConversationContent className="space-y-6">
-            {/* Loading Conversation State - Skip if streaming new conversation */}
-            {isLoadingConversation && !isNewConversationStreaming && (
-              <div className="flex flex-col items-center justify-center h-full gap-4">
-                <div className="w-[80px] h-[80px]">
-                  <OrbLazy colors={orbColors} agentState="thinking" />
-                </div>
-                <ShimmeringText
-                  text="Loading conversation..."
-                  className="text-lg"
-                />
-              </div>
-            )}
+      {/* Main Content Area - Split view on desktop, full width on mobile */}
+      <div className="flex-1 flex gap-4 overflow-hidden">
+        {/* Chat Area - 50% on desktop when artifact is open, 100% otherwise or on mobile */}
+        <div
+          className={cn(
+            "flex flex-col overflow-hidden transition-all",
+            artifactDrawerOpen && isDesktop ? "w-1/2" : "w-full"
+          )}
+        >
+          {/* Messages Area */}
+          <Card className="flex-1 flex flex-col overflow-hidden">
+            <Conversation className="flex-1">
+              <ConversationContent className="space-y-6">
+                {/* Loading State - only show if truly loading and no messages */}
+                {showLoading && (
+                  <div className="flex flex-col items-center justify-center h-full gap-4">
+                    <div className="w-[80px] h-[80px]">
+                      <OrbLazy colors={orbColors} agentState="thinking" />
+                    </div>
+                    <ShimmeringText
+                      text="Loading conversation..."
+                      className="text-lg"
+                    />
+                  </div>
+                )}
 
-            {/* Empty State */}
-            {!isLoadingConversation && messages.length === 0 && !isLoading && !isNewConversationStreaming && (
-              <ConversationEmptyState
-                icon={<div className="w-[120px] h-[120px]"><OrbLazy colors={orbColors} /></div>}
-                title={
-                  <ShimmeringText
-                    text="How can I help you today?"
-                    className="text-2xl font-bold"
+                {/* Empty State - only show when truly empty */}
+                {showEmpty && (
+                  <ConversationEmptyState
+                    icon={
+                      <div className="w-[120px] h-[120px]">
+                        <OrbLazy colors={orbColors} />
+                      </div>
+                    }
+                    title={
+                      <ShimmeringText
+                        text="How can I help you today?"
+                        className="text-2xl font-bold"
+                      />
+                    }
+                    description={`I'm powered by ${selectedModel.name}. Ask me anything!`}
                   />
-                }
-                description={`I'm powered by ${selectedModel.name}. Ask me anything about anything!`}
-              />
-            )}
+                )}
 
-            {/* Messages - Show even if loading when streaming new conversation */}
-            {(!isLoadingConversation || isNewConversationStreaming) && messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex gap-3 ${
-                  message.role === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                {message.role === 'assistant' && (
-                  <div className="flex-shrink-0 w-10 h-10">
-                    <OrbLazy colors={orbColors} />
+                {/* Messages */}
+                {hasMessages &&
+                  messages.map((message, index) => (
+                    <div
+                      key={index}
+                      className={`flex gap-3 ${
+                        message.role === "user"
+                          ? "justify-end"
+                          : "justify-start"
+                      }`}
+                    >
+                      {message.role === "assistant" && (
+                        <div className="flex-shrink-0 w-10 h-10">
+                          <OrbLazy colors={orbColors} />
+                        </div>
+                      )}
+
+                      {message.role === "user" ? (
+                        <Card className="max-w-[80%] h-fit">
+                          <CardContent>
+                            <p className="text-sm whitespace-pre-wrap">
+                              {message.content}
+                            </p>
+                          </CardContent>
+                        </Card>
+                      ) : message.isArtifact && message.messageId ? (
+                        /* Artifact Card - compact UI for AI-detected prompts */
+                        artifacts.get(message.messageId) ? (
+                          <ArtifactCard
+                            title={artifacts.get(message.messageId)!.title}
+                            onOpen={() =>
+                              handleOpenArtifact(message.messageId!)
+                            }
+                          />
+                        ) : (
+                          /* Show skeleton while artifact data is loading */
+                          <ArtifactCardSkeleton />
+                        )
+                      ) : (
+                        <div className="max-w-[80%]">
+                          <Response>{message.content}</Response>
+                        </div>
+                      )}
+
+                      {message.role === "user" && (
+                        <Avatar className="flex-shrink-0 h-10 w-10">
+                          <AvatarFallback>
+                            <UserIcon className="h-5 w-5" />
+                          </AvatarFallback>
+                        </Avatar>
+                      )}
+                    </div>
+                  ))}
+
+                {/* Thinking indicator - only show when actively sending message */}
+                {isLoading && !isLoadingConversation && (
+                  <div className="flex gap-3 justify-start">
+                    <div className="flex-shrink-0 w-10 h-10">
+                      <OrbLazy colors={orbColors} agentState="thinking" />
+                    </div>
+                    <div>
+                      <ShimmeringText text="Thinking..." />
+                    </div>
                   </div>
                 )}
+              </ConversationContent>
+            </Conversation>
 
-                {message.role === 'user' ? (
-                  <Card className="max-w-[80%] h-fit">
-                    <CardContent>
-                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-                    </CardContent>
-                  </Card>
-                ) : (
-                  <div className="max-w-[80%]">
-                    <Response>{message.content}</Response>
-                  </div>
-                )}
-
-                {message.role === 'user' && (
-                  <Avatar className="flex-shrink-0 h-10 w-10">
-                    <AvatarFallback>
-                      <UserIcon className="h-5 w-5" />
-                    </AvatarFallback>
-                  </Avatar>
-                )}
-              </div>
-            ))}
-
-            {(!isLoadingConversation || isNewConversationStreaming) && isLoading && (
-              <div className="flex gap-3 justify-start">
-                <div className="flex-shrink-0 w-10 h-10">
-                  <OrbLazy colors={orbColors} agentState="thinking" />
-                </div>
-                <div>
-                  <ShimmeringText text="Thinking..." />
-                </div>
-              </div>
-            )}
-          </ConversationContent>
-        </Conversation>
-
-        {/* Input Area */}
-        <div className="p-4 border-t">
-          <form onSubmit={handleSubmit} className="flex gap-2">
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Type your message..."
-              className="min-h-[60px] resize-none"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  handleSubmit(e);
-                }
-              }}
-              disabled={isLoading || isStreaming}
-            />
-            <Button
-              type="submit"
-              size="icon"
-              disabled={isLoading || isStreaming || !input.trim()}
-              className="h-[60px] w-[60px]"
-            >
-              {isLoading ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
-              ) : (
-                <Send className="h-5 w-5" />
-              )}
-            </Button>
-          </form>
+            {/* Input Area */}
+            <div className="p-4 border-t">
+              <form onSubmit={handleSubmit} className="flex gap-2">
+                <Textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Type your message..."
+                  className="min-h-[60px] resize-none"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSubmit(e);
+                    }
+                  }}
+                  disabled={isLoading || isStreaming}
+                />
+                <Button
+                  type="submit"
+                  size="icon"
+                  disabled={isLoading || isStreaming || !input.trim()}
+                  className="h-[60px] w-[60px]"
+                >
+                  {isLoading ? (
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <Send className="h-5 w-5" />
+                  )}
+                </Button>
+              </form>
+            </div>
+          </Card>
         </div>
-      </Card>
+
+        {/* Artifact Panel - 50% on desktop (only when open and on desktop screen) */}
+        {artifactDrawerOpen && currentArtifact && isDesktop && (
+          <div className="flex w-1/2 overflow-hidden">
+            <ArtifactDrawer
+              open={artifactDrawerOpen}
+              onOpenChange={setArtifactDrawerOpen}
+              artifact={currentArtifact}
+              mode="panel"
+            />
+          </div>
+        )}
+
+        {/* Artifact Drawer - Mobile only (overlay, only when NOT desktop) */}
+        {artifactDrawerOpen && currentArtifact && !isDesktop && (
+          <ArtifactDrawer
+            open={artifactDrawerOpen}
+            onOpenChange={setArtifactDrawerOpen}
+            artifact={currentArtifact}
+            mode="drawer"
+          />
+        )}
+      </div>
     </div>
   );
 }

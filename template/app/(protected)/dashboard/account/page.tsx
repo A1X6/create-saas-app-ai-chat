@@ -2,11 +2,21 @@ import { getActivityLogs, getUser } from '@/lib/db/queries';
 import { AccountPageClient } from './account-client';
 import type { Metadata } from 'next';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 // Server-Side Rendering (SSR) - Dynamic page with user data
 // Account settings and activity logs require fresh data
 export const metadata: Metadata = {
-  title: 'Account Settings',
-  description: 'Manage your profile, security settings, subscription, and view activity logs',
+  title: 'Account Settings - {{APP_NAME}}',
+  description: 'Manage your {{APP_NAME}} account profile, security settings, subscription, and view your activity logs.',
+  robots: {
+    index: false,
+    follow: true,
+  },
+  alternates: {
+    canonical: '/dashboard/account',
+  },
 };
 
 export default async function AccountPage() {

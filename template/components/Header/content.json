@@ -1,0 +1,19 @@
+{
+  "navigation": [
+    { "label": "Home", "href": "/" },
+    { "label": "Features", "href": "/features" },
+    { "label": "Pricing", "href": "/pricing" },
+    { "label": "About", "href": "/about" },
+    { "label": "Contact", "href": "/contact" }
+  ],
+  "auth": {
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "mobile": {
+    "toggleMenu": "Toggle menu",
+    "menuTitle": "Menu"
+  }
+}

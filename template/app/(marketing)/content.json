@@ -1,0 +1,175 @@
+{
+  "metadata": {
+    "title": "{{APP_NAME}} - Multi-Model AI Chat Platform",
+    "description": "Access 15+ premium AI models from one unified interface. Track usage with advanced analytics, manage conversations, and optimize your AI workflow with transparent credit-based pricing.",
+    "keywords": [
+      "multi-model AI chat",
+      "AI conversation platform",
+      "ChatGPT alternative",
+      "Claude AI",
+      "AI credits",
+      "AI usage tracking",
+      "AI analytics",
+      "conversation management",
+      "AI productivity tools",
+      "OpenRouter integration"
+    ],
+    "ogTitle": "{{APP_NAME}} - Multi-Model AI Chat Platform",
+    "ogDescription": "Access 15+ premium AI models, track usage with analytics, and manage conversations with transparent pricing.",
+    "ogImage": "/og-image.png",
+    "ogImageAlt": "{{APP_NAME}} - Multi-Model AI Chat Platform",
+    "twitterTitle": "{{APP_NAME}} - Multi-Model AI Chat Platform",
+    "twitterDescription": "Access 15+ premium AI models, track usage with analytics, and manage conversations with transparent pricing.",
+    "twitterImage": "/og-image.png"
+  },
+  "schema": {
+    "organizationDescription": "Professional AI prompt engineering platform to optimize your AI interactions and unlock maximum value from AI models.",
+    "organizationContactEmail": "{{SUPPORT_EMAIL}}",
+    "webApplicationName": "{{APP_NAME}}",
+    "webApplicationDescription": "AI prompt engineering platform with expert frameworks, templates, and optimization tools."
+  },
+  "hero": {
+    "badge": "AI Prompt Engineering Made Simple",
+    "heading": "Craft Perfect Prompts",
+    "animatedText": "Get Better AI Results",
+    "cta": {
+      "primary": "Try it Free",
+      "secondary": "Start Chatting"
+    },
+    "stats": [
+      {
+        "value": 15,
+        "suffix": "+",
+        "label": "AI Models"
+      },
+      {
+        "value": 100,
+        "suffix": "%",
+        "label": "Uptime SLA"
+      },
+      {
+        "value": 24,
+        "suffix": "/7",
+        "label": "Support Available"
+      }
+    ]
+  },
+  "features": {
+    "badge": "Features",
+    "heading": "Everything You Need to Master AI Prompts",
+    "description": "Powerful tools and frameworks designed to help you craft perfect prompts every time",
+    "items": [
+      {
+        "category": "Models",
+        "icon": "Layers",
+        "title": "Multi-Model Chat",
+        "description": "Access 15+ premium AI models from a single interface. Switch between GPT-4, Claude, Gemini, and more to find the perfect model for your needs.",
+        "features": [
+          "15+ premium AI models",
+          "Easy model switching",
+          "Real-time responses"
+        ]
+      },
+      {
+        "category": "Organize",
+        "icon": "FileText",
+        "title": "Conversation Management",
+        "description": "Keep your AI conversations organized and easily accessible. Manage unlimited chat sessions with automatic saving and comprehensive history tracking.",
+        "features": [
+          "Automatic conversation saving",
+          "Unlimited conversation history",
+          "Rename and organize chats"
+        ]
+      },
+      {
+        "category": "Analytics",
+        "icon": "BarChart3",
+        "title": "Usage Analytics",
+        "description": "Track your AI credits, token usage, and spending with comprehensive analytics. Monitor your usage patterns and optimize your AI costs.",
+        "features": [
+          "Real-time credit tracking",
+          "Token usage monitoring",
+          "Detailed analytics dashboard"
+        ]
+      },
+      {
+        "category": "Coding",
+        "icon": "Lightbulb",
+        "title": "Code Highlighting",
+        "description": "Get syntax-highlighted code blocks in your AI responses. Perfect for developers working with AI on coding tasks and technical queries.",
+        "features": [
+          "Multi-language support",
+          "Auto-detected syntax",
+          "Easy copy-paste"
+        ]
+      },
+      {
+        "category": "Productivity",
+        "icon": "BookmarkPlus",
+        "title": "Artifact View",
+        "description": "AI-generated content displays in a beautiful split-view interface. Desktop shows side-by-side layout, mobile uses an overlay for optimal viewing.",
+        "features": [
+          "Split-view on desktop",
+          "Responsive overlay on mobile",
+          "Customizable detection patterns"
+        ]
+      },
+      {
+        "category": "Testing",
+        "icon": "Brain",
+        "title": "Test Prompt Sandbox",
+        "description": "Test your prompts in an isolated environment with vanilla AI behavior. Perfect for iterating and refining prompts before using them in production.",
+        "features": [
+          "Isolated testing environment",
+          "No conversation saving",
+          "Quick iteration cycles"
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Frequently Asked Questions",
+    "description": "Everything you need to know about {{APP_NAME}}",
+    "items": [
+      {
+        "question": "What is {{APP_NAME}}?",
+        "answer": "{{APP_NAME}} is a multi-model AI chat platform that gives you access to 15+ premium AI models from one interface. We provide conversation management, usage analytics, and transparent credit-based pricing to help you optimize your AI workflow."
+      },
+      {
+        "question": "How does the credit system work?",
+        "answer": "All subscription plans include AI credits in USD that cover actual AI model costs from OpenRouter. Credits are automatically tracked and deducted based on your usage. You can monitor your credit balance and usage in real-time from your dashboard."
+      },
+      {
+        "question": "Which AI models are supported?",
+        "answer": "We support 15+ premium AI models including Claude (multiple versions), GPT-4, Gemini, Llama, DeepSeek, and more through OpenRouter. All models are available to paid subscribers, with costs deducted from your monthly credit allocation."
+      },
+      {
+        "question": "Do you offer a free trial?",
+        "answer": "Yes! All subscription plans include a free trial period. Monthly plans get 7 days trial, and yearly plans get 14 days trial. During your trial, you receive $1 in credits to test the platform. You can upgrade anytime to unlock your full plan credits."
+      },
+      {
+        "question": "How secure is my data?",
+        "answer": "All conversations are encrypted in transit and at rest using industry-standard encryption. We never share your data with third parties. You maintain full control over your conversation history and can delete your data anytime through your account settings."
+      },
+      {
+        "question": "Can I cancel my subscription anytime?",
+        "answer": "Absolutely! You can cancel your subscription at any time with no questions asked through the customer portal. You'll retain access until the end of your current billing period, and no further charges will be made."
+      }
+    ]
+  },
+  "cta": {
+    "badge": "Start Your Journey",
+    "heading": "Ready to Transform Your",
+    "headingHighlight": "AI Workflow?",
+    "description": "Join thousands of professionals who are already mastering AI prompt engineering with {{APP_NAME}}.",
+    "buttons": {
+      "primary": "Start Free Trial",
+      "secondary": "Contact Sales"
+    },
+    "trustIndicators": [
+      "Free trial included",
+      "Transparent pricing",
+      "Cancel anytime"
+    ]
+  }
+}

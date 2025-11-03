@@ -169,7 +169,7 @@ export default function PromptsPage() {
         <AlertTitle>How It Works</AlertTitle>
         <AlertDescription>
           Upload your <code className="text-xs bg-muted px-1 rounded">.md</code> files using the
-          dropzone below, then click "Convert to JSON" to generate the corresponding JSON files
+          dropzone below, then click &quot;Convert to JSON&quot; to generate the corresponding JSON files
           automatically.
         </AlertDescription>
       </Alert>
@@ -389,7 +389,7 @@ export default function PromptsPage() {
             <div className="flex-1">
               <p className="font-medium">Convert to JSON</p>
               <p className="text-sm text-muted-foreground">
-                After uploading, click "Convert to JSON" to generate the JSON files
+                After uploading, click &quot;Convert to JSON&quot; to generate the JSON files
               </p>
             </div>
           </div>

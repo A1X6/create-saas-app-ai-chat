@@ -2,9 +2,9 @@
 
 import { createClient } from '@supabase/supabase-js';
 import { Stripe } from 'stripe';
-import { Resend } from 'resend';
 import { writeFile } from 'fs/promises';
 import { join } from 'path';
+import messages from './messages.json';
 
 // Environment variable validation results
 type ValidationResult = {
@@ -20,7 +20,7 @@ export async function validateSupabase(
 ): Promise<ValidationResult> {
   try {
     if (!url || !anonKey || !serviceKey) {
-      return { valid: false, message: 'All Supabase fields are required' };
+      return { valid: false, message: messages.environment.validation.supabase.errors.allFieldsRequired };
     }
 
     // Test anon key connection
@@ -28,10 +28,13 @@ export async function validateSupabase(
     const { error } = await supabase.auth.getSession();
 
     if (error) {
-      return { valid: false, message: `Supabase connection failed: ${error.message}` };
+      return {
+        valid: false,
+        message: messages.environment.validation.supabase.errors.connectionFailed.replace('{{error}}', error.message)
+      };
     }
 
-    return { valid: true, message: 'Supabase connection successful' };
+    return { valid: true, message: messages.environment.validation.supabase.success };
   } catch (error) {
     return {
       valid: false,
@@ -44,13 +47,13 @@ export async function validateSupabase(
 export async function validateStripe(secretKey: string): Promise<ValidationResult> {
   try {
     if (!secretKey) {
-      return { valid: false, message: 'Stripe secret key is required' };
+      return { valid: false, message: messages.environment.validation.stripe.errors.secretKeyRequired };
     }
 
     const stripe = new Stripe(secretKey);
     await stripe.products.list({ limit: 1 });
 
-    return { valid: true, message: 'Stripe connection successful' };
+    return { valid: true, message: messages.environment.validation.stripe.success };
   } catch (error) {
     return {
       valid: false,
@@ -63,24 +66,24 @@ export async function validateStripe(secretKey: string): Promise<ValidationResul
 export async function validateResend(apiKey: string, fromEmail: string, toEmail: string): Promise<ValidationResult> {
   try {
     if (!apiKey || !fromEmail || !toEmail) {
-      return { valid: false, message: 'All Resend fields are required' };
+      return { valid: false, message: messages.environment.validation.resend.errors.allFieldsRequired };
     }
 
     // Resend doesn't have a simple validation endpoint, so we'll just check the key format
     if (!apiKey.startsWith('re_')) {
-      return { valid: false, message: 'Invalid Resend API key format' };
+      return { valid: false, message: messages.environment.validation.resend.errors.invalidKeyFormat };
     }
 
     // Validate email formats
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(fromEmail)) {
-      return { valid: false, message: 'Invalid from email format' };
+      return { valid: false, message: messages.environment.validation.resend.errors.invalidFromEmail };
     }
     if (!emailRegex.test(toEmail)) {
-      return { valid: false, message: 'Invalid to email format' };
+      return { valid: false, message: messages.environment.validation.resend.errors.invalidToEmail };
     }
 
-    return { valid: true, message: 'Resend configuration is valid' };
+    return { valid: true, message: messages.environment.validation.resend.success };
   } catch (error) {
     return {
       valid: false,
@@ -93,13 +96,13 @@ export async function validateResend(apiKey: string, fromEmail: string, toEmail:
 export async function validateOpenRouter(apiKey: string, temperature: string): Promise<ValidationResult> {
   try {
     if (!apiKey || !temperature) {
-      return { valid: false, message: 'All OpenRouter fields are required' };
+      return { valid: false, message: messages.environment.validation.openrouter.errors.allFieldsRequired };
     }
 
     // Validate temperature
     const temp = parseFloat(temperature);
     if (isNaN(temp) || temp < 0 || temp > 2) {
-      return { valid: false, message: 'AI Temperature must be between 0.0 and 2.0' };
+      return { valid: false, message: messages.environment.validation.openrouter.errors.invalidTemperature };
     }
 
     // Test OpenRouter API
@@ -110,10 +113,10 @@ export async function validateOpenRouter(apiKey: string, temperature: string): P
     });
 
     if (!response.ok) {
-      return { valid: false, message: 'OpenRouter API key is invalid' };
+      return { valid: false, message: messages.environment.validation.openrouter.errors.invalidApiKey };
     }
 
-    return { valid: true, message: 'OpenRouter connection successful' };
+    return { valid: true, message: messages.environment.validation.openrouter.success };
   } catch (error) {
     return {
       valid: false,
@@ -171,19 +174,19 @@ export async function saveEnvironmentVariables(formData: FormData): Promise<{
 
     // Validate required fields
     if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey || !databaseUrl) {
-      return { success: false, message: 'Supabase configuration is incomplete' };
+      return { success: false, message: messages.environment.save.errors.supabaseIncomplete };
     }
 
     if (!stripeSecretKey || !stripePublishableKey || !stripeWebhookSecret) {
-      return { success: false, message: 'Stripe configuration is incomplete' };
+      return { success: false, message: messages.environment.save.errors.stripeIncomplete };
     }
 
     if (!resendApiKey || !resendFromEmail || !resendToEmail) {
-      return { success: false, message: 'Resend configuration is incomplete' };
+      return { success: false, message: messages.environment.save.errors.resendIncomplete };
     }
 
     if (!openrouterApiKey || !aiTemperature) {
-      return { success: false, message: 'OpenRouter configuration is incomplete' };
+      return { success: false, message: messages.environment.save.errors.openrouterIncomplete };
     }
 
     // Build .env.local content
@@ -232,7 +235,7 @@ SETUP_COMPLETE=false
 
     return {
       success: true,
-      message: 'Configuration saved successfully! Please restart your development server.'
+      message: messages.environment.save.success
     };
   } catch (error) {
     return {

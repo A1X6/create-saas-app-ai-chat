@@ -1,0 +1,26 @@
+{
+  "badge": {
+    "text": "Start Your Journey"
+  },
+  "heading": {
+    "line1": "Ready to Transform Your",
+    "line2": "AI Workflow?",
+    "highlight": "AI Workflow?"
+  },
+  "description": "Join thousands of professionals who are already mastering AI prompt engineering with {{APP_NAME}}.",
+  "cta": {
+    "primary": {
+      "text": "Start Free Trial",
+      "href": "/auth/sign-up"
+    },
+    "secondary": {
+      "text": "Contact Sales",
+      "href": "/contact"
+    }
+  },
+  "trustIndicators": [
+    "Free trial included",
+    "Transparent pricing",
+    "Cancel anytime"
+  ]
+}

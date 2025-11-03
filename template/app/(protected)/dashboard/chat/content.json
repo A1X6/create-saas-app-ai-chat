@@ -1,0 +1,11 @@
+{
+  "metadata": {
+    "title": "AI Chat - {{APP_NAME}}",
+    "description": "Chat with 15+ premium AI models including GPT-4, Claude, and Gemini. Use your AI credits or free tokens to have conversations."
+  },
+  "subscriptionRequired": {
+    "title": "Subscription Required",
+    "message": "You need an active subscription to use {{APP_NAME}}. Subscribe now to start your trial with $1 credit.",
+    "button": "View Pricing Plans"
+  }
+}

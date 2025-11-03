@@ -1,0 +1,111 @@
+{
+  "heading": "Environment Variables",
+  "description": "Configure your environment variables for Supabase, Stripe, email, and AI services.",
+  "alert": {
+    "title": "Important",
+    "description": "These values will be saved to your .env.local file. Make sure to restart your development server after saving."
+  },
+  "sections": {
+    "supabase": {
+      "title": "Supabase",
+      "description": "Database and authentication",
+      "badge": "Required",
+      "fields": {
+        "url": {
+          "label": "Project URL",
+          "placeholder": "https://xxxxx.supabase.co"
+        },
+        "anonKey": {
+          "label": "Anon Key (Public)",
+          "placeholder": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        },
+        "serviceKey": {
+          "label": "Service Role Key (Secret)",
+          "placeholder": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        },
+        "databaseUrl": {
+          "label": "Database URL (Direct Connection)",
+          "placeholder": "postgresql://postgres:password@db.xxxxx.supabase.co:5432/postgres"
+        }
+      }
+    },
+    "stripe": {
+      "title": "Stripe",
+      "description": "Payment processing",
+      "badge": "Required",
+      "fields": {
+        "secretKey": {
+          "label": "Secret Key",
+          "placeholder": "sk_test_51..."
+        },
+        "publishableKey": {
+          "label": "Publishable Key",
+          "placeholder": "pk_test_51..."
+        },
+        "webhookSecret": {
+          "label": "Webhook Secret",
+          "placeholder": "whsec_..."
+        }
+      }
+    },
+    "resend": {
+      "title": "Resend (Email)",
+      "description": "Transactional emails",
+      "badge": "Required",
+      "fields": {
+        "apiKey": {
+          "label": "API Key",
+          "placeholder": "re_..."
+        },
+        "fromEmail": {
+          "label": "From Email",
+          "placeholder": "noreply@yourdomain.com"
+        },
+        "toEmail": {
+          "label": "To Email (Admin)",
+          "placeholder": "admin@yourdomain.com"
+        }
+      }
+    },
+    "openrouter": {
+      "title": "OpenRouter (AI Chat)",
+      "description": "AI-powered chatbot",
+      "badge": "Required",
+      "fields": {
+        "apiKey": {
+          "label": "API Key",
+          "placeholder": "sk-or-v1-..."
+        },
+        "temperature": {
+          "label": "AI Temperature (0.0 - 2.0)",
+          "placeholder": "0.7",
+          "help": "Controls creativity: 0.0 = deterministic, 2.0 = very creative. Recommended: 0.7 for balanced responses."
+        }
+      }
+    }
+  },
+  "buttons": {
+    "save": {
+      "default": "Save Configuration",
+      "loading": "Saving..."
+    },
+    "test": {
+      "default": "Test Connections",
+      "loading": "Testing..."
+    }
+  },
+  "toasts": {
+    "testing": {
+      "title": "Testing connections...",
+      "description": "Please wait while we validate your API keys"
+    },
+    "allValid": {
+      "title": "All connections validated!",
+      "description": "Your configuration is ready to use"
+    }
+  },
+  "navigation": {
+    "back": "Back",
+    "next": "Next: Database"
+  }
+}

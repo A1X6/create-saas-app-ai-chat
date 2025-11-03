@@ -1,0 +1,34 @@
+{
+  "metadata": {
+    "title": "About - {{APP_NAME}}",
+    "description": "Learn about our mission to provide seamless access to multiple premium AI models through one unified platform. Discover how we're simplifying AI interactions with transparent pricing and powerful management tools.",
+    "keywords": [
+      "AI chat platform",
+      "multi-model AI",
+      "AI tools company",
+      "OpenRouter platform",
+      "AI innovation",
+      "AI conversation management",
+      "about us"
+    ],
+    "ogTitle": "About {{APP_NAME}} - Our Mission & Story",
+    "ogDescription": "Providing seamless access to 15+ premium AI models through one unified platform. Learn about our mission to simplify AI interactions.",
+    "ogImage": "/og-about.png",
+    "ogImageAlt": "About {{APP_NAME}}",
+    "twitterTitle": "About {{APP_NAME}} - Our Mission & Story",
+    "twitterDescription": "Providing seamless access to 15+ premium AI models through one unified platform.",
+    "twitterImage": "/og-about.png"
+  },
+  "schema": {
+    "organizationName": "{{APP_NAME}}",
+    "organizationDescription": "Multi-model AI chat platform providing access to 15+ premium AI models with conversation management and usage analytics.",
+    "foundingDate": "2024",
+    "contactEmail": "{{SUPPORT_EMAIL}}",
+    "socialLinks": [
+      "{{TWITTER_URL}}",
+      "{{LINKEDIN_URL}}",
+      "{{GITHUB_URL}}"
+    ],
+    "aboutPageDescription": "Learn about our mission to provide seamless access to multiple premium AI models through one unified platform with transparent pricing and powerful management tools."
+  }
+}

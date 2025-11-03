@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { updatePasswordAction } from '@/lib/actions/auth-actions';
 import { toast } from 'sonner';
+import content from './content.json';
 
 export default function UpdatePasswordPage() {
   const [state, formAction, isPending] = useActionState(updatePasswordAction, null);
@@ -38,17 +39,17 @@ export default function UpdatePasswordPage() {
                   <div className="flex size-8 items-center justify-center rounded-md">
                     <GalleryVerticalEnd className="size-6" />
                   </div>
-                  <span className="sr-only">SaaS App</span>
+                  <span className="sr-only">{content.appName}</span>
                 </Link>
-                <h1 className="text-xl font-bold">Update Password</h1>
+                <h1 className="text-xl font-bold">{content.header.title}</h1>
                 <FieldDescription>
-                  Enter your new password below
+                  {content.header.description}
                 </FieldDescription>
               </div>
 
               {/* Password Field */}
               <Field>
-                <FieldLabel htmlFor="password">New Password</FieldLabel>
+                <FieldLabel htmlFor="password">{content.form.passwordLabel}</FieldLabel>
                 <Input
                   id="password"
                   name="password"
@@ -57,14 +58,14 @@ export default function UpdatePasswordPage() {
                   minLength={8}
                 />
                 <FieldDescription>
-                  Password must be at least 8 characters
+                  {content.form.passwordDescription}
                 </FieldDescription>
               </Field>
 
               {/* Submit Button */}
               <Field>
                 <Button type="submit" className="w-full" disabled={isPending}>
-                  {isPending ? 'Updating...' : 'Update Password'}
+                  {isPending ? content.form.submitButton.loading : content.form.submitButton.idle}
                 </Button>
               </Field>
             </FieldGroup>
@@ -73,7 +74,7 @@ export default function UpdatePasswordPage() {
           {/* Back to Sign In */}
           <FieldDescription className="px-6 text-center">
             <Link href="/auth/sign-in" className="underline underline-offset-4">
-              Back to sign in
+              {content.footer.backToSignIn}
             </Link>
           </FieldDescription>
         </div>

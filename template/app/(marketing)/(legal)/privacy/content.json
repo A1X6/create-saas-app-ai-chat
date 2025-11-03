@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "title": "Privacy Policy - {{APP_NAME}}",
+    "description": "Learn how {{APP_NAME}} collects, uses, and protects your personal information. We prioritize your privacy and data security. Read our comprehensive privacy policy.",
+    "keywords": [
+      "privacy policy",
+      "data protection",
+      "user privacy",
+      "GDPR compliance",
+      "data security",
+      "privacy statement"
+    ],
+    "lastUpdated": "10/18/2025"
+  },
+  "heading": "Privacy Policy",
+  "sections": [
+    {
+      "title": "Introduction",
+      "content": "This Privacy Policy describes how we collect, use, and handle your personal information when you use our service."
+    },
+    {
+      "title": "Information We Collect",
+      "intro": "We collect information you provide directly to us, including:",
+      "items": [
+        "Account information (email, name)",
+        "Payment information (processed by Stripe)",
+        "Usage data and analytics"
+      ]
+    },
+    {
+      "title": "How We Use Your Information",
+      "intro": "We use the information we collect to:",
+      "items": [
+        "Provide, maintain, and improve our services",
+        "Process transactions and send related information",
+        "Send technical notices and support messages",
+        "Respond to your comments and questions"
+      ]
+    },
+    {
+      "title": "Data Security",
+      "content": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction."
+    },
+    {
+      "title": "Contact Us",
+      "content": "If you have any questions about this Privacy Policy, please contact us."
+    }
+  ]
+}

@@ -7,6 +7,20 @@ import {
   FieldDescription,
   FieldGroup,
 } from '@/components/ui/field';
+import type { Metadata } from 'next';
+import content from './content.json';
+
+export const metadata: Metadata = {
+  title: content.metadata.title,
+  description: content.metadata.description,
+  robots: {
+    index: false,
+    follow: true,
+  },
+  alternates: {
+    canonical: '/auth/error',
+  },
+};
 
 export default function AuthErrorPage() {
   return (
@@ -20,26 +34,26 @@ export default function AuthErrorPage() {
                 <div className="flex size-8 items-center justify-center rounded-md">
                   <GalleryVerticalEnd className="size-6" />
                 </div>
-                <span className="sr-only">SaaS App</span>
+                <span className="sr-only">{content.appName}</span>
               </Link>
               <div className="p-3 bg-destructive/10 rounded-full mt-2">
                 <AlertCircle className="h-8 w-8 text-destructive" />
               </div>
-              <h1 className="text-xl font-bold">Authentication Error</h1>
+              <h1 className="text-xl font-bold">{content.header.title}</h1>
               <FieldDescription>
-                There was a problem with your authentication request
+                {content.header.description}
               </FieldDescription>
             </div>
 
             {/* Description */}
             <FieldDescription className="text-center">
-              Please try signing in again or contact support if the problem persists.
+              {content.message}
             </FieldDescription>
 
             {/* Back Button */}
             <Field>
               <Button asChild className="w-full">
-                <Link href="/auth/sign-in">Back to Sign In</Link>
+                <Link href="/auth/sign-in">{content.button}</Link>
               </Button>
             </Field>
           </FieldGroup>

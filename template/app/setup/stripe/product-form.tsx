@@ -89,7 +89,7 @@ export function ProductForm({ product, profitMargin, onSave, onCancel }: Product
     setPrices(prices.filter((_, i) => i !== index));
   };
 
-  const handlePriceChange = (index: number, field: keyof ProductPrice, value: any) => {
+  const handlePriceChange = (index: number, field: keyof ProductPrice, value: string | number) => {
     const updated = [...prices];
     updated[index] = { ...updated[index], [field]: value };
     setPrices(updated);

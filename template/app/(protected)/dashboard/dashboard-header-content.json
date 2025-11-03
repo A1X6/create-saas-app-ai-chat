@@ -1,0 +1,10 @@
+{
+  "breadcrumb": {
+    "dashboard": "Dashboard",
+    "overview": "Overview"
+  },
+  "logout": {
+    "text": "Logout",
+    "ariaLabel": "Logout"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "metadata": {
+    "title": "Sign Up - {{APP_NAME}}",
+    "description": "Create your {{APP_NAME}} account and get instant access to 15+ AI models. Start with 1M free tokens per month. No credit card required."
+  },
+  "appName": "SaaS App",
+  "header": {
+    "title": "Create your account",
+    "signInPrompt": "Already have an account?",
+    "signInLinkText": "Sign in"
+  },
+  "form": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "m@example.com",
+    "passwordLabel": "Password",
+    "passwordDescription": "Password must be at least 8 characters",
+    "confirmPasswordLabel": "Confirm Password",
+    "submitButton": {
+      "idle": "Create account",
+      "loading": "Creating account..."
+    }
+  },
+  "footer": {
+    "agreementText": "By clicking continue, you agree to our",
+    "termsLinkText": "Terms of Service",
+    "andText": "and",
+    "privacyLinkText": "Privacy Policy"
+  },
+  "errors": {
+    "passwordsDoNotMatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 8 characters"
+  }
+}

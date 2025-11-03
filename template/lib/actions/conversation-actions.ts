@@ -2,6 +2,7 @@
 
 import { deleteConversation, getUser } from '@/lib/db/queries';
 import { revalidatePath } from 'next/cache';
+import messages from './messages.json';
 
 export async function deleteConversationAction(conversationId: string) {
   try {
@@ -9,7 +10,7 @@ export async function deleteConversationAction(conversationId: string) {
     if (!user) {
       return {
         success: false,
-        message: 'You must be logged in to delete conversations',
+        message: messages.conversation.delete.errors.notLoggedIn,
       };
     }
 
@@ -20,13 +21,13 @@ export async function deleteConversationAction(conversationId: string) {
 
     return {
       success: true,
-      message: 'Conversation deleted successfully',
+      message: messages.conversation.delete.success,
     };
   } catch (error) {
     console.error('Delete conversation error:', error);
     return {
       success: false,
-      message: 'Failed to delete conversation',
+      message: messages.conversation.delete.errors.failed,
     };
   }
 }

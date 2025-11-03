@@ -48,8 +48,6 @@ export const getUser = cache(async () => {
     aiCreditsBalance: profile?.aiCreditsBalance ? parseFloat(profile.aiCreditsBalance) : 0,
     aiCreditsAllocated: profile?.aiCreditsAllocated ? parseFloat(profile.aiCreditsAllocated) : 0,
     aiCreditsUsed: profile?.aiCreditsUsed ? parseFloat(profile.aiCreditsUsed) : 0,
-    freeTokensUsed: profile?.freeTokensUsed || 0,
-    freeTokensLimit: profile?.freeTokensLimit || 1000000,
   };
 });
 

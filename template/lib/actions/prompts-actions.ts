@@ -1,11 +1,8 @@
 'use server';
 
-import { exec } from 'child_process';
-import { promisify } from 'util';
 import { readdirSync, existsSync, writeFileSync, mkdirSync, readFileSync } from 'fs';
 import { join, extname, basename } from 'path';
-
-const execAsync = promisify(exec);
+import messages from './messages.json';
 
 const MARKDOWN_DIR = join(process.cwd(), 'prompts', 'markdown');
 const JSON_DIR = join(process.cwd(), 'prompts', 'json');
@@ -22,7 +19,7 @@ export async function listPromptFiles(): Promise<{
       return {
         success: false,
         files: [],
-        message: 'Prompts markdown directory not found',
+        message: messages.prompts.list.errors.markdownDirNotFound,
       };
     }
 
@@ -31,7 +28,7 @@ export async function listPromptFiles(): Promise<{
     return {
       success: true,
       files,
-      message: `Found ${files.length} markdown file(s)`,
+      message: messages.prompts.list.markdown.success.replace('{{count}}', files.length.toString()),
     };
   } catch (error) {
     return {
@@ -53,7 +50,7 @@ export async function listJsonFiles(): Promise<{
       return {
         success: true,
         files: [],
-        message: 'No JSON files generated yet',
+        message: messages.prompts.list.json.empty,
       };
     }
 
@@ -62,7 +59,7 @@ export async function listJsonFiles(): Promise<{
     return {
       success: true,
       files,
-      message: `Found ${files.length} JSON file(s)`,
+      message: messages.prompts.list.json.success.replace('{{count}}', files.length.toString()),
     };
   } catch (error) {
     return {
@@ -134,7 +131,7 @@ export async function convertPromptsToJson(): Promise<{
     if (!existsSync(MARKDOWN_DIR)) {
       return {
         success: false,
-        message: 'Markdown directory not found. Please upload markdown files first.',
+        message: messages.prompts.convert.errors.markdownDirNotFound,
       };
     }
 
@@ -149,7 +146,7 @@ export async function convertPromptsToJson(): Promise<{
     if (markdownFiles.length === 0) {
       return {
         success: false,
-        message: 'No markdown files found to convert',
+        message: messages.prompts.convert.errors.noMarkdownFiles,
       };
     }
 
@@ -164,10 +161,18 @@ export async function convertPromptsToJson(): Promise<{
 
       try {
         convertMarkdownToJson(mdPath, jsonPath);
-        output.push(`✓ Converted ${mdFile} → ${jsonFileName}`);
+        output.push(
+          messages.prompts.convert.output.converted
+            .replace('{{mdFile}}', mdFile)
+            .replace('{{jsonFile}}', jsonFileName)
+        );
         convertedCount++;
       } catch (error) {
-        output.push(`✗ Failed to convert ${mdFile}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        output.push(
+          messages.prompts.convert.output.failed
+            .replace('{{mdFile}}', mdFile)
+            .replace('{{error}}', error instanceof Error ? error.message : 'Unknown error')
+        );
       }
     }
 
@@ -179,14 +184,21 @@ export async function convertPromptsToJson(): Promise<{
     // Generate index.ts file with all prompts
     try {
       generateIndexFile(jsonFiles);
-      output.push(`\n✓ Updated index.ts with ${jsonFiles.length} prompt(s)`);
+      output.push(
+        '\n' + messages.prompts.convert.output.indexUpdated.replace('{{count}}', jsonFiles.length.toString())
+      );
     } catch (error) {
-      output.push(`\n✗ Failed to update index.ts: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      output.push(
+        '\n' + messages.prompts.convert.output.indexFailed.replace(
+          '{{error}}',
+          error instanceof Error ? error.message : 'Unknown error'
+        )
+      );
     }
 
     return {
       success: convertedCount > 0,
-      message: `Converted ${convertedCount} file(s) and updated index`,
+      message: messages.prompts.convert.success.replace('{{count}}', convertedCount.toString()),
       output: output.join('\n'),
       convertedCount,
     };
@@ -216,7 +228,7 @@ export async function uploadPromptFiles(formData: FormData): Promise<{
     if (files.length === 0) {
       return {
         success: false,
-        message: 'No files provided',
+        message: messages.prompts.upload.errors.noFiles,
       };
     }
 
@@ -242,13 +254,13 @@ export async function uploadPromptFiles(formData: FormData): Promise<{
     if (uploaded === 0) {
       return {
         success: false,
-        message: 'No valid .md files were uploaded',
+        message: messages.prompts.upload.errors.noValidFiles,
       };
     }
 
     return {
       success: true,
-      message: `Successfully uploaded ${uploaded} file(s)`,
+      message: messages.prompts.upload.success.replace('{{count}}', uploaded.toString()),
       filesUploaded: uploaded,
     };
   } catch (error) {
@@ -278,7 +290,9 @@ export async function checkPromptsStatus(): Promise<{
       jsonCount: jsonResult.files.length,
       markdownFiles: markdownResult.files,
       jsonFiles: jsonResult.files,
-      message: `${markdownResult.files.length} markdown, ${jsonResult.files.length} JSON files`,
+      message: messages.prompts.status.success
+        .replace('{{markdownCount}}', markdownResult.files.length.toString())
+        .replace('{{jsonCount}}', jsonResult.files.length.toString()),
     };
   } catch (error) {
     return {

@@ -2,6 +2,7 @@
 
 import { sendContactEmail } from '@/lib/email/resend';
 import { z } from 'zod';
+import messages from './messages.json';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -25,7 +26,7 @@ export async function submitContactForm(formData: FormData) {
 
     return {
       success: true,
-      message: 'Thank you for your message! We will get back to you soon.',
+      message: messages.contact.submit.success,
     };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -38,7 +39,7 @@ export async function submitContactForm(formData: FormData) {
     console.error('Contact form error:', error);
     return {
       success: false,
-      message: 'Something went wrong. Please try again later.',
+      message: messages.contact.submit.errors.failed,
     };
   }
 }

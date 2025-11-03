@@ -1,0 +1,25 @@
+{
+  "badge": {
+    "text": "Contact Options"
+  },
+  "heading": "How Can We Help You?",
+  "subheading": "Choose the best way to reach out to our team",
+  "contactLabel": "Contact",
+  "contactOptions": [
+    {
+      "icon": "Mail",
+      "title": "Email Us Directly",
+      "description": "Prefer email? Reach out to us directly at our support address.",
+      "action": "{{SUPPORT_EMAIL}}",
+      "href": "mailto:{{SUPPORT_EMAIL}}",
+      "isEmail": true
+    },
+    {
+      "icon": "MessageSquare",
+      "title": "General Questions",
+      "description": "Have questions? We're here to help with any inquiries you may have.",
+      "action": "Send Message",
+      "href": "#contact-form"
+    }
+  ]
+}

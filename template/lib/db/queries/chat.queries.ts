@@ -1,13 +1,13 @@
-import { eq, desc } from 'drizzle-orm';
-import { cache } from 'react';
-import { db } from '../index';
+import { eq, desc } from "drizzle-orm";
+import { cache } from "react";
+import { db } from "../index";
 import {
   chatConversations,
   chatMessages,
   type NewChatConversation,
   type NewChatMessage,
-} from '../schema';
-import { getUser } from './user.queries';
+} from "../schema";
+import { getUser } from "./user.queries";
 
 /**
  * Chat Queries
@@ -23,10 +23,13 @@ import { getUser } from './user.queries';
  * Create new chat conversation
  * Returns the conversation ID
  */
-export async function createConversation(userId: string, title?: string): Promise<string> {
+export async function createConversation(
+  userId: string,
+  title?: string
+): Promise<string> {
   const newConversation: NewChatConversation = {
     userId,
-    title: title || 'New Conversation',
+    title: title || "New Conversation",
   };
 
   const [conversation] = await db
@@ -58,33 +61,35 @@ export const getUserConversations = cache(async () => {
  * Get conversation with all its messages
  * Returns null if conversation doesn't exist or doesn't belong to user
  */
-export const getConversationWithMessages = cache(async (conversationId: string) => {
-  const user = await getUser();
-  if (!user) return null;
+export const getConversationWithMessages = cache(
+  async (conversationId: string) => {
+    const user = await getUser();
+    if (!user) return null;
 
-  // Get conversation
-  const [conversation] = await db
-    .select()
-    .from(chatConversations)
-    .where(eq(chatConversations.id, conversationId))
-    .limit(1);
+    // Get conversation
+    const [conversation] = await db
+      .select()
+      .from(chatConversations)
+      .where(eq(chatConversations.id, conversationId))
+      .limit(1);
 
-  if (!conversation || conversation.userId !== user.id) {
-    return null;
+    if (!conversation || conversation.userId !== user.id) {
+      return null;
+    }
+
+    // Get messages
+    const messages = await db
+      .select()
+      .from(chatMessages)
+      .where(eq(chatMessages.conversationId, conversationId))
+      .orderBy(chatMessages.createdAt);
+
+    return {
+      conversation,
+      messages,
+    };
   }
-
-  // Get messages
-  const messages = await db
-    .select()
-    .from(chatMessages)
-    .where(eq(chatMessages.conversationId, conversationId))
-    .orderBy(chatMessages.createdAt);
-
-  return {
-    conversation,
-    messages,
-  };
-});
+);
 
 /**
  * Save message to conversation
@@ -96,34 +101,44 @@ export const getConversationWithMessages = cache(async (conversationId: string) 
  */
 export async function saveMessage(
   conversationId: string,
-  role: 'user' | 'assistant',
+  role: "user" | "assistant",
   content: string,
   model?: string,
   tokensUsed?: number,
-  costInDollars?: number
-) {
+  costInDollars?: number,
+  isArtifact?: boolean
+): Promise<string> {
   const newMessage: NewChatMessage = {
     conversationId,
     role,
     content,
     model: model || null,
     tokensUsed: tokensUsed || 0,
-    costInDollars: costInDollars ? costInDollars.toFixed(4) : '0.0000',
+    costInDollars: costInDollars ? costInDollars.toFixed(4) : "0.0000",
+    isArtifact: isArtifact || false,
   };
 
-  await db.insert(chatMessages).values(newMessage);
+  const [message] = await db
+    .insert(chatMessages)
+    .values(newMessage)
+    .returning();
 
   // Update conversation's updatedAt timestamp
   await db
     .update(chatConversations)
     .set({ updatedAt: new Date() })
     .where(eq(chatConversations.id, conversationId));
+
+  return message.id;
 }
 
 /**
  * Update conversation title
  */
-export async function updateConversationTitle(conversationId: string, title: string) {
+export async function updateConversationTitle(
+  conversationId: string,
+  title: string
+) {
   await db
     .update(chatConversations)
     .set({ title, updatedAt: new Date() })
@@ -134,7 +149,10 @@ export async function updateConversationTitle(conversationId: string, title: str
  * Delete conversation and all its messages
  * Verifies ownership before deletion
  */
-export async function deleteConversation(conversationId: string, userId: string) {
+export async function deleteConversation(
+  conversationId: string,
+  userId: string
+) {
   // Verify ownership
   const [conversation] = await db
     .select()
@@ -143,12 +161,16 @@ export async function deleteConversation(conversationId: string, userId: string)
     .limit(1);
 
   if (!conversation || conversation.userId !== userId) {
-    throw new Error('Unauthorized or conversation not found');
+    throw new Error("Unauthorized or conversation not found");
   }
 
   // Delete messages first
-  await db.delete(chatMessages).where(eq(chatMessages.conversationId, conversationId));
+  await db
+    .delete(chatMessages)
+    .where(eq(chatMessages.conversationId, conversationId));
 
   // Delete conversation
-  await db.delete(chatConversations).where(eq(chatConversations.id, conversationId));
+  await db
+    .delete(chatConversations)
+    .where(eq(chatConversations.id, conversationId));
 }

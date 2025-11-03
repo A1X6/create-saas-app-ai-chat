@@ -1,0 +1,38 @@
+{
+  "badge": {
+    "text": "FAQs"
+  },
+  "heading": "Frequently Asked Questions",
+  "subheading": "Quick answers to common questions",
+  "faqs": [
+    {
+      "question": "What are your support hours?",
+      "answer": "Our support team is available Monday through Friday, 9 AM to 6 PM EST. We typically respond to all inquiries within 24 hours, though most responses come much sooner during business hours."
+    },
+    {
+      "question": "How quickly will I get a response?",
+      "answer": "We aim to respond to all inquiries within 24 hours. During business hours, you can often expect a response within 2-4 hours. Urgent matters receive priority handling."
+    },
+    {
+      "question": "Can I schedule a demo?",
+      "answer": "Absolutely! You can request a demo by selecting 'Sales' as your inquiry type in the contact form above, or by emailing us directly. Our team will work with you to schedule a convenient time."
+    },
+    {
+      "question": "Do you offer enterprise support?",
+      "answer": "Yes, we offer dedicated enterprise support with priority response times, a dedicated account manager, and custom SLAs. Contact us to learn more about our enterprise plans."
+    },
+    {
+      "question": "How do I submit a feature request?",
+      "answer": "We love hearing from our users! You can submit feature requests by selecting 'Other' in the inquiry type and describing your idea, or visit our community forum where you can also vote on existing requests."
+    },
+    {
+      "question": "Where can I find documentation?",
+      "answer": "Our comprehensive documentation is available in the Help Center. You can also explore our Features page for detailed information about {{APP_NAME}}'s capabilities."
+    }
+  ],
+  "additionalHelp": {
+    "heading": "Still have questions?",
+    "description": "Can't find the answer you're looking for? We're here to help.",
+    "buttonText": "Contact Support"
+  }
+}

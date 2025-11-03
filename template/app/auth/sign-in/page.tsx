@@ -1,15 +1,18 @@
-import { LoginForm } from '@/components/login-form';
+import { LoginForm } from '@/app/auth/sign-in/login-form';
 import type { Metadata } from 'next';
 
 // Static Site Generation - Auth pages can be pre-rendered
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Sign In',
-  description: 'Sign in to your account to access your dashboard and start using the platform',
+  title: 'Sign In - {{APP_NAME}}',
+  description: 'Sign in to your {{APP_NAME}} account to access your dashboard, manage conversations, and chat with 15+ AI models.',
   robots: {
     index: false,
     follow: true,
+  },
+  alternates: {
+    canonical: '/auth/sign-in',
   },
 };
 

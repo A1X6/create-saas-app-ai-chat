@@ -4,6 +4,7 @@ import { db } from '@/lib/db';
 import { sql } from 'drizzle-orm';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import messages from './messages.json';
 
 const execAsync = promisify(exec);
 
@@ -23,7 +24,7 @@ export async function testDatabaseConnection(): Promise<{
 
     return {
       success: true,
-      message: `Database connection successful`,
+      message: messages.database.connection.success,
       latency,
     };
   } catch (error) {
@@ -49,7 +50,7 @@ export async function checkTablesExist(): Promise<{
       ORDER BY table_name
     `);
 
-    const tables = result.rows.map((row: any) => row.table_name);
+    const tables = result.rows.map((row) => (row as { table_name: string }).table_name);
     const expectedTables = ['user_profiles', 'activity_logs', 'chat_conversations', 'chat_messages'];
     const allTablesExist = expectedTables.every(table => tables.includes(table));
 
@@ -57,8 +58,11 @@ export async function checkTablesExist(): Promise<{
       success: allTablesExist,
       tables,
       message: allTablesExist
-        ? 'All required tables exist'
-        : `Missing tables: ${expectedTables.filter(t => !tables.includes(t)).join(', ')}`,
+        ? messages.database.tables.check.success
+        : messages.database.tables.check.errors.missingTables.replace(
+            '{{tables}}',
+            expectedTables.filter(t => !tables.includes(t)).join(', ')
+          ),
     };
   } catch (error) {
     return {
@@ -91,7 +95,7 @@ export async function getTableCounts(): Promise<{
     return {
       success: true,
       counts,
-      message: 'Table counts retrieved successfully',
+      message: messages.database.counts.success,
     };
   } catch (error) {
     return {
@@ -113,7 +117,7 @@ export async function pushSchema(): Promise<{
     if (!process.env.DATABASE_URL) {
       return {
         success: false,
-        message: 'DATABASE_URL environment variable is not set. Please configure it in the environment page.',
+        message: messages.database.schema.push.errors.noDatabaseUrl,
       };
     }
 
@@ -129,20 +133,20 @@ export async function pushSchema(): Promise<{
     if (stderr && stderr.toLowerCase().includes('error')) {
       return {
         success: false,
-        message: 'Failed to push schema',
+        message: messages.database.schema.push.errors.failed,
         output,
       };
     }
 
     return {
       success: true,
-      message: 'Schema pushed successfully to database',
+      message: messages.database.schema.push.success,
       output,
     };
   } catch (error) {
     return {
       success: false,
-      message: error instanceof Error ? error.message : 'Failed to push schema',
+      message: error instanceof Error ? error.message : messages.database.schema.push.errors.failed,
       output: error instanceof Error ? error.message : undefined,
     };
   }
@@ -178,25 +182,33 @@ export async function verifySchema(): Promise<{
       'ai_credits_balance', 'ai_credits_allocated', 'ai_credits_used'
     ];
 
-    const existingColumns = userProfilesColumns.rows.map((row: any) => row.column_name);
+    const existingColumns = userProfilesColumns.rows.map((row) => (row as { column_name: string }).column_name);
     const missingColumns = requiredColumns.filter(col => !existingColumns.includes(col));
 
     if (missingColumns.length > 0) {
-      issues.push(`Missing columns in user_profiles: ${missingColumns.join(', ')}`);
+      issues.push(
+        messages.database.schema.verify.errors.missingColumns.replace(
+          '{{columns}}',
+          missingColumns.join(', ')
+        )
+      );
     }
 
     return {
       success: issues.length === 0,
       issues,
       message: issues.length === 0
-        ? 'Schema is valid and complete'
-        : `Found ${issues.length} schema issue(s)`,
+        ? messages.database.schema.verify.success
+        : messages.database.schema.verify.errors.issuesFound.replace(
+            '{{count}}',
+            issues.length.toString()
+          ),
     };
   } catch (error) {
     return {
       success: false,
-      issues: [error instanceof Error ? error.message : 'Failed to verify schema'],
-      message: 'Schema verification failed',
+      issues: [error instanceof Error ? error.message : messages.database.schema.verify.errors.failed],
+      message: messages.database.schema.verify.errors.failed,
     };
   }
 }

@@ -1,0 +1,100 @@
+# This file specifies files that are *not* uploaded to Google Cloud
+# using gcloud commands. It follows the same syntax as .gitignore
+
+# Node.js dependencies
+node_modules/
+npm-debug.log
+pnpm-debug.log
+yarn-error.log
+
+# Environment files - CRITICAL: Never upload secrets
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+.env.test
+
+# Next.js build output (will be rebuilt in Docker)
+.next/
+out/
+
+# Build artifacts
+dist/
+build/
+
+# Testing
+coverage/
+.nyc_output/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+__tests__/
+test/
+tests/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+CHANGELOG.md
+CLAUDE.md
+docs/
+
+# Docker files (not needed for Cloud Run build)
+docker-compose.yml
+docker-compose.*.yml
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.circleci/
+
+# Vercel
+.vercel/
+
+# Misc development files
+.prettierrc
+.prettierrc.*
+.prettierignore
+.eslintrc
+.eslintrc.*
+.eslintignore
+.editorconfig
+
+# Database migrations (run separately via Cloud Build or manual script)
+# Uncomment if you want to exclude migrations from deployment
+# lib/db/migrations/
+
+# Scripts
+scripts/
+
+# Temporary files
+*.log
+*.tmp
+.cache/
+
+# Screenshots and media
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+
+# Lock files (pnpm-lock.yaml is needed for reproducible builds)
+# Uncomment if you want to exclude lock files
+# package-lock.json
+# yarn.lock

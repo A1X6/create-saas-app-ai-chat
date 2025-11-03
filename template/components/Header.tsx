@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { GalleryVerticalEnd, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import ThemeToggle from "@/components/ThemeToggle";
 import {
   Sheet,
@@ -13,15 +14,36 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { signOutAction } from "@/lib/actions/auth-actions";
+import { createClient } from "@/lib/supabase/client";
+import content from "./Header/content.json";
 
-interface HeaderProps {
-  isLoggedIn?: boolean;
-}
-
-export default function Header({ isLoggedIn = false }: HeaderProps) {
+export default function Header() {
   const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const navLinks = [{ label: "Home", href: "/" }];
+  useEffect(() => {
+    const checkAuth = async () => {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setIsLoggedIn(!!user);
+      setIsLoading(false);
+    };
+
+    checkAuth();
+
+    // Listen for auth state changes
+    const supabase = createClient();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session?.user);
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const navLinks = content.navigation;
 
   const handleLogout = async () => {
     await signOutAction();
@@ -33,8 +55,9 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <GalleryVerticalEnd className="h-6 w-6" />
+          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+            <GalleryVerticalEnd className="h-6 w-6 text-primary" />
+            <span className="font-bold text-lg hidden sm:inline-block">{'{{APP_NAME}}'}</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -53,21 +76,30 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <ThemeToggle />
-            {isLoggedIn ? (
+            {isLoading ? (
               <>
-                <Button asChild variant="ghost">
-                  <Link href="/dashboard">Dashboard</Link>
-                </Button>
-                <Button onClick={handleLogout}>Logout</Button>
+                <Skeleton className="h-10 w-20" />
+                <Skeleton className="h-10 w-20" />
               </>
             ) : (
               <>
-                <Button asChild variant="ghost">
-                  <Link href="/auth/sign-in">Sign In</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/auth/sign-up">Sign Up</Link>
-                </Button>
+                {isLoggedIn ? (
+                  <>
+                    <Button asChild variant="ghost">
+                      <Link href="/dashboard">{content.auth.dashboard}</Link>
+                    </Button>
+                    <Button onClick={handleLogout}>{content.auth.logout}</Button>
+                  </>
+                ) : (
+                  <>
+                    <Button asChild variant="ghost">
+                      <Link href="/auth/sign-in">{content.auth.signIn}</Link>
+                    </Button>
+                    <Button asChild>
+                      <Link href="/auth/sign-up">{content.auth.signUp}</Link>
+                    </Button>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -77,17 +109,17 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle menu</span>
+                <span className="sr-only">{content.mobile.toggleMenu}</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="p-6 sm:p-8">
               <div className="flex items-center justify-between mb-4">
                 <Link href="/" className="flex items-center gap-2">
-                  <GalleryVerticalEnd className="h-6 w-6" />
-                  <span className="text-lg font-semibold">App</span>
+                  <GalleryVerticalEnd className="h-6 w-6 text-primary" />
+                  <span className="text-lg font-semibold">{'{{APP_NAME}}'}</span>
                 </Link>
                 <SheetHeader>
-                  <SheetTitle className="sr-only">Menu</SheetTitle>
+                  <SheetTitle className="sr-only">{content.mobile.menuTitle}</SheetTitle>
                 </SheetHeader>
               </div>
               <div className="flex flex-col gap-4 mt-2">
@@ -105,33 +137,42 @@ export default function Header({ isLoggedIn = false }: HeaderProps) {
 
                 {/* Mobile Auth Buttons */}
                 <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-muted-foreground/10">
-                  {isLoggedIn ? (
+                  {isLoading ? (
                     <>
-                      <Button asChild variant="ghost">
-                        <Link href="/dashboard" onClick={() => setOpen(false)}>
-                          Dashboard
-                        </Link>
-                      </Button>
-                      <Button onClick={handleLogout}>Logout</Button>
+                      <Skeleton className="h-10 w-full" />
+                      <Skeleton className="h-10 w-full" />
                     </>
                   ) : (
                     <>
-                      <Button asChild variant="ghost">
-                        <Link
-                          href="/auth/sign-in"
-                          onClick={() => setOpen(false)}
-                        >
-                          Sign In
-                        </Link>
-                      </Button>
-                      <Button asChild>
-                        <Link
-                          href="/auth/sign-up"
-                          onClick={() => setOpen(false)}
-                        >
-                          Sign Up
-                        </Link>
-                      </Button>
+                      {isLoggedIn ? (
+                        <>
+                          <Button asChild variant="ghost">
+                            <Link href="/dashboard" onClick={() => setOpen(false)}>
+                              {content.auth.dashboard}
+                            </Link>
+                          </Button>
+                          <Button onClick={handleLogout}>{content.auth.logout}</Button>
+                        </>
+                      ) : (
+                        <>
+                          <Button asChild variant="ghost">
+                            <Link
+                              href="/auth/sign-in"
+                              onClick={() => setOpen(false)}
+                            >
+                              {content.auth.signIn}
+                            </Link>
+                          </Button>
+                          <Button asChild>
+                            <Link
+                              href="/auth/sign-up"
+                              onClick={() => setOpen(false)}
+                            >
+                              {content.auth.signUp}
+                            </Link>
+                          </Button>
+                        </>
+                      )}
                     </>
                   )}
                 </div>

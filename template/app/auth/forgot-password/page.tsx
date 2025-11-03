@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { forgotPasswordAction } from '@/lib/actions/auth-actions';
 import { toast } from 'sonner';
+import content from './content.json';
 
 export default function ForgotPasswordPage() {
   const [state, formAction, isPending] = useActionState(forgotPasswordAction, null);
@@ -38,22 +39,22 @@ export default function ForgotPasswordPage() {
                   <div className="flex size-8 items-center justify-center rounded-md">
                     <GalleryVerticalEnd className="size-6" />
                   </div>
-                  <span className="sr-only">SaaS App</span>
+                  <span className="sr-only">{content.appName}</span>
                 </Link>
-                <h1 className="text-xl font-bold">Reset Password</h1>
+                <h1 className="text-xl font-bold">{content.header.title}</h1>
                 <FieldDescription>
-                  Enter your email address and we&apos;ll send you a password reset link
+                  {content.header.description}
                 </FieldDescription>
               </div>
 
               {/* Email Field */}
               <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
+                <FieldLabel htmlFor="email">{content.form.emailLabel}</FieldLabel>
                 <Input
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder={content.form.emailPlaceholder}
                   required
                 />
               </Field>
@@ -61,7 +62,7 @@ export default function ForgotPasswordPage() {
               {/* Submit Button */}
               <Field>
                 <Button type="submit" className="w-full" disabled={isPending}>
-                  {isPending ? 'Sending...' : 'Send Reset Link'}
+                  {isPending ? content.form.submitButton.loading : content.form.submitButton.idle}
                 </Button>
               </Field>
             </FieldGroup>
@@ -70,7 +71,7 @@ export default function ForgotPasswordPage() {
           {/* Back to Sign In */}
           <FieldDescription className="px-6 text-center">
             <Link href="/auth/sign-in" className="underline underline-offset-4">
-              Back to sign in
+              {content.footer.backToSignIn}
             </Link>
           </FieldDescription>
         </div>

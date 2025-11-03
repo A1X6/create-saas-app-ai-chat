@@ -9,27 +9,38 @@ import { eq, sql, and, gte } from 'drizzle-orm';
 import { cache } from 'react';
 
 /**
- * Get weekly token usage percentage grouped by day
- * Returns the last 7 days of token usage as percentage of total monthly limit
+ * Get weekly credit usage percentage grouped by day
+ * Returns the last 7 days of credit usage as percentage of total allocated credits
  */
 export const getWeeklyTokenUsage = cache(async (userId: string) => {
   try {
-    // Get user's token limit and current usage
+    // Get user's allocated credits
     const user = await db
       .select({
-        limit: userProfiles.freeTokensLimit,
-        used: userProfiles.freeTokensUsed,
+        allocated: userProfiles.aiCreditsAllocated,
       })
       .from(userProfiles)
       .where(eq(userProfiles.id, userId))
       .limit(1);
 
-    if (!user.length || !user[0].limit) {
+    if (!user.length) {
       return [];
     }
 
-    const tokenLimit = Number(user[0].limit);
-    const totalUsed = Number(user[0].used);
+    const allocated = Number(user[0].allocated);
+
+    // If no credits allocated, return empty data
+    if (allocated === 0) {
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      return Array.from({ length: 7 }, (_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() - (6 - i));
+        return {
+          day: daysOfWeek[date.getDay()],
+          usage: 0,
+        };
+      });
+    }
 
     // Get data for the last 7 days from permanent token usage logs
     const sevenDaysAgo = new Date();
@@ -38,7 +49,7 @@ export const getWeeklyTokenUsage = cache(async (userId: string) => {
     const result = await db
       .select({
         date: sql<string>`DATE(${tokenUsageLogs.timestamp})`,
-        tokens: sql<number>`COALESCE(SUM(CAST(${tokenUsageLogs.totalTokens} AS INTEGER)), 0)`,
+        totalCost: sql<number>`COALESCE(SUM(${tokenUsageLogs.totalCost}), 0)::numeric`,
       })
       .from(tokenUsageLogs)
       .where(
@@ -62,12 +73,12 @@ export const getWeeklyTokenUsage = cache(async (userId: string) => {
       };
     });
 
-    // Merge actual data with the template and calculate percentages based on TOTAL monthly limit
-    const dataMap = new Map(result.map(r => [r.date, Number(r.tokens)]));
+    // Merge actual data with the template and calculate percentages based on allocated credits
+    const dataMap = new Map(result.map(r => [r.date, Number(r.totalCost)]));
 
     return last7Days.map(day => {
-      const tokensUsed = dataMap.get(day.date) || 0;
-      const usagePercentage = tokenLimit > 0 ? Math.min((tokensUsed / tokenLimit) * 100, 100) : 0;
+      const creditsUsed = dataMap.get(day.date) || 0;
+      const usagePercentage = allocated > 0 ? Math.min((creditsUsed / allocated) * 100, 100) : 0;
 
       return {
         day: day.day,
@@ -75,7 +86,7 @@ export const getWeeklyTokenUsage = cache(async (userId: string) => {
       };
     });
   } catch (error) {
-    console.error('Error fetching weekly token usage:', error);
+    console.error('Error fetching weekly credit usage:', error);
     // Return empty data on error
     return Array.from({ length: 7 }, (_, i) => ({
       day: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][(new Date().getDay() - 6 + i + 7) % 7],

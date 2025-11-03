@@ -1,0 +1,102 @@
+{
+  "heroSection": {
+    "badge": "Platform Features",
+    "heading": {
+      "line1": "Everything You Need to",
+      "line2": "Master AI Prompts"
+    },
+    "description": "Powerful tools, intelligent features, and seamless workflows designed to elevate your AI prompt engineering to the next level.",
+    "cta": {
+      "primary": {
+        "text": "Start Free Trial",
+        "href": "/auth/sign-up"
+      },
+      "secondary": {
+        "text": "View Pricing",
+        "href": "/pricing"
+      }
+    }
+  },
+  "featureGrid": {
+    "sectionHeader": {
+      "title": "Core Features",
+      "titleHighlight": "Features",
+      "description": "Everything you need to create, manage, and optimize AI prompts efficiently."
+    },
+    "features": [
+      {
+        "icon": "Sparkles",
+        "title": "Multi-Model Support",
+        "description": "Access 15+ premium AI models including GPT-4, Claude, Gemini, and more from one interface."
+      },
+      {
+        "icon": "Zap",
+        "title": "Fast Processing",
+        "description": "Get real-time AI responses with priority processing speed on Plus plans."
+      },
+      {
+        "icon": "Shield",
+        "title": "Secure & Private",
+        "description": "Your conversations and data are encrypted and stored securely with industry-standard practices."
+      },
+      {
+        "icon": "TrendingUp",
+        "title": "Usage Analytics",
+        "description": "Track AI credits, token usage, and spending with detailed analytics dashboards."
+      },
+      {
+        "icon": "Users",
+        "title": "Conversation Sharing",
+        "description": "Share your AI conversations with team members and collaborators (Plus plan)."
+      },
+      {
+        "icon": "BookOpen",
+        "title": "Message History",
+        "description": "Keep your conversations saved from 30 days to indefinitely based on your plan."
+      }
+    ]
+  },
+  "detailedFeatures": {
+    "features": [
+      {
+        "icon": "MessageSquare",
+        "badgePrefix": "Feature",
+        "title": "Multi-Model Chat Interface",
+        "description": "Engage with 15+ premium AI models through our intuitive chat interface. Switch between models seamlessly and get real-time responses.",
+        "featureList": [
+          "15+ premium AI models supported",
+          "Real-time streaming responses",
+          "Automatic conversation saving",
+          "Code syntax highlighting"
+        ],
+        "highlight": "Seamless access to leading AI models"
+      },
+      {
+        "icon": "BarChart3",
+        "badgePrefix": "Feature",
+        "title": "Advanced Analytics Dashboard",
+        "description": "Monitor your AI credits, token usage, and spending with comprehensive analytics. Optimize your AI costs with detailed insights.",
+        "featureList": [
+          "Real-time credit tracking",
+          "Token usage monitoring",
+          "Detailed cost breakdown",
+          "Usage history and trends"
+        ],
+        "highlight": "Complete visibility into AI spending"
+      },
+      {
+        "icon": "Sparkles",
+        "badgePrefix": "Feature",
+        "title": "Conversation Management",
+        "description": "Keep all your AI conversations organized and accessible. Manage multiple chat sessions with automatic history tracking.",
+        "featureList": [
+          "100 to unlimited conversations",
+          "30 days to indefinite history",
+          "Easy search and navigation",
+          "Conversation sharing (Plus plan)"
+        ],
+        "highlight": "Never lose an important conversation"
+      }
+    ]
+  }
+}

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import Link from 'next/link';
 
 export default function MarketingError({
   error,
@@ -51,10 +52,10 @@ export default function MarketingError({
               Try Again
             </Button>
             <Button variant="outline" asChild className="flex-1">
-              <a href="/">
+              <Link href="/">
                 <Home className="mr-2 h-4 w-4" />
                 Go Home
-              </a>
+              </Link>
             </Button>
           </div>
 

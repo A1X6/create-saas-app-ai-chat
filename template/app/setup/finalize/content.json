@@ -1,0 +1,62 @@
+{
+  "heading": "Setup Complete!",
+  "description": "Review your configuration and finalize the setup process.",
+  "alert": {
+    "title": "Ready to Launch",
+    "description": "All setup steps have been completed. Click \"Complete Setup\" to finalize the configuration and start using your application."
+  },
+  "summary": {
+    "title": "Configuration Summary",
+    "description": "Review what you've configured",
+    "items": [
+      {
+        "title": "Environment Variables",
+        "description": "Supabase, Stripe, Email, AI",
+        "badge": "Configured"
+      },
+      {
+        "title": "Database Schema",
+        "description": "4 tables created",
+        "badge": "Ready"
+      },
+      {
+        "title": "Stripe Products",
+        "description": "Synced with pricing",
+        "badge": "Synced"
+      }
+    ]
+  },
+  "whatNext": {
+    "title": "What Happens Next",
+    "description": "When you click \"Complete Setup\"",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Update Environment Configuration",
+        "description": "Set SETUP_COMPLETE=true in .env.local"
+      },
+      {
+        "number": "2",
+        "title": "Setup Complete",
+        "description": "Your application is ready to use! You can now customize your landing page, legal pages, and start building your features."
+      }
+    ]
+  },
+  "button": {
+    "default": "Complete Setup",
+    "loading": "Completing Setup..."
+  },
+  "toasts": {
+    "completing": {
+      "title": "Completing setup...",
+      "description": "Generating pages and finalizing configuration"
+    },
+    "success": {
+      "title": "Setup complete!",
+      "description": "{{message}}"
+    }
+  },
+  "navigation": {
+    "back": "Back to Stripe"
+  }
+}

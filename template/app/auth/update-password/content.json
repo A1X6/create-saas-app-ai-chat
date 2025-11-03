@@ -1,0 +1,18 @@
+{
+  "appName": "SaaS App",
+  "header": {
+    "title": "Update Password",
+    "description": "Enter your new password below"
+  },
+  "form": {
+    "passwordLabel": "New Password",
+    "passwordDescription": "Password must be at least 8 characters",
+    "submitButton": {
+      "idle": "Update Password",
+      "loading": "Updating..."
+    }
+  },
+  "footer": {
+    "backToSignIn": "Back to sign in"
+  }
+}

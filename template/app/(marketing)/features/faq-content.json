@@ -1,0 +1,33 @@
+{
+  "section": {
+    "heading": "Frequently Asked Questions",
+    "headingHighlight": "Questions",
+    "description": "Everything you need to know about our platform."
+  },
+  "faqs": [
+    {
+      "question": "What AI models does {{APP_NAME}} support?",
+      "answer": "{{APP_NAME}} supports all major AI models including GPT-4, Claude, Gemini, and many others through OpenRouter. You can switch between models seamlessly and compare results."
+    },
+    {
+      "question": "How does the pricing work?",
+      "answer": "All subscription plans include AI credits in USD that cover actual AI model costs. You can choose monthly or yearly billing, with free trial periods (7 days for monthly, 14 days for yearly). Transparent pricing based on your actual usage with real-time tracking."
+    },
+    {
+      "question": "Can I use my own API keys?",
+      "answer": "Currently, we provide managed access to AI models through our platform. This ensures reliability, security, and simplified billing. Enterprise customers can discuss custom arrangements."
+    },
+    {
+      "question": "Is my data secure and private?",
+      "answer": "Absolutely. All your prompts and conversations are encrypted in transit and at rest. We never share your data with third parties, and you can delete your data at any time."
+    },
+    {
+      "question": "Do you offer team collaboration features?",
+      "answer": "Yes! Our Pro and Enterprise plans include team collaboration features, allowing you to share prompts, manage team members, and collaborate on AI projects."
+    },
+    {
+      "question": "What kind of support do you provide?",
+      "answer": "We offer email support for all users, with priority support and live chat available for Pro and Enterprise customers. Our documentation and community forums are also available 24/7."
+    }
+  ]
+}

@@ -1,8 +1,8 @@
-import { DashboardSidebar } from '@/components/dashboard-sidebar';
-import { DashboardHeader } from '@/components/dashboard-header';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { getUserConversations, getUser } from '@/lib/db/queries';
-import type { Metadata } from 'next';
+import { DashboardSidebar } from "@/app/(protected)/dashboard/dashboard-sidebar";
+import { DashboardHeader } from "@/app/(protected)/dashboard/dashboard-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { getUserConversations, getUser } from "@/lib/db/queries";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   robots: {
@@ -19,13 +19,15 @@ export default async function DashboardLayout({
   const conversations = await getUserConversations();
   const user = await getUser();
 
-  const userData = user ? {
-    name: user.name || 'User',
-    email: user.email || '',
-    avatar: undefined, // Add avatar URL when available
-    planName: user.planName,
-    subscriptionStatus: user.subscriptionStatus,
-  } : undefined;
+  const userData = user
+    ? {
+        name: user.name || "User",
+        email: user.email || "",
+        avatar: undefined, // Add avatar URL when available
+        planName: user.planName,
+        subscriptionStatus: user.subscriptionStatus,
+      }
+    : undefined;
 
   return (
     <div className="h-screen flex flex-col [--header-height:calc(--spacing(14))]">
@@ -34,7 +36,7 @@ export default async function DashboardLayout({
         <div className="flex flex-1 overflow-hidden">
           <DashboardSidebar conversations={conversations} user={userData} />
           <SidebarInset className="flex-1 overflow-hidden">
-            <div className="h-full overflow-hidden">{children}</div>
+            <div className="h-full overflow-y-auto">{children}</div>
           </SidebarInset>
         </div>
       </SidebarProvider>

@@ -1,0 +1,47 @@
+{
+  "header": {
+    "title": "Dashboard",
+    "subtitle": "SaaS App"
+  },
+  "navigation": {
+    "label": "Navigation",
+    "items": [
+      {
+        "label": "Overview",
+        "href": "/dashboard"
+      }
+    ],
+    "aiService": {
+      "label": "AI Service",
+      "href": "/dashboard/chat",
+      "tooltip": "AI Service",
+      "toggleConversations": "Toggle conversations"
+    }
+  },
+  "conversations": {
+    "newConversation": "+ New Conversation",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "moreCount": "more",
+    "moreOptions": "More options"
+  },
+  "deleteDialog": {
+    "title": "Are you sure?",
+    "description": "This action cannot be undone. This will permanently delete this conversation and all its messages.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleting": "Deleting..."
+  },
+  "deleteAction": {
+    "label": "Delete",
+    "success": "Conversation deleted",
+    "error": "Failed to delete conversation"
+  },
+  "userMenu": {
+    "userFallback": "User",
+    "upgradePlan": "Upgrade Plan",
+    "account": "Account",
+    "billing": "Billing",
+    "logOut": "Log out"
+  }
+}

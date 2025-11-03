@@ -21,28 +21,23 @@ export {
   getOrCreateUserProfile,
   getUserByStripeCustomerId,
   updateUserProfile,
-} from './queries/user.queries';
+} from "./queries/user.queries";
 
 // Subscription queries
 export {
   updateUserSubscription,
   updateUserStripeCustomerId,
-} from './queries/subscription.queries';
+} from "./queries/subscription.queries";
 
 // Credits queries
 export {
   deductAICredits,
   setAICredits,
   resetAICredits,
-  deductFreeTokens,
-  resetFreeTokens,
-} from './queries/credits.queries';
+} from "./queries/credits.queries";
 
 // Activity queries
-export {
-  logActivity,
-  getActivityLogs,
-} from './queries/activity.queries';
+export { logActivity, getActivityLogs } from "./queries/activity.queries";
 
 // Chat queries
 export {
@@ -52,16 +47,16 @@ export {
   saveMessage,
   updateConversationTitle,
   deleteConversation,
-} from './queries/chat.queries';
+} from "./queries/chat.queries";
 
 // Analytics queries
 export {
   getWeeklyTokenUsage,
   getMonthlyCreditsUsage,
-} from './queries/analytics.queries';
+} from "./queries/analytics.queries";
 
 // Token usage queries
 export {
   logTokenUsage,
   getTotalTokensUsed,
-} from './queries/token-usage.queries';
+} from "./queries/token-usage.queries";

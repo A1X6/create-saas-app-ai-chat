@@ -1,0 +1,86 @@
+{
+  "form": {
+    "heading": "Send Us a Message",
+    "description": "Fill out the form below and we'll get back to you shortly.",
+    "fields": {
+      "name": {
+        "label": "Name",
+        "placeholder": "John Doe",
+        "required": true
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "john@example.com",
+        "required": true
+      },
+      "company": {
+        "label": "Company Name",
+        "placeholder": "Acme Inc. (optional)",
+        "required": false
+      },
+      "inquiryType": {
+        "label": "Inquiry Type",
+        "placeholder": "Select inquiry type",
+        "required": true
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Tell us more about your inquiry...",
+        "required": true
+      }
+    },
+    "agreement": "I agree to receive communications about my inquiry",
+    "privacyNote": "We respect your privacy. See our",
+    "privacyLink": "Privacy Policy",
+    "submit": {
+      "default": "Send Message",
+      "loading": "Sending..."
+    }
+  },
+  "inquiryTypes": [
+    { "value": "general", "label": "General Inquiry" },
+    { "value": "support", "label": "Customer Support" },
+    { "value": "sales", "label": "Sales" },
+    { "value": "partnership", "label": "Partnership Opportunity" },
+    { "value": "press", "label": "Press & Media" },
+    { "value": "other", "label": "Other" }
+  ],
+  "nextSteps": [
+    {
+      "icon": "CheckCircle2",
+      "title": "We receive your message",
+      "description": "Your inquiry is logged in our support system"
+    },
+    {
+      "icon": "MessageSquare",
+      "title": "Our team reviews it",
+      "description": "A specialist is assigned based on your inquiry type"
+    },
+    {
+      "icon": "Clock",
+      "title": "We respond within 24 hours",
+      "description": "Typically much sooner during business hours"
+    }
+  ],
+  "alternativeContact": {
+    "heading": "Alternative Contact",
+    "email": {
+      "label": "Email Direct",
+      "value": "{{SUPPORT_EMAIL}}"
+    },
+    "hours": {
+      "label": "Business Hours",
+      "value": "Mon - Fri, 9AM - 6PM EST"
+    }
+  },
+  "toasts": {
+    "success": {
+      "title": "Message sent successfully!",
+      "description": "We'll get back to you within 24 hours."
+    },
+    "error": {
+      "title": "Failed to send message",
+      "description": "Please try again later."
+    }
+  }
+}

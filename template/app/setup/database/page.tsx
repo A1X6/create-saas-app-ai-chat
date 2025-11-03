@@ -152,7 +152,7 @@ export default function DatabasePage() {
         <AlertDescription>
           Your database connection is configured via the{' '}
           <code className="text-xs bg-muted px-1 rounded">DATABASE_URL</code> environment variable.
-          Make sure you've completed the environment setup first.
+          Make sure you&apos;ve completed the environment setup first.
         </AlertDescription>
       </Alert>
 
@@ -285,7 +285,7 @@ export default function DatabasePage() {
                 <span className="font-medium">Schema not deployed</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                The database schema has not been pushed yet. Click "Push Schema" below to create the
+                The database schema has not been pushed yet. Click &quot;Push Schema&quot; below to create the
                 required tables.
               </p>
             </div>

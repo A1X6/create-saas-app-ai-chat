@@ -51,3 +51,9 @@ export {
   updateConversationTitle,
   deleteConversation,
 } from './chat.queries';
+
+// Token usage queries
+export {
+  logTokenUsage,
+  getTotalTokensUsed,
+} from './token-usage.queries';

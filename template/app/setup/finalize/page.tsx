@@ -20,7 +20,6 @@ import {
   Database,
   CreditCard,
   Settings,
-  FileText,
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -86,7 +85,7 @@ export default function FinalizePage() {
         <Info className="h-4 w-4" />
         <AlertTitle>Ready to Launch</AlertTitle>
         <AlertDescription>
-          All setup steps have been completed. Click "Complete Setup" to
+          All setup steps have been completed. Click &quot;Complete Setup&quot; to
           finalize the configuration and start using your application.
         </AlertDescription>
       </Alert>
@@ -95,7 +94,7 @@ export default function FinalizePage() {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg">Configuration Summary</CardTitle>
-          <CardDescription>Review what you've configured</CardDescription>
+          <CardDescription>Review what you&apos;ve configured</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between p-4 border rounded-lg">
@@ -154,7 +153,7 @@ export default function FinalizePage() {
             </div>
             <div>
               <CardTitle className="text-lg">What Happens Next</CardTitle>
-              <CardDescription>When you click "Complete Setup"</CardDescription>
+              <CardDescription>When you click &quot;Complete Setup&quot;</CardDescription>
             </div>
           </div>
         </CardHeader>

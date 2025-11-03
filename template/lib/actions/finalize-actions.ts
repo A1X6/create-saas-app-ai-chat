@@ -3,6 +3,7 @@
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
+import messages from './messages.json';
 
 // Complete setup by updating environment configuration
 export async function completeSetup(): Promise<{
@@ -29,7 +30,7 @@ export async function completeSetup(): Promise<{
 
     return {
       success: true,
-      message: 'Setup completed successfully! You can now start building your application.',
+      message: messages.finalize.complete.success,
     };
   } catch (error) {
     return {

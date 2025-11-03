@@ -1,0 +1,30 @@
+{
+  "badge": "Ready to Get Started?",
+  "heading": "Ready to Transform Your",
+  "headingHighlight": "AI Workflow?",
+  "description": "Join thousands of professionals who are already mastering AI prompt engineering with",
+  "descriptionSuffix": ". Start your journey today.",
+  "buttons": {
+    "primary": "Start Free Trial",
+    "secondary": "Contact Sales"
+  },
+  "trustIndicators": [
+    "Free trial included",
+    "Transparent pricing",
+    "Cancel anytime"
+  ],
+  "links": [
+    {
+      "text": "View Pricing",
+      "href": "/pricing"
+    },
+    {
+      "text": "Explore Features",
+      "href": "/features"
+    },
+    {
+      "text": "Try the Platform",
+      "href": "/dashboard/chat"
+    }
+  ]
+}

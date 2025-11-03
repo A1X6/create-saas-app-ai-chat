@@ -1,0 +1,17 @@
+{
+  "alert": {
+    "title": "Low Trial Credits",
+    "message": "You have {percent}% of your trial credits remaining. Upgrade now to continue using {{APP_NAME}}."
+  },
+  "buttons": {
+    "upgrade": {
+      "text": "Upgrade to Full Plan",
+      "loading": "Upgrading..."
+    },
+    "manageSubscription": "Manage Subscription"
+  },
+  "toasts": {
+    "success": "Upgraded! Your full plan is now active.",
+    "error": "Failed to upgrade. Please try again."
+  }
+}

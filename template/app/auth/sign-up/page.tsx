@@ -1,15 +1,18 @@
-import { SignupForm } from '@/components/signup-form';
+import { SignupForm } from '@/app/auth/sign-up/signup-form';
 import type { Metadata } from 'next';
 
 // Static Site Generation - Auth pages can be pre-rendered
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Sign Up',
-  description: 'Create your account and start building with our SaaS platform. Get started in minutes.',
+  title: 'Sign Up - {{APP_NAME}}',
+  description: 'Create your {{APP_NAME}} account and get instant access to 15+ AI models. Start with 1M free tokens per month. No credit card required.',
   robots: {
     index: false,
     follow: true,
+  },
+  alternates: {
+    canonical: '/auth/sign-up',
   },
 };
 

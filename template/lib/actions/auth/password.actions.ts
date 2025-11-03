@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { logActivity } from '@/lib/db/queries';
 import { ActivityType } from '@/lib/db/schema';
+import messages from '../messages.json';
 
 /**
  * Password Management Actions
@@ -40,7 +41,7 @@ export async function forgotPasswordAction(
     return { error: error.message };
   }
 
-  return { success: 'Password reset email sent. Please check your inbox.' };
+  return { success: messages.auth.password.forgot.success };
 }
 
 /**
@@ -82,15 +83,15 @@ export async function changePasswordAction(
   const confirmPassword = formData.get('confirmPassword') as string;
 
   if (!currentPassword || !newPassword || !confirmPassword) {
-    return { error: 'All fields are required' };
+    return { error: messages.auth.password.change.errors.allFieldsRequired };
   }
 
   if (newPassword !== confirmPassword) {
-    return { error: 'New passwords do not match' };
+    return { error: messages.auth.password.change.errors.passwordsDoNotMatch };
   }
 
   if (newPassword.length < 8) {
-    return { error: 'Password must be at least 8 characters' };
+    return { error: messages.auth.password.change.errors.passwordTooShort };
   }
 
   const supabase = await createClient();
@@ -99,7 +100,7 @@ export async function changePasswordAction(
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user?.email) {
-    return { error: 'Not authenticated' };
+    return { error: messages.auth.password.change.errors.notAuthenticated };
   }
 
   // Verify current password
@@ -109,7 +110,7 @@ export async function changePasswordAction(
   });
 
   if (signInError) {
-    return { error: 'Current password is incorrect' };
+    return { error: messages.auth.password.change.errors.currentPasswordIncorrect };
   }
 
   // Update to new password
@@ -123,5 +124,5 @@ export async function changePasswordAction(
 
   await logActivity(user.id, ActivityType.UPDATE_PASSWORD);
 
-  return { success: 'Password updated successfully!' };
+  return { success: messages.auth.password.change.success };
 }

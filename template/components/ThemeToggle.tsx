@@ -1,13 +1,13 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { Sun, Moon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { ThemeToggleButton, useThemeTransition } from "@/components/ui/theme-toggle-button";
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { startTransition } = useThemeTransition();
 
   useEffect(() => {
     setMounted(true);
@@ -15,31 +15,28 @@ export default function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <Button
-        variant="ghost"
-        size="icon"
-        aria-label="Toggle theme"
-        disabled
-      >
-        <Sun className="h-4 w-4" />
-      </Button>
+      <ThemeToggleButton
+        theme="light"
+        variant="circle"
+        start="center"
+        onClick={() => {}}
+      />
     );
   }
 
-  const next = theme === "dark" ? "light" : "dark";
+  const handleThemeChange = () => {
+    const next = theme === "dark" ? "light" : "dark";
+    startTransition(() => {
+      setTheme(next);
+    });
+  };
 
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      aria-label="Toggle theme"
-      onClick={() => setTheme(next)}
-    >
-      {theme === "dark" ? (
-        <Sun className="h-4 w-4" />
-      ) : (
-        <Moon className="h-4 w-4" />
-      )}
-    </Button>
+    <ThemeToggleButton
+      theme={theme as 'light' | 'dark'}
+      variant="circle"
+      start="center"
+      onClick={handleThemeChange}
+    />
   );
 }

@@ -112,11 +112,17 @@ export async function sendChatMessage(
       messages,
       temperature,
       max_tokens: maxOutputTokens, // Dynamic based on input length
+      // @ts-expect-error - OpenRouter extends OpenAI SDK with usage tracking
+      usage: {
+        include: true, // Enable cost and token tracking in response
+      },
     });
 
     console.log("sendChatMessage:completionRaw", {
       choicesLength: completion?.choices?.length ?? 0,
       usage: completion?.usage,
+      // @ts-expect-error - OpenRouter includes cost field
+      cost: completion?.usage?.cost,
     });
 
     const message = completion.choices[0]?.message?.content || "";

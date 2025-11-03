@@ -3,6 +3,7 @@
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import Stripe from 'stripe';
+import messages from './messages.json';
 
 const execAsync = promisify(exec);
 
@@ -15,10 +16,18 @@ const getStripe = () => {
   return new Stripe(stripeKey);
 };
 
+type StripeProduct = {
+  id: string;
+  name: string;
+  description?: string | null;
+  active: boolean;
+  metadata?: Record<string, string | null>;
+};
+
 // List current products in Stripe
 export async function listStripeProducts(): Promise<{
   success: boolean;
-  products: any[];
+  products: StripeProduct[];
   message: string;
 }> {
   try {
@@ -28,7 +37,7 @@ export async function listStripeProducts(): Promise<{
     return {
       success: true,
       products: products.data,
-      message: `Found ${products.data.length} products`,
+      message: messages.stripe.products.list.success.replace('{{count}}', products.data.length.toString()),
     };
   } catch (error) {
     return {
@@ -50,7 +59,7 @@ export async function syncStripeProducts(dryRun: boolean = false): Promise<{
     if (!process.env.STRIPE_SECRET_KEY) {
       return {
         success: false,
-        message: 'STRIPE_SECRET_KEY environment variable is not set. Please configure it in the environment page.',
+        message: messages.stripe.sync.errors.noSecretKey,
       };
     }
 
@@ -67,22 +76,20 @@ export async function syncStripeProducts(dryRun: boolean = false): Promise<{
     if (stderr && stderr.toLowerCase().includes('error') && !stderr.includes('[dry run]')) {
       return {
         success: false,
-        message: 'Failed to sync products',
+        message: messages.stripe.sync.errors.failed,
         output,
       };
     }
 
     return {
       success: true,
-      message: dryRun
-        ? 'Dry run completed - no changes made'
-        : 'Products synced successfully to Stripe',
+      message: dryRun ? messages.stripe.sync.dryRun : messages.stripe.sync.success,
       output,
     };
   } catch (error) {
     return {
       success: false,
-      message: error instanceof Error ? error.message : 'Failed to sync products',
+      message: error instanceof Error ? error.message : messages.stripe.sync.errors.failed,
       output: error instanceof Error ? error.message : undefined,
     };
   }
@@ -92,7 +99,7 @@ export async function syncStripeProducts(dryRun: boolean = false): Promise<{
 export async function verifyStripeConnection(): Promise<{
   success: boolean;
   message: string;
-  account?: any;
+  account?: { id?: string; name?: string | null; email?: string | null; country?: string | null; type?: string };
 }> {
   try {
     const stripe = getStripe();
@@ -100,7 +107,7 @@ export async function verifyStripeConnection(): Promise<{
 
     return {
       success: true,
-      message: 'Stripe connection verified',
+      message: messages.stripe.connection.success,
       account: {
         id: account.id,
         email: account.email,
@@ -126,6 +133,14 @@ export async function syncUserProducts(productsData: string): Promise<{
     const products = JSON.parse(productsData);
     const stripe = getStripe();
 
+    // Archive all existing active products
+    const existingProducts = await stripe.products.list({ active: true, limit: 100 });
+    let archived = 0;
+    for (const existingProduct of existingProducts.data) {
+      await stripe.products.update(existingProduct.id, { active: false });
+      archived++;
+    }
+
     let created = 0;
     let updated = 0;
 
@@ -138,6 +153,7 @@ export async function syncUserProducts(productsData: string): Promise<{
           name: productConfig.name,
           description: productConfig.description,
           metadata: productConfig.metadata,
+          marketing_features: productConfig.features.map((feature: string) => ({ name: feature })),
         });
         updated++;
       } else {
@@ -146,6 +162,7 @@ export async function syncUserProducts(productsData: string): Promise<{
           name: productConfig.name,
           description: productConfig.description,
           metadata: productConfig.metadata,
+          marketing_features: productConfig.features.map((feature: string) => ({ name: feature })),
         });
         created++;
       }
@@ -166,7 +183,10 @@ export async function syncUserProducts(productsData: string): Promise<{
 
     return {
       success: true,
-      message: `Created ${created} and updated ${updated} product(s) in Stripe`,
+      message: messages.stripe.userProducts.sync.success
+        .replace('{{archived}}', archived.toString())
+        .replace('{{created}}', created.toString())
+        .replace('{{updated}}', updated.toString()),
     };
   } catch (error) {
     return {
@@ -191,10 +211,10 @@ export async function saveProfitMargin(profitMargin: number): Promise<{
     let envContent = '';
     try {
       envContent = await readFile(envPath, 'utf8');
-    } catch (error) {
+    } catch {
       return {
         success: false,
-        message: 'Please configure environment variables first (Environment page)',
+        message: messages.stripe.profitMargin.save.errors.noEnvFile,
       };
     }
 
@@ -223,7 +243,7 @@ export async function saveProfitMargin(profitMargin: number): Promise<{
 
     return {
       success: true,
-      message: `Profit margin set to $${profitMargin.toFixed(2)}/user/month`,
+      message: messages.stripe.profitMargin.save.success.replace('{{amount}}', profitMargin.toFixed(2)),
     };
   } catch (error) {
     return {

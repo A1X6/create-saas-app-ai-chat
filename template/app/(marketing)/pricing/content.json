@@ -1,0 +1,156 @@
+{
+  "metadata": {
+    "title": "Pricing - {{APP_NAME}}",
+    "description": "Choose the perfect plan for your AI prompt engineering needs. Flexible pricing options with AI credits included. Monthly and yearly subscriptions available. Start your free trial today.",
+    "keywords": [
+      "prompt engineering pricing",
+      "AI tools pricing",
+      "ChatGPT pricing",
+      "AI subscription plans",
+      "AI subscription",
+      "prompt engineering cost",
+      "AI credits",
+      "free trial AI tools"
+    ],
+    "ogTitle": "Pricing Plans - {{APP_NAME}}",
+    "ogDescription": "Flexible pricing options with AI credits included. Choose monthly or yearly billing. Start your free trial today.",
+    "ogImage": "/og-pricing.png",
+    "ogImageAlt": "{{APP_NAME}} Pricing Plans",
+    "twitterTitle": "Pricing Plans - {{APP_NAME}}",
+    "twitterDescription": "Flexible pricing with AI credits. Monthly or yearly billing. Free trial available.",
+    "twitterImage": "/og-pricing.png"
+  },
+  "hero": {
+    "badge": "Pricing Plans",
+    "title": "Simple, Transparent Pricing",
+    "description": "Choose the plan that fits your needs. Start with a 7-day free trial (monthly) or 14-day free trial (yearly). Credit card required.",
+    "billingToggle": {
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "savingsBadge": "Save 20%"
+    },
+    "card": {
+      "mostPopularBadge": "Most Popular",
+      "priceInterval": {
+        "month": "month",
+        "year": "year"
+      },
+      "savingsPrefix": "Save",
+      "savingsSuffix": "/year",
+      "billedAnnually": "Billed annually",
+      "trialBadge": {
+        "monthly": "7-day free trial",
+        "yearly": "14-day free trial"
+      },
+      "ctaButton": "Get Started"
+    },
+    "trustIndicators": [
+      "7-day trial (monthly)",
+      "14-day trial (yearly)",
+      "Cancel anytime",
+      "Transparent pricing"
+    ]
+  },
+  "featureComparison": {
+    "badge": "Detailed Comparison",
+    "title": "Compare All Features",
+    "description": "See exactly what's included in each plan",
+    "mobileScrollHint": "Scroll horizontally to see all features →",
+    "tableHeaders": {
+      "featuresColumn": "Features"
+    },
+    "tierNames": ["Free", "Base", "Plus"],
+    "featureCategories": [
+      {
+        "name": "AI Credits & Usage",
+        "features": [
+          { "name": "Monthly AI Credits", "values": ["1M tokens/month", "$10 USD", "$25 USD"] },
+          { "name": "AI Models Access", "values": [false, "15+ Premium Models", "ALL Premium Models"] },
+          { "name": "Processing Speed", "values": ["Standard", "Standard", "Priority (2x faster)"] },
+          { "name": "Conversations", "values": [false, "100/month", "Unlimited"] },
+          { "name": "Message History", "values": [false, "30 days", "Indefinitely"] }
+        ]
+      },
+      {
+        "name": "Features & Tools",
+        "features": [
+          { "name": "Multi-model Chat Interface", "values": [false, true, true] },
+          { "name": "Conversation Management", "values": [false, true, true] },
+          { "name": "Code Syntax Highlighting", "values": [false, true, true] },
+          { "name": "Custom System Prompts", "values": [false, false, true] },
+          { "name": "Conversation Sharing", "values": [false, false, true] },
+          { "name": "Advanced Analytics Dashboard", "values": [false, false, true] }
+        ]
+      },
+      {
+        "name": "Performance & Limits",
+        "features": [
+          { "name": "Rate Limits", "values": ["Basic", "Standard", "3x Higher"] },
+          { "name": "Context Windows", "values": ["Standard", "Standard", "Longer"] },
+          { "name": "Early Access to New Models", "values": [false, false, true] },
+          { "name": "Priority Beta Features", "values": [false, false, true] }
+        ]
+      },
+      {
+        "name": "Support",
+        "features": [
+          { "name": "Email Support", "values": [false, "24-48h response", "12-24h response"] },
+          { "name": "Live Chat Support", "values": [false, false, true] },
+          { "name": "Community Access", "values": [false, true, true] },
+          { "name": "Monthly Feature Requests", "values": [false, false, true] }
+        ]
+      },
+      {
+        "name": "Advanced Features",
+        "features": [
+          { "name": "API Access", "values": [false, false, "Coming Soon"] },
+          { "name": "Custom Model Fine-tuning", "values": [false, false, "Coming Soon"] }
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "items": [
+      {
+        "question": "Can I change plans later?",
+        "answer": "Yes! You can upgrade or downgrade your plan at any time through the Stripe Customer Portal. When upgrading, you'll be charged the prorated difference immediately. When downgrading, the change will take effect at the end of your current billing period."
+      },
+      {
+        "question": "What payment methods do you accept?",
+        "answer": "We accept all major credit cards (Visa, Mastercard, American Express, Discover) and other payment methods through our secure payment processor, Stripe. All transactions are encrypted and PCI-compliant for your security."
+      },
+      {
+        "question": "What is your refund policy?",
+        "answer": "Refunds are handled on a case-by-case basis. Please contact our support team if you're not satisfied with the service, and we'll work with you to address your concerns. We recommend using the free trial period to test the platform before committing to a paid plan."
+      },
+      {
+        "question": "What happens when I run out of credits?",
+        "answer": "If you run out of AI credits, you won't be able to send new messages until your credits reset on your next billing cycle. You can upgrade to a higher plan at any time to get more credits immediately. You'll receive notifications when your credits are running low."
+      },
+      {
+        "question": "Is there a free trial?",
+        "answer": "Yes! All subscription plans include a free trial period. Monthly plans get a 7-day trial, and yearly plans get a 14-day trial. During your trial, you receive $1 in credits to test all features. You can upgrade early to unlock your full plan credits anytime."
+      },
+      {
+        "question": "Can I cancel anytime?",
+        "answer": "Yes, you can cancel your subscription at any time with no cancellation fees through the Stripe Customer Portal. Your access will continue until the end of your current billing period, and no further charges will be made."
+      },
+      {
+        "question": "Do you offer educational or non-profit discounts?",
+        "answer": "We may offer discounts for educational institutions and non-profit organizations on a case-by-case basis. Contact our support team with proof of your status to inquire about available discounts for your organization."
+      },
+      {
+        "question": "What's included in support?",
+        "answer": "All paid subscribers receive email support. Response times may vary depending on your subscription tier. We also provide comprehensive documentation and FAQs to help you get the most out of the platform."
+      },
+      {
+        "question": "Are there any setup fees or hidden charges?",
+        "answer": "No. We believe in transparent pricing. The subscription price you see includes your AI credit allocation for the billing period. There are no setup fees, hidden charges, or surprise costs. All charges are clearly shown before you subscribe."
+      },
+      {
+        "question": "How do AI credits work?",
+        "answer": "AI credits are allocated in USD and cover the actual costs of using AI models through OpenRouter. Different models have different costs per token (input and output). You can monitor your credit balance and usage in real-time from your dashboard, with detailed breakdowns by model and conversation."
+      }
+    ]
+  }
+}

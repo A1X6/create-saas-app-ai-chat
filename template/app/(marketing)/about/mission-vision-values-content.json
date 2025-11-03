@@ -1,0 +1,58 @@
+{
+  "sectionBadge": "What Drives Us",
+  "sectionHeading": "Mission, Vision & Values",
+  "tabs": {
+    "mission": {
+      "label": "Mission",
+      "title": "Our Mission",
+      "paragraphs": [
+        "To democratize AI prompt engineering and make professional-grade tools accessible to everyone, from beginners to experts. We empower professionals to unlock the full potential of AI models through expert frameworks, intelligent tools, and continuous education.",
+        "We believe that effective prompt engineering is the key to bridging the gap between AI capability and practical business value. Our platform provides the knowledge, tools, and support needed to master this critical skill."
+      ]
+    },
+    "vision": {
+      "label": "Vision",
+      "title": "Our Vision",
+      "paragraphs": [
+        "To become the world's leading platform for AI prompt engineering, setting the standard for quality, innovation, and user experience. We envision a future where every professional can confidently harness AI to amplify their capabilities and achieve extraordinary results.",
+        "As AI continues to evolve, we're committed to staying at the forefront of prompt engineering best practices, continuously adapting our tools and frameworks to help our users succeed in an AI-powered world."
+      ]
+    }
+  },
+  "values": {
+    "sectionTitle": "Our Core Values",
+    "sectionDescription": "The principles that guide every decision we make",
+    "items": [
+      {
+        "icon": "Lightbulb",
+        "title": "Innovation First",
+        "description": "We continuously research and implement the latest prompt engineering techniques to stay ahead of the curve."
+      },
+      {
+        "icon": "Users",
+        "title": "Community Driven",
+        "description": "Built with feedback from thousands of users, our platform evolves based on real-world needs."
+      },
+      {
+        "icon": "Award",
+        "title": "Quality Guaranteed",
+        "description": "Every template and framework is carefully crafted, tested, and validated for maximum effectiveness."
+      },
+      {
+        "icon": "Heart",
+        "title": "User-Centric Design",
+        "description": "We prioritize intuitive interfaces and seamless workflows that make prompt engineering accessible to everyone."
+      },
+      {
+        "icon": "Zap",
+        "title": "Performance Focused",
+        "description": "Fast, reliable, and efficient tools that help you get better results in less time."
+      },
+      {
+        "icon": "Shield",
+        "title": "Privacy & Security",
+        "description": "Your data and prompts are encrypted and protected with industry-leading security practices."
+      }
+    ]
+  }
+}

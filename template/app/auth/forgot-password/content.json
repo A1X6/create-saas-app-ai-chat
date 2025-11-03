@@ -1,0 +1,18 @@
+{
+  "appName": "SaaS App",
+  "header": {
+    "title": "Reset Password",
+    "description": "Enter your email address and we'll send you a password reset link"
+  },
+  "form": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "m@example.com",
+    "submitButton": {
+      "idle": "Send Reset Link",
+      "loading": "Sending..."
+    }
+  },
+  "footer": {
+    "backToSignIn": "Back to sign in"
+  }
+}

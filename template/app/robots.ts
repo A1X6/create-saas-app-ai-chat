@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://example.com';
 
   return {
     rules: [
@@ -9,7 +9,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: [
           '/',
+          '/features',
           '/pricing',
+          '/about',
+          '/contact',
           '/privacy',
           '/terms',
         ],
@@ -22,14 +25,19 @@ export default function robots(): MetadataRoute.Robots {
           '/setup/*',
           '/api',
           '/api/*',
+          '/_next',
         ],
+        crawlDelay: 0,
       },
-      // Specific rules for common bots
+      // Specific rules for common search engines
       {
         userAgent: 'Googlebot',
         allow: [
           '/',
+          '/features',
           '/pricing',
+          '/about',
+          '/contact',
           '/privacy',
           '/terms',
         ],
@@ -44,7 +52,10 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: 'Bingbot',
         allow: [
           '/',
+          '/features',
           '/pricing',
+          '/about',
+          '/contact',
           '/privacy',
           '/terms',
         ],
@@ -57,5 +68,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'SaaS Complete - Production-ready SaaS Starter';
+export const alt = '{{APP_NAME}} - {{APP_TAGLINE}}';
 export const size = {
   width: 1200,
   height: 630,
@@ -79,7 +79,7 @@ export default async function Image() {
               lineHeight: '1.1',
             }}
           >
-            SaaS Complete
+            {'{{APP_NAME}}'}
           </h1>
 
           {/* Subtitle */}
@@ -93,7 +93,7 @@ export default async function Image() {
               lineHeight: '1.4',
             }}
           >
-            Production-ready SaaS starter with Auth, Payments, AI & Database
+            {'{{APP_TAGLINE}}'}
           </p>
 
           {/* Features */}
@@ -115,7 +115,7 @@ export default async function Image() {
                 color: '#ffffff',
               }}
             >
-              🔐 Supabase Auth
+              🤖 15+ AI Models
             </div>
             <div
               style={{
@@ -128,7 +128,7 @@ export default async function Image() {
                 color: '#ffffff',
               }}
             >
-              💳 Stripe Payments
+              💬 Real-time Chat
             </div>
             <div
               style={{
@@ -141,7 +141,7 @@ export default async function Image() {
                 color: '#ffffff',
               }}
             >
-              🤖 AI Chat
+              📊 Usage Analytics
             </div>
           </div>
         </div>

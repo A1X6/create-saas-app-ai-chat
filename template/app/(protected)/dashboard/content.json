@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "title": "Dashboard - {{APP_NAME}}",
+    "description": "View your account overview, usage analytics, AI credits balance, and quick actions. Access your conversations and manage your subscription."
+  },
+  "header": {
+    "title": "Dashboard",
+    "welcomeMessage": "Welcome back{name}! Here's your overview."
+  },
+  "alerts": {
+    "subscriptionRequired": {
+      "title": "Subscription Required",
+      "description": "You need an active subscription to use {{APP_NAME}}. Subscribe now to start your trial with $1 credit.",
+      "buttonText": "View Pricing Plans"
+    }
+  },
+  "stats": {
+    "credits": {
+      "trialTitle": "Trial Credits",
+      "activeTitle": "AI Credits Balance",
+      "trialDescription": "Trial credits remaining",
+      "activeDescription": "Credits remaining this period"
+    },
+    "subscription": {
+      "title": "Subscription",
+      "noPlan": "No Plan"
+    },
+    "accountType": {
+      "title": "Account Type",
+      "type": "Personal",
+      "description": "Individual account"
+    }
+  },
+  "statusBadges": {
+    "noSubscription": "No Subscription",
+    "active": "Active",
+    "trial": "Trial",
+    "canceled": "Canceled",
+    "pastDue": "Past Due"
+  },
+  "quickActions": {
+    "title": "Quick Actions",
+    "description": "Commonly used features and shortcuts",
+    "items": [
+      {
+        "title": "AI Chat",
+        "description": "Start a conversation",
+        "href": "/dashboard/chat"
+      },
+      {
+        "title": "Activity",
+        "description": "View your logs",
+        "href": "/dashboard/account"
+      },
+      {
+        "title": "Settings",
+        "description": "Manage account",
+        "href": "/dashboard/account"
+      },
+      {
+        "title": "Billing",
+        "description": "Manage subscription"
+      }
+    ]
+  },
+  "recentActivity": {
+    "title": "Recent Activity",
+    "description": "Your latest actions",
+    "noActivity": "No recent activity"
+  }
+}

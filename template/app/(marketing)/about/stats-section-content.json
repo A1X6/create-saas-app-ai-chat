@@ -1,0 +1,68 @@
+{
+  "sectionBadge": "Our Impact",
+  "sectionHeading": "Achievements & Milestones",
+  "sectionDescription": "Numbers that showcase our growth and the value we deliver to our users",
+  "stats": [
+    {
+      "icon": "Users",
+      "value": 500,
+      "suffix": "+",
+      "label": "Active Users",
+      "description": "Professionals using our platform daily"
+    },
+    {
+      "icon": "Sparkles",
+      "value": 10000,
+      "suffix": "+",
+      "label": "Prompts Created",
+      "description": "Successful prompts generated"
+    },
+    {
+      "icon": "Globe",
+      "value": 25,
+      "suffix": "+",
+      "label": "Countries",
+      "description": "Global reach across continents"
+    },
+    {
+      "icon": "Award",
+      "value": 15,
+      "suffix": "+",
+      "label": "AI Models",
+      "description": "Supported language models"
+    },
+    {
+      "icon": "Star",
+      "value": 95,
+      "suffix": "%",
+      "label": "Satisfaction Rate",
+      "description": "Users rate us 5 stars"
+    },
+    {
+      "icon": "TrendingUp",
+      "value": 200,
+      "suffix": "%",
+      "label": "YoY Growth",
+      "description": "Year-over-year user growth"
+    },
+    {
+      "icon": "BarChart",
+      "value": 1000000,
+      "suffix": "+",
+      "label": "Tokens Processed",
+      "description": "AI tokens analyzed and optimized"
+    },
+    {
+      "icon": "Zap",
+      "value": 24,
+      "suffix": "/7",
+      "label": "Support",
+      "description": "Always here when you need us"
+    }
+  ],
+  "featuredCallout": {
+    "heading": "Trusted by Professionals Worldwide",
+    "description": "Join thousands of users who have transformed their AI workflows with",
+    "rating": "Rated 4.9/5 by our community"
+  }
+}

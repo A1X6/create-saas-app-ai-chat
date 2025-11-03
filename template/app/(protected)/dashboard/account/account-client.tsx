@@ -12,7 +12,6 @@ import {
   Lock,
   Loader2,
   Shield,
-  KeyRound,
   Activity,
   LogIn,
   LogOut,
@@ -128,14 +127,13 @@ export function AccountPageClient({ user, activityLogs }: AccountPageClientProps
   // Subscription status checks
   const isTrialing = user?.subscriptionStatus === 'trialing';
   const hasActiveSubscription = user?.subscriptionStatus === 'active';
-  const isUnsubscribed = !user?.subscriptionStatus || (!isTrialing && !hasActiveSubscription);
 
   const handleBillingPortal = async () => {
     await customerPortalAction();
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Account Settings</h1>
         <p className="text-muted-foreground mt-2">

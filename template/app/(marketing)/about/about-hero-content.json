@@ -1,0 +1,24 @@
+{
+  "badge": "About",
+  "heading": "Building the Future of",
+  "headingHighlight": "AI Prompt Engineering",
+  "description": "We're on a mission to democratize AI prompt engineering and empower professionals to unlock the full potential of AI models through expert tools and frameworks.",
+  "stats": [
+    {
+      "value": 2024,
+      "label": "Founded"
+    },
+    {
+      "value": 12,
+      "label": "Team Members"
+    },
+    {
+      "value": 500,
+      "label": "Happy Customers"
+    },
+    {
+      "value": 15,
+      "label": "Industry Awards"
+    }
+  ]
+}

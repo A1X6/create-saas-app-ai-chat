@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "product": {
+      "title": "Product",
+      "links": [
+        { "label": "Features", "href": "/features" },
+        { "label": "Pricing", "href": "/pricing" },
+        { "label": "About", "href": "/about" }
+      ]
+    },
+    "legal": {
+      "title": "Legal",
+      "links": [
+        { "label": "Terms of Service", "href": "/terms" },
+        { "label": "Privacy Policy", "href": "/privacy" }
+      ]
+    },
+    "support": {
+      "title": "Support",
+      "links": [
+        { "label": "Contact", "href": "/contact" },
+        { "label": "Dashboard", "href": "/dashboard" }
+      ]
+    }
+  },
+  "copyright": "All rights reserved."
+}

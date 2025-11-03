@@ -1,0 +1,13 @@
+{
+  "metadata": {
+    "title": "Authentication Error - {{APP_NAME}}",
+    "description": "An error occurred during authentication. Please try again or contact support."
+  },
+  "appName": "SaaS App",
+  "header": {
+    "title": "Authentication Error",
+    "description": "There was a problem with your authentication request"
+  },
+  "message": "Please try signing in again or contact support if the problem persists.",
+  "button": "Back to Sign In"
+}

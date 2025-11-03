@@ -9,8 +9,12 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Welcome - Setup Wizard',
-  description: 'Get started with the setup wizard to configure your SaaS application',
+  title: 'Setup Wizard - {{APP_NAME}}',
+  description: 'Configure your {{APP_NAME}} application with environment variables, database, Stripe integration, and AI models.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function SetupWelcomePage() {
@@ -25,7 +29,7 @@ export default function SetupWelcomePage() {
           Welcome to SaaS Complete Setup
         </h2>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Let's configure your application in just a few steps. This wizard will help you set up
+          Let&apos;s configure your application in just a few steps. This wizard will help you set up
           environment variables, database connection, Stripe integration, and generate your landing page.
         </p>
       </div>
@@ -33,7 +37,7 @@ export default function SetupWelcomePage() {
       {/* What We'll Configure */}
       <div>
         <h3 className="text-xl font-semibold mb-4 text-center">
-          What We'll Configure
+          What We&apos;ll Configure
         </h3>
         <div className="grid md:grid-cols-2 gap-4">
           <Card>

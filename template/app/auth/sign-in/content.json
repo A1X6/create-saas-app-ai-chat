@@ -1,0 +1,31 @@
+{
+  "metadata": {
+    "title": "Sign In - {{APP_NAME}}",
+    "description": "Sign in to your {{APP_NAME}} account to access your dashboard, manage conversations, and chat with 15+ AI models."
+  },
+  "appName": "SaaS App",
+  "header": {
+    "title": "Welcome back",
+    "signUpPrompt": "Don't have an account?",
+    "signUpLinkText": "Sign up"
+  },
+  "form": {
+    "emailLabel": "Email",
+    "emailPlaceholder": "m@example.com",
+    "passwordLabel": "Password",
+    "forgotPasswordText": "Forgot password?",
+    "submitButton": {
+      "idle": "Sign in",
+      "loading": "Signing in..."
+    }
+  },
+  "footer": {
+    "agreementText": "By clicking continue, you agree to our",
+    "termsLinkText": "Terms of Service",
+    "andText": "and",
+    "privacyLinkText": "Privacy Policy"
+  },
+  "messages": {
+    "verificationEmailSent": "Verification email sent! Please check your inbox to confirm your account."
+  }
+}

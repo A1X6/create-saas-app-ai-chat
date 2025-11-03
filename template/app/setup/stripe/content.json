@@ -1,0 +1,117 @@
+{
+  "heading": "Stripe Configuration",
+  "description": "Sync products, configure pricing, and setup webhooks for payment processing.",
+  "alert": {
+    "title": "Product Configuration",
+    "description": "Create your subscription products below. Add pricing tiers, features, and AI token limits. Click \"Sync to Stripe\" to create/update products in your Stripe account."
+  },
+  "products": {
+    "title": "Products",
+    "description": "Configure your subscription plans (AI credits auto-calculated from monthly price - ${{profitMargin}})",
+    "emptyState": {
+      "line1": "No products configured yet.",
+      "line2": "Click \"Add Product\" to create your first subscription plan."
+    },
+    "addButton": "Add Product",
+    "badges": {
+      "recommended": "Recommended"
+    },
+    "fields": {
+      "features": "Features:",
+      "pricing": "Pricing:"
+    }
+  },
+  "account": {
+    "title": "Stripe Account",
+    "description": "Connection status and details",
+    "badges": {
+      "connected": "Connected",
+      "disconnected": "Disconnected"
+    },
+    "messages": {
+      "checking": "Checking connection...",
+      "connected": "Stripe account connected",
+      "failed": "Stripe connection failed"
+    },
+    "fields": {
+      "accountId": "Account ID",
+      "email": "Email",
+      "country": "Country",
+      "type": "Type"
+    }
+  },
+  "productsStatus": {
+    "title": "Products & Pricing",
+    "description": "Current products in Stripe",
+    "badge": "{{count}} Products",
+    "messages": {
+      "loading": "Loading products...",
+      "empty": "No products found in Stripe. Click \"Sync Products\" to create them from your configuration."
+    },
+    "badges": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "recommended": "Recommended"
+    },
+    "aiCredits": "AI Credits: ${{amount}}/month"
+  },
+  "profitMargin": {
+    "title": "Profit Margin",
+    "description": "Configure your monthly profit per user",
+    "field": {
+      "label": "Profit Per User (Monthly)",
+      "help": "This amount is subtracted from subscription prices to calculate AI credits. Recommended: $12.00"
+    },
+    "button": {
+      "default": "Save",
+      "loading": "Saving..."
+    }
+  },
+  "calculator": {
+    "title": "Credit Calculator",
+    "description": "AI credit allocation formula",
+    "formula": "AI Credits = Subscription Price - ${{profitMargin}} (Profit Margin)",
+    "examples": {
+      "base": {
+        "label": "Example: Base Plan ($30/month)",
+        "credits": "Credits:"
+      },
+      "plus": {
+        "label": "Example: Plus Plan ($50/month)",
+        "credits": "Credits:"
+      }
+    }
+  },
+  "buttons": {
+    "refresh": {
+      "default": "Refresh Status",
+      "loading": "Checking..."
+    },
+    "sync": {
+      "default": "Sync Products",
+      "loading": "Syncing..."
+    }
+  },
+  "toasts": {
+    "checking": {
+      "title": "Checking Stripe status...",
+      "description": "Verifying connection and products"
+    },
+    "connected": {
+      "title": "Stripe connected!",
+      "description": "Found {{count}} products in your account"
+    },
+    "noProducts": {
+      "title": "No products to sync",
+      "description": "Please add at least one product before syncing"
+    },
+    "syncing": {
+      "title": "Syncing products...",
+      "description": "Creating/updating {{count}} product(s) in Stripe"
+    }
+  },
+  "navigation": {
+    "back": "Back",
+    "next": "Next: Finalize"
+  }
+}

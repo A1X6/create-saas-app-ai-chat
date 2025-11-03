@@ -1,0 +1,79 @@
+{
+  "heading": "Database Setup",
+  "description": "Test your database connection and push the schema to Supabase.",
+  "alert": {
+    "title": "Database Configuration",
+    "description": "Your database connection is configured via the DATABASE_URL environment variable. Make sure you've completed the environment setup first."
+  },
+  "cards": {
+    "connection": {
+      "title": "Connection Status",
+      "description": "Database connectivity and latency",
+      "badges": {
+        "connected": "Connected",
+        "disconnected": "Disconnected"
+      },
+      "messages": {
+        "checking": "Checking connection...",
+        "success": "Database connection successful",
+        "failed": "Database connection failed",
+        "latency": "Latency:"
+      }
+    },
+    "schema": {
+      "title": "Schema Status",
+      "description": "Database tables and structure",
+      "badges": {
+        "ready": "Ready",
+        "notDeployed": "Not Deployed"
+      },
+      "messages": {
+        "checking": "Checking schema...",
+        "allTables": "All required tables exist",
+        "notDeployed": "Schema not deployed",
+        "notDeployedDesc": "The database schema has not been pushed yet. Click \"Push Schema\" below to create the required tables.",
+        "tableStats": "Table Statistics:",
+        "rows": "rows"
+      },
+      "issues": {
+        "title": "Schema Issues Detected"
+      }
+    }
+  },
+  "buttons": {
+    "refresh": {
+      "default": "Refresh Status",
+      "loading": "Checking..."
+    },
+    "push": {
+      "default": "Push Schema",
+      "loading": "Pushing..."
+    }
+  },
+  "toasts": {
+    "checking": {
+      "title": "Checking database status...",
+      "description": "Testing connection and schema"
+    },
+    "ready": {
+      "title": "Database is ready!",
+      "description": "Connected in {{latency}}ms. All tables exist."
+    },
+    "connected": {
+      "title": "Database connected, but schema is missing",
+      "description": "Click \"Push Schema\" to create tables"
+    },
+    "pushing": {
+      "title": "Pushing schema...",
+      "description": "This may take a few moments"
+    },
+    "pushSuccess": {
+      "title": "Schema pushed successfully!",
+      "description": "Your database is now ready to use"
+    }
+  },
+  "navigation": {
+    "back": "Back",
+    "next": "Next: Prompts"
+  }
+}

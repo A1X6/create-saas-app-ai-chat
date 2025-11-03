@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { getOrCreateUserProfile, logActivity } from '@/lib/db/queries';
 import { ActivityType } from '@/lib/db/schema';
+import messages from '../messages.json';
 
 /**
  * Sign Up Actions
@@ -42,7 +43,7 @@ export async function signUpAction(
   }
 
   if (!data.user) {
-    return { error: 'Failed to create user account' };
+    return { error: messages.auth.signUp.errors.failed };
   }
 
   // Create user profile
@@ -51,5 +52,6 @@ export async function signUpAction(
   // Log signup activity
   await logActivity(data.user.id, ActivityType.SIGN_UP);
 
-  redirect('/dashboard');
+  // Email confirmation required - redirect to sign-in with message
+  redirect('/auth/sign-in?message=check-email');
 }
